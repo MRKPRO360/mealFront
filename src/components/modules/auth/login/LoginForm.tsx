@@ -18,11 +18,14 @@ import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-
+import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { loginSchema } from './LoginValidation';
 
 function LoginForm() {
-  const form = useForm();
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
   //   const searchParams = useSearchParams();
   //   const redirect = searchParams.get('redirectPath');
@@ -38,8 +41,8 @@ function LoginForm() {
   };
 
   return (
-    <div className="max-w-[480px] mx-auto bg-white/20 py-8 px-2 border mt-14">
-      <h1 className="text-center text-2xl text-thin">Log in</h1>
+    <div className="max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14">
+      <h1 className="text-center text-2xl text-thin mb-8">Log in</h1>
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -73,13 +76,14 @@ function LoginForm() {
           <div className="flex items-center justify-between">
             <FormField
               control={form.control}
-              name="mobile"
+              name="signedIn"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      className="w-5 h-5 data-[state=checked]:before:scale-125 data-[state=checked]:bg-green-700 data-[state=checked]:before:bg-white"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -120,8 +124,8 @@ function LoginForm() {
       </div>
       <div className="text-center mt-4">
         Don&apos;t have an account?{' '}
-        <Link href="signup" className="text-green-800 underline">
-          Sign up
+        <Link href="/signup" className="text-green-800 underline">
+          Signup
         </Link>
       </div>
     </div>
