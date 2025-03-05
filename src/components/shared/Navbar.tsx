@@ -7,10 +7,10 @@ function Navbar() {
       <div className="flex justify-between items-center py-2 px-4">
         <div className="flex items-center gap-x-10 ">
           {/* logo */}
-          <div className="flex gap-2 items-center ">
+          <Link href="/" className="flex gap-2 items-center ">
             <Image width={40} height={40} src={logo} alt="feastify logo" />
             <p className="font-bold tracking-tighter text-2xl">Feastify</p>
-          </div>
+          </Link>
           {/* list */}
 
           <ul className="flex items-center gap-x-5 font-semibold text-lg">
@@ -29,7 +29,11 @@ function Navbar() {
 
         {/* profile */}
         <ul className="flex items-center gap-x-5 font-semibold text-lg">
-          <li>Login</li>
+          <li>
+            <Link href="/login" className="">
+              Login
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
