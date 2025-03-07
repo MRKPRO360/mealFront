@@ -21,23 +21,35 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { loginSchema } from './LoginValidation';
+import { loginUser } from '@/services/AuthService';
 
 function LoginForm() {
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
 
-  //   const searchParams = useSearchParams();
-  //   const redirect = searchParams.get('redirectPath');
-  //   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirectPath');
+  const router = useRouter();
 
   const {
     formState: { isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    // toast.success(res.)
+    try {
+      const res = await loginUser(data);
+
+      if (res.success) {
+        toast.success('Logged in successfully!');
+        router.push(redirect || '/');
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err?.message || 'Something went wrong!');
+    }
   };
 
   return (
