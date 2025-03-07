@@ -1,7 +1,28 @@
+'use client';
+
 import Image from 'next/image';
 import logo from '@/assets/images/logo/feastify.png';
 import Link from 'next/link';
+import { IoLogOutOutline } from 'react-icons/io5';
+import { useUser } from '@/context/UserContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { logout } from '@/services/AuthService';
+import { Button } from '../ui/button';
 function Navbar() {
+  const { user, setIsLoading } = useUser();
+
+  const handleLogOut = () => {
+    logout();
+    setIsLoading(true);
+  };
   return (
     <div className="shadow-md ">
       <div className="flex justify-between items-center py-2 px-4">
@@ -29,11 +50,45 @@ function Navbar() {
 
         {/* profile */}
         <ul className="flex items-center gap-x-5 font-semibold text-lg">
-          <li>
-            <Link href="/login" className="">
-              Login
+          {user?.email ? (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage
+                      src={user?.profileImg || `https://github.com/shadcn.png`}
+                    />
+                    <AvatarFallback>User</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link href="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href={`/${user?.role}`}>Dashboard</Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="bg-red-500 cursor-pointer"
+                    onClick={handleLogOut}
+                  >
+                    <IoLogOutOutline />
+                    <span>Log Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Link href="/login">
+              <Button className="rounded-full" variant="outline">
+                Login
+              </Button>
             </Link>
-          </li>
+          )}
         </ul>
       </div>
     </div>

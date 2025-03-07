@@ -22,8 +22,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { loginSchema } from './LoginValidation';
 import { loginUser } from '@/services/AuthService';
+import { useUser } from '@/context/UserContext';
 
 function LoginForm() {
+  const { setIsLoading } = useUser();
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
@@ -43,6 +46,7 @@ function LoginForm() {
       if (res.success) {
         toast.success('Logged in successfully!');
         router.push(redirect || '/');
+        setIsLoading(true);
       } else {
         toast.error(res?.message);
       }

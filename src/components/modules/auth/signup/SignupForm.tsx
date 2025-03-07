@@ -48,6 +48,7 @@ import {
 import { signupCustomer, signupProvider } from '@/services/AuthService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from './SignupValidatoin';
+import { useUser } from '@/context/UserContext';
 
 const roles = [
   {
@@ -63,6 +64,8 @@ const roles = [
 ];
 
 function SignupForm() {
+  const { setIsLoading } = useUser();
+
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const form = useForm({
@@ -102,6 +105,7 @@ function SignupForm() {
         if (res?.success) {
           toast.success(res?.message);
           router.push('/');
+          setIsLoading(true);
         } else {
           toast.error(res?.message);
         }
