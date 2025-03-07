@@ -25,11 +25,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { FaUserTie, FaShoppingCart } from 'react-icons/fa';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import { toast } from 'sonner';
-import { signupSchema } from './SignupValidatoin';
+
 import {
   Select,
   SelectContent,
@@ -45,6 +45,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { signupCustomer, signupProvider } from '@/services/AuthService';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signupSchema } from './SignupValidatoin';
 
 const roles = [
   {
@@ -63,29 +66,10 @@ function SignupForm() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const form = useForm({
-    // resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signupSchema),
   });
 
-  //   {
-  //   "name": {
-  //     "firstName": "Md.",
-  //     "lastName": "Rezaul"
-  //   },
-  // "password": "customer12345",
-  //   "email": "rezaul@example.com",
-  //   "phoneNumber": "+880 1581409228",
-  //   "dietaryPreferences": ["Vegetarian", "Gluten-Free"],
-  //   "address": {
-  //     "street": "123 Main St",
-  //     "district": "feni",
-  //     "city": "chattogram",
-  //     "zipCode": "10001"
-  //   }
-  // }
-
-  //   const searchParams = useSearchParams();
-  //   const redirect = searchParams.get('redirectPath');
-  //   const router = useRouter();
+  const router = useRouter();
 
   const {
     formState: { isSubmitting },
@@ -95,25 +79,72 @@ function SignupForm() {
   const confirmPassword = form.watch('confirmPassword');
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(isSubmitting);
+    console.log('ok');
+
+    console.log(form.formState.errors);
+
     if (!selectedRole || selectedRole === '')
       return toast.error('Select a role!');
-    console.log(selectedRole);
 
-    console.log(data);
+    if (data.role === 'customer') {
+      try {
+        const customerFormData = new FormData();
 
-    // toast.success(res.)
+        customerFormData.append('data', JSON.stringify(data));
+
+        customerFormData.append('file', data.profileImg);
+
+        const res = await signupCustomer(customerFormData);
+        console.log(res);
+
+        // setIsLoading(true);
+        if (res?.success) {
+          toast.success(res?.message);
+          router.push('/');
+        } else {
+          toast.error(res?.message);
+        }
+      } catch (err: any) {
+        console.error(err);
+      }
+    } else if (data.role === 'provider') {
+      try {
+        const providerFormData = new FormData();
+
+        providerFormData.append('data', JSON.stringify(userData));
+
+        providerFormData.append('file', data.profileImg);
+
+        const res = await signupProvider(providerFormData);
+        // setIsLoading(true);
+        if (res?.success) {
+          toast.success(res?.message);
+          router.push('/');
+        } else {
+          toast.error(res?.message);
+        }
+      } catch (err: any) {
+        console.error(err);
+      }
+    } else return;
   };
 
   return (
-    <div className="max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4">
-      <h1 className="text-center text-2xl text-thin mb-8">Signup</h1>
+    <div
+      style={{
+        width: 'calc(100% - 20px)',
+      }}
+      className="sm:max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
+    >
+      <h1 className="text-center text-xl md:text-2xl text-thin mb-8">Signup</h1>
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           {/* Name */}
           <div className="flex items-center justify-between gap-3">
             <FormField
               control={form.control}
-              name="firstName"
+              name="name.firstName"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>First Name</FormLabel>
@@ -126,7 +157,7 @@ function SignupForm() {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="name.lastName"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Last Name</FormLabel>
@@ -249,10 +280,28 @@ function SignupForm() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="space-y-3">
+                <FormField
+                  control={form.control}
+                  name="profileImg"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Profile Picture</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Dhanikunda, Parshuram"
+                          type="file"
+                          {...field}
+                          onChange={(e) => field.onChange(e.target.files?.[0])}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="flex items-center justify-between gap-3">
                   <FormField
                     control={form.control}
-                    name="street"
+                    name="address.street"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Street</FormLabel>
@@ -271,7 +320,7 @@ function SignupForm() {
 
                   <FormField
                     control={form.control}
-                    name="district"
+                    name="address.district"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>District</FormLabel>
@@ -308,7 +357,7 @@ function SignupForm() {
                 <div className="flex items-center justify-between gap-3">
                   <FormField
                     control={form.control}
-                    name="zipCode"
+                    name="address.zipCode"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Zip Code</FormLabel>
@@ -326,7 +375,7 @@ function SignupForm() {
                   />
                   <FormField
                     control={form.control}
-                    name="city"
+                    name="address.city"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>City</FormLabel>

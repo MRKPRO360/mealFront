@@ -41,8 +41,13 @@ function LoginForm() {
   };
 
   return (
-    <div className="max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14">
-      <h1 className="text-center text-2xl text-thin mb-8">Log in</h1>
+    <div
+      style={{
+        width: 'calc(100% - 20px)',
+      }}
+      className="sm:max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
+    >
+      <h1 className="text-center text-xl md:text-2xl text-thin mb-8">Log in</h1>
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
