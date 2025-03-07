@@ -6,13 +6,13 @@ import { FieldValues } from 'react-hook-form';
 
 export const signupCustomer = async (userData: FormData) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/customer`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: userData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/users/create-customer`,
+      {
+        method: 'POST',
+        body: userData,
+      }
+    );
     const result = await res.json();
 
     if (result.success) {

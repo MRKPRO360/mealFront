@@ -1,5 +1,5 @@
 'use client';
-
+import { signIn } from 'next-auth/react';
 import { IoLogoGoogle } from 'react-icons/io5';
 import { IoLogoGithub } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
@@ -49,6 +49,18 @@ function LoginForm() {
     } catch (err: any) {
       console.log(err);
       toast.error(err?.message || 'Something went wrong!');
+    }
+  };
+
+  const handleSocialLogin = (provider: string) => {
+    if (provider === 'github') {
+      signIn('github', {
+        callbackUrl: 'http://localhost:3000/profile',
+      });
+    } else if (provider === 'google') {
+      signIn('google', {
+        callbackUrl: 'http://localhost:3000/profile',
+      });
     }
   };
 
@@ -128,16 +140,20 @@ function LoginForm() {
 
       {/* Social login */}
       <div className="mt-3 space-y-3">
-        <ButtonWithIcon
-          icon={<IoLogoGoogle className="text-xl" />}
-          text="Google"
-          variant="black"
-        />
-        <ButtonWithIcon
-          icon={<IoLogoGithub className="text-xl" />}
-          text="Github"
-          variant="blue"
-        />
+        <div onClick={() => handleSocialLogin('google')}>
+          <ButtonWithIcon
+            icon={<IoLogoGoogle className="text-xl" />}
+            text="Google"
+            variant="black"
+          />
+        </div>
+        <div onClick={() => handleSocialLogin('github')}>
+          <ButtonWithIcon
+            icon={<IoLogoGithub className="text-xl" />}
+            text="Github"
+            variant="blue"
+          />
+        </div>
       </div>
       <div className="text-center mt-4">
         Don&apos;t have an account?{' '}
