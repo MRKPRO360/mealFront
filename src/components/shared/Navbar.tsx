@@ -36,6 +36,11 @@ function Navbar() {
 
           <ul className="flex items-center gap-x-5 font-semibold text-lg">
             <li>
+              <Link href="/menu" className="">
+                Menu
+              </Link>
+            </li>
+            <li>
               <Link href="/plan" className="">
                 Our Plans
               </Link>

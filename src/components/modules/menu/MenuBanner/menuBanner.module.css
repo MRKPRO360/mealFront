@@ -1,0 +1,8 @@
+.menuBanner {
+  background: url('../../../../assets/images/menu/menu-banner.jpg');
+  height: 700px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
