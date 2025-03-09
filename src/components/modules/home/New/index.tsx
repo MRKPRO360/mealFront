@@ -24,7 +24,7 @@ const featuredCardItem = [
 
 function New() {
   return (
-    <div className="py-16 px-4 border-b">
+    <div className="py-16 px-4 border-b container mx-auto">
       <h2 className="text-3xl font-thin mb-8 text-center">
         Choose Your Meal at Feastify <br /> Fast, Easy Meals for Every Schedule
       </h2>

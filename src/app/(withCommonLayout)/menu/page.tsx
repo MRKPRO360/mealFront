@@ -1,9 +1,9 @@
-import MenuBanner from '@/components/modules/menu/MenuBanner';
+import Menu from '@/components/modules/menu';
 
 function MenuPage() {
   return (
     <div>
-      <MenuBanner />
+      <Menu />
     </div>
   );
 }

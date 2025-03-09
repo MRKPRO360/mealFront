@@ -24,7 +24,7 @@ function Navbar() {
     setIsLoading(true);
   };
   return (
-    <div className="shadow-md ">
+    <div className="shadow-lg">
       <div className="flex justify-between items-center py-2 px-4">
         <div className="flex items-center gap-x-10 ">
           {/* logo */}
