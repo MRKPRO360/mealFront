@@ -15,7 +15,7 @@ async function Menu() {
 
       <Checkout menuNames={menuNames?.data} />
 
-      <RecipeMenu />
+      <RecipeMenu menuNames={menuNames?.data} />
     </div>
   );
 }
