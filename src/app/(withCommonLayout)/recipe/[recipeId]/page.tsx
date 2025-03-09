@@ -12,6 +12,7 @@ export async function generateMetadata({
   };
 }
 
+import RecipeDetails from '@/components/modules/RecipeDetails';
 /* 
 
   // dynamic ingredint image
@@ -141,11 +142,13 @@ async function RecipeDetailsPage({
 }) {
   const { recipeId } = await params;
 
-  const recipe = await getSingleRecipe(recipeId);
+  const { data } = await getSingleRecipe(recipeId);
 
-  console.log(recipe);
-
-  return <div>RecipeDetailsPage</div>;
+  return (
+    <div>
+      <RecipeDetails recipe={data} />
+    </div>
+  );
 }
 
 export default RecipeDetailsPage;
