@@ -12,8 +12,7 @@ function HomeBanner() {
       />
       <div className="text-center px-10 pt-14 pb-4 order-1 lg:order-2">
         <h1 className="uppercase font-thin text-4xl leading-12 max-w-[475px] mx-auto">
-          Savor effortless, <br /> homemade meals with America&apos;s #1 meal
-          kit!
+          Savor effortless, <br /> homemade meals with World&apos;s #1 meal kit!
         </h1>
 
         <div className="mt-10 mb-6 text-lg">

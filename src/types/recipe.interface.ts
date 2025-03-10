@@ -20,6 +20,9 @@ export interface IInstruction {
   step: number;
   description: string;
 }
+export interface IUtensils {
+  utensils: string;
+}
 
 export interface IRecipe {
   _id: string;
@@ -39,7 +42,7 @@ export interface IRecipe {
   difficulty: string;
   ingredients: IIngredient[];
   nutritionValues: INutritionValues;
-  utensils: string[];
+  utensils: IUtensils[];
   instructions: IInstruction[];
   isDeleted: boolean;
 }

@@ -26,7 +26,7 @@ function RecipeCard({ recipe }: { recipe: IRecipe }) {
         {/* </CardHeader> */}
         <CardContent className="pb-8">
           <CardTitle className="mb-2">{recipe.recipeName}</CardTitle>
-          <CardDescription>
+          <CardDescription className="">
             with{' '}
             {recipe?.ingredients
               ?.map((ingredient) => ingredient.name)
