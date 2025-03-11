@@ -4,8 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { IRecipe } from '@/types';
 
 function RecipeHeader({ recipe }: { recipe: IRecipe }) {
-  console.log(recipe);
-
   return (
     <div className="transform lg:-translate-y-16">
       <div className="max-w-6xl rounded-xs mx-auto p-6 bg-white">

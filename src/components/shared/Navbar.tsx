@@ -27,8 +27,8 @@ function Navbar() {
   return (
     <div className="shadow-lg">
       <FTContainer>
-        <div className="flex justify-between items-center py-2 px-4">
-          <div className="flex items-center gap-x-10 ">
+        <div className="flex justify-between px-4">
+          <div className="flex gap-4">
             {/* logo */}
             <Link href="/" className="flex gap-2 items-center ">
               <Image width={40} height={40} src={logo} alt="feastify logo" />
@@ -36,32 +36,43 @@ function Navbar() {
             </Link>
             {/* list */}
 
-            <ul className="flex items-center gap-x-5 font-semibold text-lg">
-              <li>
-                <Link href="/menu" className="">
-                  Menu
-                </Link>
-              </li>
-              <li>
-                <Link href="/plan" className="">
-                  Our Plans
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="">
-                  About Us
-                </Link>
-              </li>
+            <ul className="flex font-semibold text-lg">
+              <Link
+                href="/menu"
+                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+              >
+                Our Menu
+              </Link>
+
+              <Link
+                href="/plan"
+                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+              >
+                Our Plans
+              </Link>
+
+              <Link
+                href="/about"
+                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+              >
+                About Us
+              </Link>
             </ul>
           </div>
 
           {/* profile */}
           <ul className="flex items-center gap-x-5 font-semibold text-lg">
             {user?.email ? (
-              <>
+              <div className="flex items-center gap-2">
+                <Link
+                  className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+                  href={`/${user?.role}`}
+                >
+                  Dashboard
+                </Link>
                 <DropdownMenu>
                   <DropdownMenuTrigger>
-                    <Avatar>
+                    <Avatar className="cursor-pointer">
                       <AvatarImage
                         src={
                           user?.profileImg || `https://github.com/shadcn.png`
@@ -76,9 +87,6 @@ function Navbar() {
                     <DropdownMenuItem>
                       <Link href="/profile">Profile</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={`/${user?.role}`}>Dashboard</Link>
-                    </DropdownMenuItem>
 
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -90,12 +98,10 @@ function Navbar() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </>
+              </div>
             ) : (
               <Link href="/login">
-                <Button className="rounded-full" variant="outline">
-                  Login
-                </Button>
+                <Button className="rounded-xs p-2 text-base">Login</Button>
               </Link>
             )}
           </ul>

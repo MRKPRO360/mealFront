@@ -49,6 +49,8 @@ import { signupCustomer, signupProvider } from '@/services/AuthService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from './SignupValidatoin';
 import { useUser } from '@/context/UserContext';
+import ImagePreviewer from '@/components/ui/core/FTImageUploader/ImagePreviewer';
+import FTImageUploader from '@/components/ui/core/FTImageUploader';
 
 const roles = [
   {
@@ -65,6 +67,8 @@ const roles = [
 
 function SignupForm() {
   const { setIsLoading } = useUser();
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
 
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
@@ -82,26 +86,21 @@ function SignupForm() {
   const confirmPassword = form.watch('confirmPassword');
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(isSubmitting);
-    console.log('ok');
-
-    console.log(form.formState.errors);
-
     if (!selectedRole || selectedRole === '')
       return toast.error('Select a role!');
 
-    if (data.role === 'customer') {
+    if (selectedRole === 'customer') {
       try {
         const customerFormData = new FormData();
 
         customerFormData.append('data', JSON.stringify(data));
 
-        customerFormData.append('file', data.profileImg);
+        customerFormData.append('file', imageFiles[0] as File);
 
         const res = await signupCustomer(customerFormData);
         console.log(res);
 
-        // setIsLoading(true);
+        setIsLoading(true);
         if (res?.success) {
           toast.success(res?.message);
           router.push('/');
@@ -112,13 +111,13 @@ function SignupForm() {
       } catch (err: any) {
         console.error(err);
       }
-    } else if (data.role === 'provider') {
+    } else if (selectedRole === 'provider') {
       try {
         const providerFormData = new FormData();
 
-        providerFormData.append('data', JSON.stringify(userData));
+        providerFormData.append('data', JSON.stringify(data));
 
-        providerFormData.append('file', data.profileImg);
+        providerFormData.append('file', imageFiles[0] as File);
 
         const res = await signupProvider(providerFormData);
         // setIsLoading(true);
@@ -284,24 +283,23 @@ function SignupForm() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="space-y-3">
-                <FormField
-                  control={form.control}
-                  name="profileImg"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Profile Picture</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Dhanikunda, Parshuram"
-                          type="file"
-                          {...field}
-                          onChange={(e) => field.onChange(e.target.files?.[0])}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {imagePreview.length > 0 ? (
+                  <ImagePreviewer
+                    setImageFiles={setImageFiles}
+                    imagePreview={imagePreview}
+                    setImagePreview={setImagePreview}
+                    className="mt-8"
+                  />
+                ) : (
+                  <div className="mt-8">
+                    <FTImageUploader
+                      setImageFiles={setImageFiles}
+                      setImagePreview={setImagePreview}
+                      label="Upload Profile Picture"
+                    />
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between gap-3">
                   <FormField
                     control={form.control}

@@ -30,9 +30,6 @@ export const signupProvider = async (userData: FormData) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/provider`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: userData,
     });
     const result = await res.json();
