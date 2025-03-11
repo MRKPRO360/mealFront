@@ -1,12 +1,7 @@
 'use client';
 import logo from '@/assets/images/logo/feastify.png';
 
-import {
-  AudioWaveform,
-  Command,
-  Settings2,
-  SquareTerminal,
-} from 'lucide-react';
+import { Settings2, SquareTerminal } from 'lucide-react';
 
 import {
   Sidebar,
@@ -19,14 +14,10 @@ import { TeamSwitcher } from './team-switcher';
 import { NavMain } from './nav-main';
 
 import { NavUser } from './nav-user';
+import { useUser } from '@/context/UserContext';
 
 // This is sample data.
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   teams: [
     {
       name: 'Feastify',
@@ -57,8 +48,12 @@ const data = {
       icon: Settings2,
       items: [
         {
-          title: 'Update Profile',
+          title: 'View Profile',
           url: '/profile',
+        },
+        {
+          title: 'Update Profile',
+          url: '/update-profile',
         },
         {
           title: 'Change Password',
@@ -70,6 +65,9 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
+
+  // DYNAMIC SIDEBAR BASED ON USER ROLE
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -79,7 +77,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

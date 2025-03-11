@@ -21,11 +21,11 @@ import Link from 'next/link';
 import { logout } from '@/services/AuthService';
 import { useUser } from '@/context/UserContext';
 import { IoLogOutOutline } from 'react-icons/io5';
+import { IUser } from '@/types';
 
-export function NavUser() {
+export function NavUser({ user }: { user: IUser | null }) {
   const { isMobile } = useSidebar();
-  const { setIsLoading, user } = useUser();
-  console.log(user);
+  const { setIsLoading } = useUser();
 
   const handleLogOut = () => {
     logout();
@@ -42,7 +42,7 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.profileImg} alt={user?.name} />
+                <AvatarImage src={user?.profileImg} alt={user?.email} />
                 <AvatarFallback className="rounded-lg">User</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">

@@ -105,6 +105,7 @@ export const logout = async () => {
   (await cookies()).delete('accessToken');
 };
 
+// SHOULD HAVE TO BE MODIFIED
 export const getNewToken = async () => {
   try {
     const res = await fetch(
@@ -117,6 +118,20 @@ export const getNewToken = async () => {
         },
       }
     );
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const getMe = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/users/me`, {
+      headers: {
+        Authorization: (await cookies()).get('accessToken')!.value,
+      },
+    });
 
     return res.json();
   } catch (error: any) {
