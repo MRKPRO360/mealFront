@@ -138,3 +138,48 @@ export const getMe = async () => {
     return Error(error);
   }
 };
+
+export const updateCustomer = async (userData: FormData) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/customers`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: (await cookies()).get('accessToken')!.value,
+      },
+      body: userData,
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      (await cookies()).set('accessToken', result?.data?.accessToken);
+      (await cookies()).set('refreshToken', result?.data?.refreshToken);
+    }
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateProvider = async (userData: FormData) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/providers`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: (await cookies()).get('accessToken')!.value,
+      },
+      body: userData,
+    });
+    const result = await res.json();
+
+    if (result.success) {
+      (await cookies()).set('accessToken', result.data.accessToken);
+      (await cookies()).set('refreshToken', result?.data?.refreshToken);
+    }
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

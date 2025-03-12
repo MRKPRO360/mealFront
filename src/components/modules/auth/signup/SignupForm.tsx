@@ -98,7 +98,6 @@ function SignupForm() {
         customerFormData.append('file', imageFiles[0] as File);
 
         const res = await signupCustomer(customerFormData);
-        console.log(res);
 
         setIsLoading(true);
         if (res?.success) {
@@ -120,7 +119,7 @@ function SignupForm() {
         providerFormData.append('file', imageFiles[0] as File);
 
         const res = await signupProvider(providerFormData);
-        // setIsLoading(true);
+        setIsLoading(true);
         if (res?.success) {
           toast.success(res?.message);
           router.push('/');

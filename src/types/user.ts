@@ -1,5 +1,6 @@
 export interface IUser {
   id: string;
+  _id: string;
   name: {
     firstName: string;
     lastName: string;
@@ -18,4 +19,5 @@ export interface IUser {
     zipCode: string;
   };
   dietaryPreferences: string[];
+  user?: IUser;
 }

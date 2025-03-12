@@ -14,4 +14,4 @@ export const dietaryPreferences = [
   'Kosher',
   'Organic',
   'Raw',
-];
+] as const;
