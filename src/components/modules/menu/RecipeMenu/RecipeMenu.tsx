@@ -18,8 +18,6 @@ async function RecipeMenu({ menuNames }: { menuNames: IMenuName[] }) {
     );
   });
 
-  // const x = Object.entries(categorizedRecipes);
-
   return (
     <div className="container mx-auto px-3">
       {Object.entries(categorizedRecipes).map(([categoryName, recipes]) => (

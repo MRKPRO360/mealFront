@@ -1,3 +1,4 @@
+'use server';
 export const getAllRecipes = async (limit?: string) => {
   try {
     const res = await fetch(
