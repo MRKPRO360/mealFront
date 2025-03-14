@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { logout } from '@/services/AuthService';
 import { Button } from '../ui/button';
 import FTContainer from '../ui/core/FTContainer';
+import Cart from '../ui/core/Cart';
 function Navbar() {
   const { user, setIsLoading } = useUser();
 
@@ -52,6 +53,12 @@ function Navbar() {
               </Link>
 
               <Link
+                href="/my-menu"
+                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+              >
+                My Menu
+              </Link>
+              <Link
                 href="/about"
                 className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
               >
@@ -62,6 +69,7 @@ function Navbar() {
 
           {/* profile */}
           <ul className="flex items-center gap-x-5 font-semibold text-lg">
+            <Cart />
             {user?.email ? (
               <div className="flex items-center gap-2">
                 <Link
@@ -101,7 +109,12 @@ function Navbar() {
               </div>
             ) : (
               <Link href="/login">
-                <Button className="rounded-xs p-2 text-base">Login</Button>
+                <Button
+                  variant="outline"
+                  className="rounded-xs border border-green-700 px-5 py-3 text-base cursor-pointer"
+                >
+                  Login
+                </Button>
               </Link>
             )}
           </ul>

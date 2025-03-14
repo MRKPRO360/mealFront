@@ -1,11 +1,7 @@
 import Plan from '@/components/modules/plan';
 
 function PlanPage() {
-  return (
-    <div>
-      <Plan />
-    </div>
-  );
+  return <Plan />;
 }
 
 export default PlanPage;

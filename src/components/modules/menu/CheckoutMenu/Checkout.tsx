@@ -15,9 +15,12 @@ function Checkout({ menuNames }: { menuNames: IMenuName[] }) {
               className="lg:nth-of-type-[3]:justify-self-end lg:nth-of-type-[6]:justify-self-end lg:nth-of-type-[5]:justify-self-center lg:nth-of-type-[2]:justify-self-center text-green-800 flex items-center gap-2"
             >
               <ImLeaf className="text-xl" />
-              <h4 className="font-semibold text-lg underline">
+              <a
+                href={`#${el.name}`}
+                className="font-semibold text-lg underline"
+              >
                 {el.name} recipe menu
-              </h4>
+              </a>
             </div>
           ))}
         </div>

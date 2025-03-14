@@ -10,7 +10,7 @@ import { IRecipe } from '@/types';
 import { Clock, ShoppingCart, Zap } from 'lucide-react';
 import Link from 'next/link';
 
-function PlanCard({ recipe }: { recipe: IRecipe }) {
+function MyPlanCard({ recipe }: { recipe: IRecipe }) {
   return (
     <Card
       key={recipe._id}
@@ -19,7 +19,7 @@ function PlanCard({ recipe }: { recipe: IRecipe }) {
       <Link href={`/recipe/${recipe._id}`}>
         <CardHeader>
           <div
-            className="relative min-w-full h-[300px] lg:h-[350px]
+            className="relative min-w-full h-[200px] lg:h-[250px]
 "
           >
             <img
@@ -59,4 +59,4 @@ function PlanCard({ recipe }: { recipe: IRecipe }) {
   );
 }
 
-export default PlanCard;
+export default MyPlanCard;

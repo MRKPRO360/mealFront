@@ -15,7 +15,9 @@ function RecipeMenuItem({
           Some of {categoryName} recipes
         </p>
         <div className="w-[90px] h-[2.5px] bg-green-700 mx-auto rounded-md mt-1 mb-2"></div>
-        <p className="text-4xl font-semibold">{categoryName} Recipe Menu</p>
+        <p id={`${categoryName}`} className="text-4xl font-semibold">
+          {categoryName} Recipe Menu
+        </p>
         <span className="text-[15px] font-medium my-5 inline-block">
           Hearty meals for meat lovers and {categoryName} alike
         </span>

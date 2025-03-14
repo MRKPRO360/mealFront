@@ -5,10 +5,7 @@ import { IMenuName, IRecipe } from '@/types';
 async function RecipeMenu({ menuNames }: { menuNames: IMenuName[] }) {
   const {
     data: { result },
-  } = await getAllRecipes('30');
-
-  // console.log(menuNames);
-  // console.log(result);
+  } = await getAllRecipes(undefined, '30', undefined);
 
   const categorizedRecipes: Record<string, any[]> = {};
 
