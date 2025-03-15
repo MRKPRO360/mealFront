@@ -35,6 +35,7 @@ const data = {
         {
           title: 'Meal Plan',
           url: '/customer/meal-plan',
+          icon: SquareTerminal,
         },
         {
           title: 'My Orders',

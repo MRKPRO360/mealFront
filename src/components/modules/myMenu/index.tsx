@@ -9,7 +9,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Search } from 'lucide-react';
 
-function MyPlan({ recipes }: { recipes: IRecipe[] }) {
+function MyMenu({ recipes }: { recipes: IRecipe[] }) {
   const [tags, setTags] = useState<string[]>([]);
   const router = useRouter();
   const pathname = usePathname();
@@ -87,4 +87,4 @@ function MyPlan({ recipes }: { recipes: IRecipe[] }) {
   );
 }
 
-export default MyPlan;
+export default MyMenu;
