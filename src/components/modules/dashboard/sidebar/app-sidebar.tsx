@@ -38,6 +38,11 @@ const data = {
           icon: SquareTerminal,
         },
         {
+          title: 'Create Plan',
+          url: '/customer/create-meal-plan',
+          icon: SquareTerminal,
+        },
+        {
           title: 'My Orders',
           url: '/customer/my-orders',
         },

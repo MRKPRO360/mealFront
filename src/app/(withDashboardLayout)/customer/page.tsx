@@ -1,4 +1,4 @@
-import MyProfile from '@/components/modules/profile/MyProfile';
+import MyProfile from '@/components/modules/profile';
 import { getMe } from '@/services/AuthService';
 
 async function CustomerHomePage() {

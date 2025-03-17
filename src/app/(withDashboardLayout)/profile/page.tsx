@@ -1,4 +1,4 @@
-import MyProfile from '@/components/modules/profile/MyProfile';
+import MyProfile from '@/components/modules/profile';
 import { getMe, signupCustomer } from '@/services/AuthService';
 import { authOptions } from '@/utils/authOptions';
 import { getServerSession } from 'next-auth';
