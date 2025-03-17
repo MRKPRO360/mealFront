@@ -19,6 +19,22 @@ export const getMyMealPlanForWeek = async (week: string) => {
     throw new Error(error);
   }
 };
+export const deleteMyMealPlanForWeek = async (week: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/personal-meal-plans/week?week=${week}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
+      }
+    );
+    return await res.json();
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
 
 export const getMyAllMealPlans = async () => {
   try {

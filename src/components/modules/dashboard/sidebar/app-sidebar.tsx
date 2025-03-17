@@ -33,13 +33,18 @@ const data = {
       isActive: true,
       items: [
         {
-          title: 'Meal Plan',
+          title: 'My Meal Plan',
           url: '/customer/meal-plan',
           icon: SquareTerminal,
         },
         {
-          title: 'Create Plan',
+          title: 'Create My Plan',
           url: '/customer/create-meal-plan',
+          icon: SquareTerminal,
+        },
+        {
+          title: 'Customize My Plan',
+          url: '/customer/customize-meal-plan',
           icon: SquareTerminal,
         },
         {
