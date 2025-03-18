@@ -1,9 +1,12 @@
 import CustomizeMyMealPlan from '@/components/modules/dashboard/customer/customize-meal-plan';
+import { getMyAllMealPlans } from '@/services/PersonalMealPlanService';
 
-function CustomizeMyMealPlanPage() {
+async function CustomizeMyMealPlanPage() {
+  const { data } = await getMyAllMealPlans();
+
   return (
     <div>
-      <CustomizeMyMealPlan />
+      <CustomizeMyMealPlan myMealPlan={data} />
     </div>
   );
 }

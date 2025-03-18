@@ -30,14 +30,20 @@ import MultipleSelector, {
   Option,
 } from '@/components/ui/core/MulitpleSelector';
 
-import { IRecipe } from '@/types';
-import { createMyPlans } from '@/services/PersonalMealPlanService';
+import { IRecipe, IWeeklyPlan } from '@/types';
+import { updateWeeklyPlan } from '@/services/PersonalMealPlanService';
 import { useEffect, useState } from 'react';
 
-function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
-  const OPTIONS: Option[] = recipes?.map((recipe) => ({
-    label: recipe?.recipeName,
-    value: recipe?._id,
+function UpdateMealPlanForm({
+  recipes,
+  weeklyPlan,
+}: {
+  recipes: IRecipe[];
+  weeklyPlan: IWeeklyPlan;
+}) {
+  const OPTIONS: Option[] = recipes.map((recipe) => ({
+    label: recipe.recipeName,
+    value: recipe._id,
   }));
 
   const allowedDays = [7, 14, 21, 28];
@@ -55,11 +61,12 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
     return new Date(currentYear, currentMonth, closestDate);
   };
 
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    getClosestAllowedDate()
+  const [selectedDate, setSelectedDate] = useState<Date | string | undefined>(
+    weeklyPlan.week || getClosestAllowedDate()
   );
 
   useEffect(() => {
+    if (weeklyPlan.week) return;
     setSelectedDate(getClosestAllowedDate());
   }, []);
 
@@ -67,8 +74,8 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
 
   const form = useForm({
     defaultValues: {
-      week: selectedDate,
-      selectedMeals: [],
+      week: weeklyPlan.week,
+      selectedMeals: weeklyPlan.selectedMeals,
     },
   });
 
@@ -81,19 +88,17 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
       selectedMeals: data?.selectedMeals?.map((recipe: IRecipe) => recipe._id),
       week: new Date(selectedDate!).toISOString(),
     };
-    console.log(myMealPlanData);
-    console.log('selected date is', selectedDate);
 
     try {
       if (!data.selectedMeals.length) {
         toast.error('Please select at least one recipe!');
         return;
       }
-      const res = await createMyPlans(myMealPlanData);
+      const res = await updateWeeklyPlan(weeklyPlan._id, myMealPlanData);
       console.log(res);
 
       if (res.success) {
-        toast.success('Meal plan created successfully!');
+        toast.success('Meal plan updated successfully!');
         router.push('/customer/meal-plan');
       } else {
         toast.error(res?.message);
@@ -112,7 +117,7 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
       className="sm:max-w-[480px] lg:max-w-[600px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
     >
       <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
-        Create Your Favorite Plan
+        Update Your Weekly Plan
       </h1>
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -127,9 +132,10 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
+                        disabled={true}
                         variant={'outline'}
                         className={cn(
-                          'h-8 sm:h-11 w-full min-w-0 rounded-xs border bg-transparent',
+                          'h-8 sm:h-11 w-full min-w-0 rounded-xs border bg-transparent disabled:cursor-not-allowed',
                           !selectedDate && 'text-muted-foreground'
                         )}
                       >
@@ -144,7 +150,7 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={selectedDate}
+                      selected={selectedDate as Date}
                       onSelect={setSelectedDate}
                       disabled={(date) => {
                         const currentMonth = new Date().getMonth();
@@ -155,7 +161,6 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
                           !allowedDays.includes(date.getDate())
                         );
                       }}
-                      initialFocus
                     />
                   </PopoverContent>
                 </Popover>
@@ -203,14 +208,17 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
           />
 
           <Button type="submit" className="mt-3 w-full">
-            {isSubmitting ? 'Creating....' : 'Create'}
+            {isSubmitting ? 'Updating....' : 'Update'}
           </Button>
         </form>
       </Form>
 
       <div className="text-center mt-4">
-        Don&apos;t want to create a meal plan?{' '}
-        <Link href="/customer/meal-plan" className="text-green-800 underline">
+        Don&apos;t want to update your meal plan?{' '}
+        <Link
+          href="/customer/customize-meal-plan"
+          className="text-green-800 underline"
+        >
           Go Back
         </Link>
       </div>
@@ -218,4 +226,4 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
   );
 }
 
-export default CreateMealPlanForm;
+export default UpdateMealPlanForm;

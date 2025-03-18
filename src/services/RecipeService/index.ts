@@ -15,11 +15,21 @@ export const getAllRecipes = async (
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/recipes?limit=${limit}&page=${page}&${params}`
-      // {
+
       //   next: {
       //     tags: ['RECIPE'],
       //   },
-      // }
+    );
+    return await res.json();
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const getAllRecipesNameAndId = async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/recipes/nameId`
     );
     return await res.json();
   } catch (error: any) {
