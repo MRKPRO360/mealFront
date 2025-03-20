@@ -92,9 +92,11 @@ function Navbar() {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Link href="/profile">Profile</Link>
-                    </DropdownMenuItem>
+                    <Link href="/profile">
+                      <DropdownMenuItem className="cursor-pointer">
+                        Profile
+                      </DropdownMenuItem>
+                    </Link>
 
                     <DropdownMenuSeparator />
                     <DropdownMenuItem

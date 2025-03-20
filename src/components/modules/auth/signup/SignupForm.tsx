@@ -51,6 +51,10 @@ import { signupSchema } from './SignupValidatoin';
 import { useUser } from '@/context/UserContext';
 import ImagePreviewer from '@/components/ui/core/FTImageUploader/ImagePreviewer';
 import FTImageUploader from '@/components/ui/core/FTImageUploader';
+import MultipleSelector, {
+  Option,
+} from '@/components/ui/core/MulitpleSelector';
+import { cuisineSpecialties } from '@/constants/cuisineSpecialties';
 
 const roles = [
   {
@@ -64,6 +68,11 @@ const roles = [
     icon: <FaUserTie className="text-2xl" />,
   },
 ];
+
+const OPTIONS: Option[] = cuisineSpecialties.map((cuisine) => ({
+  label: cuisine,
+  value: cuisine,
+}));
 
 function SignupForm() {
   const { setIsLoading } = useUser();
@@ -88,6 +97,7 @@ function SignupForm() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (!selectedRole || selectedRole === '')
       return toast.error('Select a role!');
+    console.log(selectedRole);
 
     if (selectedRole === 'customer') {
       try {
@@ -119,6 +129,9 @@ function SignupForm() {
         providerFormData.append('file', imageFiles[0] as File);
 
         const res = await signupProvider(providerFormData);
+
+        console.log(res);
+
         setIsLoading(true);
         if (res?.success) {
           toast.success(res?.message);
@@ -264,6 +277,47 @@ function SignupForm() {
               ))}
             </div>
           </div>
+
+          {selectedRole && selectedRole === 'provider' && (
+            <FormField
+              control={form.control}
+              name="cuisineSpecialties"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuisine Specialties</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      value={
+                        Array.isArray(field.value)
+                          ? field?.value?.map((val) => ({
+                              value: val,
+                              label: val,
+                            }))
+                          : []
+                      } // ✅ Convert strings to Option objects
+                      defaultOptions={OPTIONS}
+                      placeholder="Select cuisine specialties"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          no results found.
+                        </p>
+                      }
+                      onChange={
+                        (selectedOptions) =>
+                          field.onChange(
+                            selectedOptions.map((opt) => {
+                              return opt.value;
+                            })
+                          ) // ✅ Convert back to string[] for form state
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <div className="flex items-center gap-4 mt-6">
             <Separator className="flex-1" />
@@ -413,7 +467,11 @@ function SignupForm() {
             </AccordionItem>
           </Accordion>
 
-          <Button type="submit" className="mt-3 w-full">
+          <Button
+            disabled={isSubmitting}
+            type="submit"
+            className={`mt-3 w-full ${isSubmitting ? 'cursor-pointer' : ''}`}
+          >
             {isSubmitting ? 'Signing up....' : 'Signup'}
           </Button>
         </form>

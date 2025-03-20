@@ -28,8 +28,23 @@ import MultipleSelector, {
 import { updateCustomer, updateProvider } from '@/services/AuthService';
 import { useRouter } from 'next/navigation';
 import { dietaryPreferences } from '@/constants/preference';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { districts } from '@/constants/districts';
+import { cities } from '@/constants/cities';
+import { cuisineSpecialties } from '@/constants/cuisineSpecialties';
 
-const OPTIONS: Option[] = dietaryPreferences.map((item) => ({
+const OPTIONS1: Option[] = dietaryPreferences.map((item) => ({
+  label: item,
+  value: item,
+}));
+
+const OPTIONS2: Option[] = cuisineSpecialties.map((item) => ({
   label: item,
   value: item,
 }));
@@ -40,30 +55,41 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
   const form = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: userData.name.firstName || '',
-      lastName: userData.name.lastName || '',
-      email: userData.email || '',
-      phoneNumber: userData.phoneNumber || '',
-      street: userData?.address!.street || '',
-      city: userData?.address!.city || '',
-      district: userData?.address!.district || '',
-      zipCode: userData?.address!.zipCode || '',
-      dietaryPreferences: (userData.dietaryPreferences || []) as Array<
+      name: {
+        firstName: userData?.name?.firstName ?? '',
+        lastName: userData?.name?.lastName ?? '',
+      },
+      email: userData?.email ?? '',
+      phoneNumber: userData?.phoneNumber ?? '',
+      address: {
+        street: userData?.address?.street ?? '',
+        city: userData?.address?.city ?? '',
+        district: userData?.address?.district ?? '',
+        zipCode: userData?.address?.zipCode ?? '',
+      },
+      dietaryPreferences: (userData?.dietaryPreferences || []) as Array<
         (typeof dietaryPreferences)[number]
       >,
+      cuisineSpecialties: (userData?.cuisineSpecialties || []) as Array<
+        (typeof cuisineSpecialties)[number]
+      >,
+      role: userData?.user?.role ?? 'customer',
     },
   });
 
+  const {
+    formState: { isSubmitting },
+  } = form;
+
   const { setIsLoading } = useUser();
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-  const [imagePreview, setImagePreview] = useState<string[] | []>([
-    userData?.profileImg as string,
-  ]);
+  const [imagePreview, setImagePreview] = useState<string[]>(
+    userData?.profileImg ? [userData.profileImg] : []
+  );
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (!userData.user) return toast.error('No user found!');
-
-    if (userData.user.role === 'customer') {
+    else if (userData.user.role === 'customer') {
       try {
         const customerFormData = new FormData();
 
@@ -92,13 +118,17 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
       try {
         const providerFormData = new FormData();
 
-        providerFormData.append('data', JSON.stringify(data));
+        providerFormData.append(
+          'data',
+          JSON.stringify({ _id: userData._id, ...data })
+        );
 
         if (imageFiles.length > 0) {
           providerFormData.append('file', imageFiles[0] as File);
         }
 
         const res = await updateProvider(providerFormData);
+
         setIsLoading(true);
         if (res?.success) {
           toast.success(res?.message);
@@ -127,7 +157,7 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
           <div className="flex gap-4">
             <FormField
               control={form.control}
-              name="firstName"
+              name="name.firstName"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>First Name</FormLabel>
@@ -140,7 +170,7 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="name.lastName"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Last Name</FormLabel>
@@ -167,6 +197,12 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
             )}
           />
 
+          {/* HIDDEN INPUT FOR SELECTING ROLES */}
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => <input type="hidden" {...field} />}
+          />
           <FormField
             control={form.control}
             name="phoneNumber"
@@ -183,7 +219,7 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
 
           <FormField
             control={form.control}
-            name="street"
+            name="address.street"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
@@ -201,32 +237,71 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
           <div className="flex gap-4">
             <FormField
               control={form.control}
-              name="city"
+              name="address.city"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>
                     <FaCity className="inline-block mr-2" />
                     City
                   </FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field?.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="min-w-[220px] cursor-pointer">
+                        <SelectValue placeholder="Select a city" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {cities.map((el, id) => (
+                        <SelectItem
+                          className="cursor-pointer"
+                          key={id}
+                          value={el}
+                        >
+                          {`${el.slice(0, 1).toUpperCase()}${el.slice(1)}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="district"
+              name="address.district"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>
                     <FaMapMarkerAlt className="inline-block mr-2" />
                     District
                   </FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="min-w-[220px] cursor-pointer">
+                        <SelectValue placeholder="Select a district" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {districts.map((el, id) => (
+                        <SelectItem
+                          className="cursor-pointer"
+                          key={id}
+                          value={el}
+                        >
+                          {`${el.slice(0, 1).toUpperCase()}${el.slice(1)}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -235,38 +310,96 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
 
           <FormField
             control={form.control}
-            name="dietaryPreferences"
+            name="address.zipCode"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dieteray Preference</FormLabel>
+              <FormItem className="w-full">
+                <FormLabel>Zip Code</FormLabel>
                 <FormControl>
-                  <MultipleSelector
+                  <Input
+                    placeholder="exmp: 3940"
+                    type="text"
                     {...field}
-                    value={field.value.map((val) => ({
-                      value: val,
-                      label: val,
-                    }))} // ✅ Convert strings to Option objects
-                    defaultOptions={OPTIONS}
-                    placeholder="Select your preference"
-                    emptyIndicator={
-                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                        no results found.
-                      </p>
-                    }
-                    onChange={
-                      (selectedOptions) =>
-                        field.onChange(
-                          selectedOptions.map((opt) => {
-                            return opt.value;
-                          })
-                        ) // ✅ Convert back to string[] for form state
-                    }
+                    value={field.value || ''}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          {userData?.user?.role === 'customer' && (
+            <FormField
+              control={form.control}
+              name="dietaryPreferences"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dieteray Preference</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      value={field?.value?.map((val) => ({
+                        value: val,
+                        label: val,
+                      }))} // ✅ Convert strings to Option objects
+                      defaultOptions={OPTIONS1}
+                      placeholder="Select your preference"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          no results found.
+                        </p>
+                      }
+                      onChange={
+                        (selectedOptions) =>
+                          field.onChange(
+                            selectedOptions.map((opt) => {
+                              return opt.value;
+                            })
+                          ) // ✅ Convert back to string[] for form state
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+
+          {userData?.user?.role === 'provider' && (
+            <FormField
+              control={form.control}
+              name="cuisineSpecialties"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuisine Specialities</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      value={field?.value?.map((val) => ({
+                        value: val,
+                        label: val,
+                      }))} // ✅ Convert strings to Option objects
+                      defaultOptions={OPTIONS2}
+                      placeholder="Select your specialties"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          no results found.
+                        </p>
+                      }
+                      onChange={
+                        (selectedOptions) =>
+                          field.onChange(
+                            selectedOptions.map((opt) => {
+                              return opt.value;
+                            })
+                          ) // ✅ Convert back to string[] for form state
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           {imagePreview.length > 0 ? (
             <ImagePreviewer
@@ -285,8 +418,8 @@ export default function UpdateProfileForm({ userData }: { userData: IUser }) {
             </div>
           )}
 
-          <Button type="submit" className="w-full">
-            Update Profile
+          <Button disabled={isSubmitting} type="submit" className="w-full">
+            {isSubmitting ? 'Updating...' : 'Update Profile'}
           </Button>
         </form>
       </Form>

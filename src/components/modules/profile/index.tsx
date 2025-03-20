@@ -9,6 +9,7 @@ import {
   Leaf,
   Signpost,
   PenIcon,
+  ChefHat,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -61,25 +62,38 @@ function MyProfile({ user }: { user: IUser }) {
           <h2 className="text-xl font-semibold mb-3">Address</h2>
           <p className="flex items-center gap-2 text-gray-700">
             <MapPin className="w-5 h-5 text-gray-600" />
-            {user?.address?.district.slice(0, 1).toUpperCase()}
-            {user?.address?.district.slice(1)} ,{' '}
-            {user?.address?.city.slice(0, 1).toUpperCase()}
-            {user?.address?.city.slice(1)}
+            {user?.address?.district?.slice(0, 1).toUpperCase()}
+            {user?.address?.district?.slice(1)} ,{' '}
+            {user?.address?.city?.slice(0, 1).toUpperCase()}
+            {user?.address?.city?.slice(1)}
           </p>
           <p className="flex items-center gap-2 text-gray-700">
             <Signpost className="w-5 h-5 text-gray-600" />
-            {user?.address?.street.slice(0, 1).toUpperCase()}
-            {user?.address?.street.slice(1)}
+            {user?.address?.street?.slice(0, 1)?.toUpperCase()}
+            {user?.address?.street?.slice(1)}
           </p>
         </div>
       </div>
 
       <div className="mt-6 p-4 bg-white shadow-xs rounded-xs">
-        <h2 className="text-xl font-semibold mb-3">Dietary Preferences</h2>
-        <p className="flex items-center gap-2 text-gray-700">
-          <Leaf className="w-5 h-5 text-gray-600" />{' '}
-          {user?.dietaryPreferences?.join(', ')}
-        </p>
+        {user.user?.role === 'customer' && (
+          <>
+            <h2 className="text-xl font-semibold mb-3">Dietary Preferences</h2>
+            <p className="flex items-center gap-2 text-gray-700">
+              <Leaf className="w-5 h-5 text-gray-600" />{' '}
+              {user?.dietaryPreferences?.join(', ')}
+            </p>
+          </>
+        )}
+        {user.user?.role === 'provider' && (
+          <>
+            <h2 className="text-xl font-semibold mb-3">Cuisine Secialities</h2>
+            <p className="flex items-center gap-2 text-gray-700">
+              <ChefHat className="w-5 h-5 text-gray-600" />{' '}
+              {user?.cuisineSpecialties?.join(', ')}
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

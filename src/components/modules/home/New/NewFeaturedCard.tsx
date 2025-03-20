@@ -1,7 +1,7 @@
 import { IFeaturedCard } from '@/types';
 import Image from 'next/image';
 
-function FeaturedCard({ item }: IFeaturedCard) {
+function NewFeaturedCard({ item }: IFeaturedCard) {
   return (
     <div className="text-center">
       <Image
@@ -17,4 +17,4 @@ function FeaturedCard({ item }: IFeaturedCard) {
   );
 }
 
-export default FeaturedCard;
+export default NewFeaturedCard;

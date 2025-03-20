@@ -28,10 +28,13 @@ export const signupCustomer = async (userData: FormData) => {
 
 export const signupProvider = async (userData: FormData) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/provider`, {
-      method: 'POST',
-      body: userData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/users/create-provider`,
+      {
+        method: 'POST',
+        body: userData,
+      }
+    );
     const result = await res.json();
 
     if (result.success) {

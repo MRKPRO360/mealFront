@@ -1,3 +1,4 @@
+import { cuisineSpecialties } from '@/constants/cuisineSpecialties';
 import { z } from 'zod';
 
 export const signupSchema = z
@@ -15,7 +16,7 @@ export const signupSchema = z
     // role: z.enum(['customer', 'provider'], {
     //   required_error: 'Role is required',
     // }),
-
+    cuisineSpecialties: z.array(z.enum(cuisineSpecialties).optional()),
     address: z
       .object({
         street: z.string().optional(),

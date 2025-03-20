@@ -1,8 +1,9 @@
 import left from '@/assets/images/new/left.png';
 import middle from '@/assets/images/new/middle.jpg';
 import right from '@/assets/images/new/right.png';
-import FeaturedCard from './FeaturedCard';
+
 import { Button } from '@/components/ui/button';
+import NewFeaturedCard from './NewFeaturedCard';
 
 const featuredCardItem = [
   {
@@ -30,7 +31,7 @@ function New() {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 items-center justify-center gap-4">
         {featuredCardItem.map((el, id) => (
-          <FeaturedCard item={el} key={id} />
+          <NewFeaturedCard item={el} key={id} />
         ))}
       </div>
       <div className="text-center mt-3">

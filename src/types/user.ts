@@ -18,6 +18,7 @@ export interface IUser {
     district: string;
     zipCode: string;
   };
-  dietaryPreferences: string[];
+  dietaryPreferences?: string[];
+  cuisineSpecialties?: string[];
   user?: IUser;
 }
