@@ -22,14 +22,21 @@ import { logout } from '@/services/AuthService';
 import { useUser } from '@/context/UserContext';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { IUser } from '@/types';
+import { useRouter } from 'next/navigation';
 
 export function NavUser({ user }: { user: IUser | null }) {
   const { isMobile } = useSidebar();
   const { setIsLoading } = useUser();
+  const router = useRouter();
 
-  const handleLogOut = () => {
-    logout();
+  const handleLogOut = async () => {
+    const redirectPath = window.location.pathname;
+    await logout();
+
     setIsLoading(true);
+
+    // Redirect to login with the redirect path as a query parameter
+    router.replace(`/login?redirectPath=${encodeURIComponent(redirectPath)}`);
   };
 
   return (

@@ -76,7 +76,7 @@ function MyProfile({ user }: { user: IUser }) {
       </div>
 
       <div className="mt-6 p-4 bg-white shadow-xs rounded-xs">
-        {user.user?.role === 'customer' && (
+        {user?.user?.role === 'customer' && (
           <>
             <h2 className="text-xl font-semibold mb-3">Dietary Preferences</h2>
             <p className="flex items-center gap-2 text-gray-700">
@@ -85,7 +85,7 @@ function MyProfile({ user }: { user: IUser }) {
             </p>
           </>
         )}
-        {user.user?.role === 'provider' && (
+        {user?.user?.role === 'provider' && (
           <>
             <h2 className="text-xl font-semibold mb-3">Cuisine Secialities</h2>
             <p className="flex items-center gap-2 text-gray-700">
