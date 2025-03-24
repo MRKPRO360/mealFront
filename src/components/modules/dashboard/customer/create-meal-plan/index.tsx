@@ -81,8 +81,6 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
       selectedMeals: data?.selectedMeals?.map((recipe: IRecipe) => recipe._id),
       week: new Date(selectedDate!).toISOString(),
     };
-    console.log(myMealPlanData);
-    console.log('selected date is', selectedDate);
 
     try {
       if (!data.selectedMeals.length) {

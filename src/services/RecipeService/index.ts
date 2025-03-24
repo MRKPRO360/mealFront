@@ -104,12 +104,11 @@ export const deleteMyRecipe = async (id: string) => {
   }
 };
 
-export const createMyPlans = async (data: FormData) => {
+export const createMyRecipe = async (data: FormData) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/recipes`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: (await cookies()).get('accessToken')!.value,
       },
       body: data,
@@ -141,5 +140,5 @@ export const updateMyRecipe = async (id: string, data: FormData) => {
 };
 
 export async function revalidateRecipes() {
-  revalidateTag('Recipes');
+  revalidateTag('RECIPES');
 }

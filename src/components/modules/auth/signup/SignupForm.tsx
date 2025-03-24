@@ -97,7 +97,6 @@ function SignupForm() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (!selectedRole || selectedRole === '')
       return toast.error('Select a role!');
-    console.log(selectedRole);
 
     if (selectedRole === 'customer') {
       try {

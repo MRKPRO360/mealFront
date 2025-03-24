@@ -26,6 +26,7 @@ export interface IUtensils {
 
 export interface IRecipe {
   _id: string;
+  name?: string;
   providerId: string;
   recipeMenuName: {
     isDeleted: boolean;
@@ -46,9 +47,18 @@ export interface IRecipe {
   utensils: IUtensils[];
   instructions: IInstruction[];
   portionSizes: {
-    small: string;
-    medium: string;
-    large: string;
+    small: {
+      price: string;
+      servings: string;
+    };
+    medium: {
+      price: string;
+      servings: string;
+    };
+    large: {
+      price: string;
+      servings: string;
+    };
   };
   inStock: boolean;
   quantity: string;

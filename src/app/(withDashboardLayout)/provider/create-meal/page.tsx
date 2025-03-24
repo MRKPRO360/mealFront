@@ -1,5 +1,11 @@
-function CreateMeal() {
-  return <div>CreateMeal</div>;
+import CreateMeal from '@/components/modules/dashboard/provider/create-meal';
+
+function CreateMealPage() {
+  return (
+    <div>
+      <CreateMeal />
+    </div>
+  );
 }
 
-export default CreateMeal;
+export default CreateMealPage;
