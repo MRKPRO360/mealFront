@@ -19,6 +19,7 @@ import { Button } from '../ui/button';
 import FTContainer from '../ui/core/FTContainer';
 
 import NavSidebar from '../ui/core/NavSidebar';
+import { ShoppingCart } from 'lucide-react';
 function Navbar() {
   const { user, setIsLoading } = useUser();
 
@@ -85,6 +86,16 @@ function Navbar() {
 
           {/* profile */}
           <ul className="flex items-center gap-x-5 font-semibold text-lg">
+            <Link
+              href="/cart"
+              className="border-r-[2px] border-r-gray-300 pr-3 self-stretch hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3"
+            >
+              <ShoppingCart
+                className="text-gray-800"
+                size={25}
+                strokeWidth={2.4}
+              />
+            </Link>
             {user?.email ? (
               <div className="flex items-center gap-2">
                 <Link

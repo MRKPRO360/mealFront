@@ -1,20 +1,14 @@
 import {
-  Badge,
-  Bookmark,
   ClipboardList,
   Info,
   Menu,
   NotebookPen,
-  ShoppingBagIcon,
-  Sidebar,
+  ShoppingCart,
   Utensils,
 } from 'lucide-react';
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -26,17 +20,32 @@ function NavSidebar() {
     <Sheet>
       <SheetTrigger asChild>
         <Button size="lg" variant="link" className="relative cursor-pointer">
-          <Menu className="h-7 w-7" />
+          <Menu style={{ width: 23, height: 23 }} />
         </Button>
       </SheetTrigger>
 
       <SheetContent
         side="left"
-        className="w-[300px]  flex flex-col gap-4  py-6 bg-white shadow-lg rounded-xs max-w-md"
+        className="w-[300px]  flex flex-col gap-4 py-6 bg-white shadow-lg rounded-xs max-w-md"
       >
         <SheetHeader>
-          <SheetTitle className="text-xl font-semibold hidden">
-            Nav side bar
+          <SheetTitle className="mt-8">
+            <Link href="/cart">
+              <Button
+                style={{
+                  width: 'calc(100% - 24px)',
+                  margin: ' 0 12px',
+                }}
+                variant="outline"
+                className="rounded-xs border-[2px] border-green-700 text-base cursor-pointer"
+              >
+                <ShoppingCart
+                  className="text-gray-800"
+                  style={{ width: 23, height: 23 }}
+                  strokeWidth={2.4}
+                />
+              </Button>
+            </Link>
           </SheetTitle>
 
           <ul className="flex flex-col font-medium text-base mt-4 gap-2">
