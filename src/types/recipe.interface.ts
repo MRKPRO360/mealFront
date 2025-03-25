@@ -44,7 +44,7 @@ export interface IRecipe {
   difficulty: string;
   ingredients: IIngredient[];
   nutritionValues: INutritionValues;
-  utensils: IUtensils[];
+  utensils: string[];
   instructions: IInstruction[];
   portionSizes: {
     small: {

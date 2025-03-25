@@ -166,13 +166,13 @@ function MyMeal({ recipes, meta }: { recipes: IRecipe[]; meta: IMeta }) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Manage Products</h1>
+        <h1 className="text-xl font-bold">My Recipes</h1>
         <div className="flex items-center gap-2">
           <Button
-            onClick={() => router.push('/user/shop/products/add-product')}
+            onClick={() => router.push('/provider/create-meal')}
             size="sm"
           >
-            Add Product <Plus />
+            Create Meal <Plus />
           </Button>
         </div>
       </div>

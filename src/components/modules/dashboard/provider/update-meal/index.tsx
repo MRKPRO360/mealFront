@@ -46,8 +46,8 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
       recipeName: recipe.recipeName,
       recipeMenuName: recipe.recipeMenuName._id,
       description: recipe.description,
-      tags: [{ name: '' }],
-      allergens: [{ name: '' }],
+      tags: recipe.tags.map((el) => ({ name: el })),
+      allergens: recipe.allergens.map((el) => ({ name: el })),
       totalTime: recipe.totalTime,
       prepTime: recipe.prepTime,
       difficulty: recipe.difficulty as 'easy' | 'medium' | 'hard',
@@ -63,7 +63,7 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
         cholesterol: recipe.nutritionValues.cholesterol,
         sodium: recipe.nutritionValues.sodium,
       },
-      utensils: [{ name: '' }], // Or you can initialize this as [] if you prefer
+      utensils: recipe.utensils.map((el) => ({ name: el })), // Or you can initialize this as [] if you prefer
       instructions: recipe.instructions,
       portionSizes: {
         small: {
@@ -146,7 +146,7 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
   });
 
   const onSubmit = async (data: RecipeFormValues) => {
-    if (imageFiles.length === 0) {
+    if (imagePreview.length === 0) {
       return toast.error('A recipe must have a image!');
     }
 
@@ -218,10 +218,7 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
                   <FormControl>
                     <select {...field} className="border rounded p-2 w-full">
                       {menuNames.map((menuName: IMenuName) => (
-                        <option
-                          key={menuName._id}
-                          value={recipe.recipeMenuName._id || menuName._id}
-                        >
+                        <option key={menuName._id} value={menuName._id}>
                           {menuName.name}
                         </option>
                       ))}
