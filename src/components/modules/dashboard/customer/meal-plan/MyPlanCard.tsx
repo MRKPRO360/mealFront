@@ -19,7 +19,7 @@ function MyPlanCard({ recipe }: { recipe: IRecipe }) {
       <Link href={`/recipe/${recipe._id}`}>
         <CardHeader>
           <div
-            className="relative min-w-full h-[300px] lg:h-[350px]
+            className="relative min-w-full h-[250px] lg:h-[300px]
 "
           >
             <img
@@ -30,12 +30,16 @@ function MyPlanCard({ recipe }: { recipe: IRecipe }) {
           </div>
         </CardHeader>
       </Link>
-      <CardContent className="pb-8">
-        <CardTitle className="mb-2 font-semibold">
+      <CardContent className="pb-5 px-2">
+        <CardTitle className="mb-2 font-semibold min-h-8">
           {recipe.recipeName}
         </CardTitle>
-        <CardDescription className="">
-          <p className="text-gray-600">{recipe.description}</p>
+        <CardDescription>
+          <p className="text-gray-600 mb-4">
+            {recipe.description.length > 50
+              ? recipe.description.slice(0, 47) + ' etc.'
+              : recipe.description}
+          </p>
 
           {/* Icons for Time & Difficulty */}
           <div className="text-sm text-gray-500 flex justify-between items-center mt-2">

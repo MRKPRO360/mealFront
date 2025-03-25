@@ -131,13 +131,13 @@ const Plan = () => {
       </div>
 
       {isLoading ? (
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
           {Array.from({ length: 6 }).map((_, index) => (
             <PlanCardSkeleton key={index} />
           ))}
         </div>
       ) : mealPlan ? (
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2 justify-between">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
           {mealPlan?.selectedMeals?.map((recipe: IRecipe) => (
             <PlanCard key={recipe._id} recipe={recipe} />
           ))}
