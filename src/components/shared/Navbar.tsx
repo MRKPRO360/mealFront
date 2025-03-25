@@ -17,7 +17,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { logout } from '@/services/AuthService';
 import { Button } from '../ui/button';
 import FTContainer from '../ui/core/FTContainer';
-import Cart from '../ui/core/Cart';
+
+import NavSidebar from '../ui/core/NavSidebar';
 function Navbar() {
   const { user, setIsLoading } = useUser();
 
@@ -28,11 +29,26 @@ function Navbar() {
   return (
     <div className="shadow-lg">
       <FTContainer>
-        <div className="flex justify-between px-4">
-          <div className="flex gap-4">
+        <div className="items-center flex md:justify-between py-1 md:py-0 px-4">
+          <div className="md:hidden">
+            <NavSidebar />
+          </div>
+          <Link href="/" className="flex md:hidden gap-1 mb-1 mr-auto">
+            <Image width={30} height={30} src={logo} alt="feastify logo" />
+            <p className="font-bold tracking-tighter text-xl self-end">
+              Feastify
+            </p>
+          </Link>
+          <div className="hidden md:flex gap-4">
             {/* logo */}
             <Link href="/" className="flex gap-2 items-center ">
-              <Image width={40} height={40} src={logo} alt="feastify logo" />
+              <Image
+                className="mb-2"
+                width={40}
+                height={40}
+                src={logo}
+                alt="feastify logo"
+              />
               <p className="font-bold tracking-tighter text-2xl">Feastify</p>
             </Link>
             {/* list */}
@@ -40,27 +56,27 @@ function Navbar() {
             <ul className="flex font-semibold text-lg">
               <Link
                 href="/menu"
-                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
               >
                 Our Menu
               </Link>
 
               <Link
                 href="/plan"
-                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
               >
                 Our Plans
               </Link>
 
               <Link
                 href="/my-menu"
-                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
               >
                 My Menu
               </Link>
               <Link
                 href="/about"
-                className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
               >
                 About Us
               </Link>
@@ -69,7 +85,6 @@ function Navbar() {
 
           {/* profile */}
           <ul className="flex items-center gap-x-5 font-semibold text-lg">
-            <Cart />
             {user?.email ? (
               <div className="flex items-center gap-2">
                 <Link

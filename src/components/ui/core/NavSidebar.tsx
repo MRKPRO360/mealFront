@@ -1,4 +1,14 @@
-import { Badge, ShoppingBagIcon } from 'lucide-react';
+import {
+  Badge,
+  Bookmark,
+  ClipboardList,
+  Info,
+  Menu,
+  NotebookPen,
+  ShoppingBagIcon,
+  Sidebar,
+  Utensils,
+} from 'lucide-react';
 import {
   Sheet,
   SheetClose,
@@ -10,31 +20,60 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '../button';
-function Cart() {
+import Link from 'next/link';
+function NavSidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="link" className="relative cursor-pointer">
-          <ShoppingBagIcon className="h-6 w-6" />
-          <Badge className="absolute right-0 top-0 bg-red-600 text-white rounded-full text-xs p-1">
-            {/* {cartData.totalQuantity} */}
-            20
-          </Badge>
+        <Button size="lg" variant="link" className="relative cursor-pointer">
+          <Menu className="h-7 w-7" />
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="flex flex-col gap-4 px-2 py-6 bg-white shadow-lg rounded-xs max-w-md">
-        <SheetHeader className="border-b pb-4">
-          <SheetTitle className="text-xl font-semibold">Your Cart</SheetTitle>
-          <SheetDescription className="text-sm text-gray-500">
-            Review your items and proceed to checkout.
-          </SheetDescription>
+      <SheetContent
+        side="left"
+        className="w-[300px]  flex flex-col gap-4  py-6 bg-white shadow-lg rounded-xs max-w-md"
+      >
+        <SheetHeader>
+          <SheetTitle className="text-xl font-semibold hidden">
+            Nav side bar
+          </SheetTitle>
+
+          <ul className="flex flex-col font-medium text-base mt-4 gap-2">
+            <Link href="/menu">
+              <div className="hover:bg-[#d2fa97]/50  px-6 hover:px-7 py-3 transtion duration-300 flex items-center gap-2 ">
+                <Utensils />
+                Our Menu
+              </div>
+            </Link>
+
+            <Link href="/plan">
+              <div className="hover:bg-[#d2fa97]/50  px-6 hover:px-7 py-3 transtion duration-300 flex items-center gap-2">
+                <ClipboardList />
+                Our Plans
+              </div>
+            </Link>
+
+            <Link href="/my-menu">
+              <div className="hover:bg-[#d2fa97]/50  px-6 hover:px-7 py-3 transtion duration-300 flex items-center gap-2">
+                <NotebookPen />
+                My Menu
+              </div>
+            </Link>
+
+            <Link href="/about">
+              <div className="hover:bg-[#d2fa97]/50  px-6 hover:px-7 py-3 transtion duration-300 flex items-center gap-2">
+                <Info />
+                About Us
+              </div>
+            </Link>
+          </ul>
         </SheetHeader>
 
         {/* <div className="flex-1 overflow-y-auto">
-          {cartData.items.length > 0 ? (
+          {SidebarData.items.length > 0 ? (
             <ul className="space-y-4">
-              {cartData.items.map((item) => (
+              {SidebarData.items.map((item) => (
                 <li key={item.product} className="flex items-center gap-4">
                   <img
                     src={item.imageUrl}
@@ -80,7 +119,7 @@ function Cart() {
                     ${(item.quantity * item.price).toFixed(2)}
                   </p>
                   <button
-                    // onClick={() => dispatch(removeFromCart(item.product))}
+                    // onClick={() => dispatch(removeFromSidebar(item.product))}
                     className="text-red-600 text-sm hover:underline"
                   >
                     Remove
@@ -89,7 +128,7 @@ function Cart() {
               ))}
             </ul>
           ) : (
-            <p className="text-center text-gray-500">Your cart is empty.</p>
+            <p className="text-center text-gray-500">Your NavSidebar is empty.</p>
           )}
 
           <div className="border-b my-3"></div>
@@ -98,31 +137,20 @@ function Cart() {
             <span className="text-sm font-medium text-gray-700">
               Total Quantity:
             </span>
-            <span className="text-lg font-bold">{cartData.totalQuantity}</span>
+            <span className="text-lg font-bold">{SidebarData.totalQuantity}</span>
           </div>
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm font-medium text-gray-700">
               Total Price:
             </span>
             <span className="text-lg font-bold">
-              ${cartData.totalPrice.toFixed(2)}
+              ${SidebarData.totalPrice.toFixed(2)}
             </span>
           </div>
         </div> */}
-
-        <SheetFooter className="border-t p-0 py-4">
-          <SheetClose asChild>
-            <Button
-              className="w-[100%]"
-              // onClick={handlePlaceOrder}
-            >
-              Place Order
-            </Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
 }
 
-export default Cart;
+export default NavSidebar;
