@@ -38,10 +38,6 @@ function MyMenu({ recipes }: { recipes: IRecipe[] }) {
 
   const form = useForm();
 
-  const {
-    formState: { isSubmitting },
-  } = form;
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     handleSearchQuery('searchTerm', data.search);
   };

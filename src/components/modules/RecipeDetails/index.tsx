@@ -4,12 +4,15 @@ import RecipeHeader from './RecipeHeader';
 import RecipeIngredients from './RecipeIngredients';
 import RecipeUtensils from './RecipeUtensils';
 import RecipeInstruction from './RecipeInstruction';
+import RecipeSize from './RecipeSize';
 
 function RecipeDetails({ recipe }: { recipe: IRecipe }) {
   return (
     <div className="bg-gray-100/80">
       <RecipeDetailsBanner recipeImage={recipe.recipeImage} />
+
       <RecipeHeader recipe={recipe} />
+
       <RecipeIngredients
         ingredients={recipe.ingredients}
         nutrition={recipe.nutritionValues}

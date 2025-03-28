@@ -1,9 +1,20 @@
+'use client';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { addMeals } from '@/redux/features/cartSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import { IRecipe } from '@/types';
+import { ShoppingCart } from 'lucide-react';
 
 function RecipeHeader({ recipe }: { recipe: IRecipe }) {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = (recipe: IRecipe) => {
+    dispatch(addMeals(recipe));
+  };
+
   return (
     <div className="transform lg:-translate-y-16">
       <div className="max-w-6xl rounded-xs mx-auto p-6 bg-white">
@@ -64,10 +75,23 @@ function RecipeHeader({ recipe }: { recipe: IRecipe }) {
           <span className="font-normal">{recipe.allergens.join(' • ')}</span>
         </p>
 
-        <p className="text-sm">
+        <p className="text-md my-2">
           Produced in a facility that processes eggs, milk, fish, peanuts,
           sesame, shellfish, soy, tree nuts, and wheat.
         </p>
+        {/* Rating */}
+        <p className="text-md ">
+          <span className="font-semibold">Rating</span>: ⭐{recipe.rating}
+        </p>
+        {/* Add to cart */}
+        <Button
+          onClick={() => handleAddToCart(recipe)}
+          size="sm"
+          className="mt-3"
+        >
+          <ShoppingCart />
+          Add to Cart
+        </Button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
 import {
   Card,
   CardContent,
@@ -6,11 +7,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { addMeals } from '@/redux/features/cartSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import { IRecipe } from '@/types';
 import { Clock, ShoppingCart, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 function MyPlanCard({ recipe }: { recipe: IRecipe }) {
+  const dispatch = useAppDispatch();
+
+  const handleAddMeals = (meal: IRecipe) => {
+    dispatch(addMeals(meal));
+  };
+
   return (
     <Card
       key={recipe._id}
@@ -34,7 +43,7 @@ function MyPlanCard({ recipe }: { recipe: IRecipe }) {
         <CardTitle className="mb-2 font-semibold">
           {recipe.recipeName}
         </CardTitle>
-        <CardDescription className="">
+        <CardDescription>
           <p className="text-gray-600">{recipe.description}</p>
 
           {/* Icons for Time & Difficulty */}
@@ -46,7 +55,7 @@ function MyPlanCard({ recipe }: { recipe: IRecipe }) {
               <Zap className="w-5 h-5 text-gray-500" /> {recipe.difficulty}
             </div>
             <button
-              //   onClick={() => addToCart(meal._id)}
+              onClick={() => handleAddMeals(recipe)}
               className="flex items-center gap-2 cursor-pointer"
             >
               <ShoppingCart className="w-5 h-5 text-green-600 " />

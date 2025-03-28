@@ -1,3 +1,10 @@
+export interface IAddress {
+  street: string;
+  city: string;
+  district: string;
+  zipCode: string;
+}
+
 export interface IUser {
   id: string;
   _id: string;
@@ -12,12 +19,7 @@ export interface IUser {
   profileImg?: string;
   status?: 'in-progress' | 'blocked';
   phoneNumber?: string;
-  address?: {
-    street: string;
-    city: string;
-    district: string;
-    zipCode: string;
-  };
+  address?: IAddress;
   dietaryPreferences?: string[];
   cuisineSpecialties?: string[];
   user?: IUser;
