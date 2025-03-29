@@ -98,8 +98,8 @@
 
 import { Button } from '@/components/ui/button';
 import {
-  CartMeals,
   decrementOrderQuantity,
+  ICartMeals,
   incrementOrderQuantity,
   removeMeals,
   updatePortionSize,
@@ -110,7 +110,7 @@ import { IRecipe } from '@/types';
 import { Minus, Plus, Trash } from 'lucide-react';
 import Image from 'next/image';
 
-export default function CartMealsCard({ meal }: { meal: CartMeals }) {
+export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
   const dispatch = useAppDispatch();
 
   const handleIncrementQuantity = () => {

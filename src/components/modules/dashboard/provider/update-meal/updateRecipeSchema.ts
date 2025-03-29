@@ -19,7 +19,7 @@ export const updateRecipeSchema = z.object({
   ),
   totalTime: z.string().min(1, 'Recipe name must have a total time'),
   prepTime: z.string().min(1, 'Recipe name must have a prep time'),
-  difficulty: z.enum(['easy', 'medium', 'hard']),
+  difficulty: z.enum(['Easy', 'Medium', 'Hard']),
   ingredients: z
     .array(
       z.object({

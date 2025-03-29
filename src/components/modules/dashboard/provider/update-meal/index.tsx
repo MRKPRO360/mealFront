@@ -50,7 +50,7 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
       allergens: recipe.allergens.map((el) => ({ name: el })),
       totalTime: recipe.totalTime,
       prepTime: recipe.prepTime,
-      difficulty: recipe.difficulty as 'easy' | 'medium' | 'hard',
+      difficulty: recipe.difficulty as 'Easy' | 'Medium' | 'Hard',
       ingredients: recipe.ingredients,
       nutritionValues: {
         calories: recipe.nutritionValues.calories,
@@ -284,9 +284,9 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
                   <FormLabel>Difficulty</FormLabel>
                   <FormControl>
                     <select {...field} className="border rounded p-2 w-full">
-                      <option value="easy">Easy</option>
-                      <option value="medium">Medium</option>
-                      <option value="hard">Hard</option>
+                      <option value="Easy">Easy</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Hard">Hard</option>
                     </select>
                   </FormControl>
                   <FormMessage />

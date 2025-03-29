@@ -1,10 +1,14 @@
+export interface ICartAddress extends IAddress {
+  name: string;
+  email: string;
+}
+
 export interface IAddress {
   street: string;
   city: string;
   district: string;
   zipCode: string;
 }
-
 export interface IUser {
   id: string;
   _id: string;

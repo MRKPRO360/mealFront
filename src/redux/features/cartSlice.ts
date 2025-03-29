@@ -2,21 +2,25 @@ import { IRecipe } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-export interface CartMeals extends IRecipe {
+export interface ICartMeals extends IRecipe {
   orderQuantity: number;
-  selectedSize: keyof CartMeals['portionSizes'];
+  selectedSize: keyof ICartMeals['portionSizes'];
 }
 
 interface IInitialState {
-  meals: CartMeals[];
+  meals: ICartMeals[];
   city: string;
   shippingAddress: string;
+  name: string;
+  email: string;
 }
 
 const initialState: IInitialState = {
   meals: [],
   city: '',
   shippingAddress: '',
+  name: '',
+  email: '',
 };
 
 const cartSlice = createSlice({
@@ -70,7 +74,7 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<{
         id: string;
-        size: keyof CartMeals['portionSizes'];
+        size: keyof ICartMeals['portionSizes'];
       }>
     ) => {
       const meal = state.meals.find((meal) => meal._id === action.payload.id);
@@ -79,11 +83,11 @@ const cartSlice = createSlice({
         meal.orderQuantity = 1; // Reset quantity when portion size changes
       }
     },
-    updateCity: (state, { payload }) => {
-      state.city = payload;
-    },
-    updateShippingAddress: (state, { payload }) => {
-      state.shippingAddress = payload;
+    updateAddress: (state, { payload }) => {
+      state.city = payload.city;
+      state.shippingAddress = payload.street;
+      state.name = payload.name;
+      state.email = payload.email;
     },
     clearCart: (state) => {
       state.meals = [];
@@ -95,18 +99,18 @@ const cartSlice = createSlice({
 
 export const selectCartMeals = (state: RootState) => state.cart.meals;
 
+// PAYMENT
 export const orderSelector = (state: RootState) => {
   return {
     meals: state.cart.meals.map((meal) => ({
       meal: meal._id,
       selectedSize: meal.selectedSize,
       quantity: meal.orderQuantity,
-      shippingAddress: `${state.cart.shippingAddress}- ${state.cart.city}`,
     })),
+    shippingAddress: `${state.cart.shippingAddress}- ${state.cart.city}`,
   };
 };
 
-// PAYMENT
 export const subTotalSelector = (state: RootState) => {
   return state.cart.meals.reduce((acc, meal) => {
     return (
@@ -140,14 +144,20 @@ export const shippingAddressSelector = (state: RootState) => {
   return state.cart.shippingAddress;
 };
 
+export const userNameAndEmailSelector = (state: RootState) => {
+  return {
+    name: state.cart.name,
+    email: state.cart.email,
+  };
+};
+
 export const {
   addMeals,
   removeMeals,
   incrementOrderQuantity,
   decrementOrderQuantity,
   updatePortionSize,
-  updateCity,
-  updateShippingAddress,
+  updateAddress,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
