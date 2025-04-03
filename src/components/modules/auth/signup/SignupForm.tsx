@@ -82,14 +82,16 @@ function SignupForm() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
   const form = useForm({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signupSchema(selectedRole)),
   });
 
   const router = useRouter();
 
   const {
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = form;
+
+  console.log(errors);
 
   const password = form.watch('password');
   const confirmPassword = form.watch('confirmPassword');

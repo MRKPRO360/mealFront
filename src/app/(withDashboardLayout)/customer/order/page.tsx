@@ -3,11 +3,11 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-import { BsPerson } from 'react-icons/bs';
-import { MdOutlineEmail } from 'react-icons/md';
+import { Info, User } from 'lucide-react';
+import { MdEmail } from 'react-icons/md';
 import { useAppSelector } from '@/redux/hooks';
 import { userNameAndEmailSelector } from '@/redux/features/cartSlice';
-import OrderForm from '@/components/modules/dashboard/customer/order';
+import OrderForm from '@/components/modules/dashboard/customer/order/createOrder';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK as string);
 
@@ -20,12 +20,12 @@ const OrderId = () => {
       <div className="w-3/4 mx-auto">
         <div className="space-y-5">
           <h2 className="text-lg font-semibold sm:text-xl">User Information</h2>
-          <div className="flex items-center gap-1 outline-none">
-            <BsPerson className="text-xl text-secondary/60" />
+          <div className="flex items-center gap-1 border-b border-dashed">
+            <User />
             <span className="w-full">{user?.name}</span>
           </div>
-          <div className="flex items-center gap-1 outline-none">
-            <MdOutlineEmail className="text-xl text-secondary/60" />
+          <div className="flex items-center gap-1 border-b border-dashed">
+            <MdEmail />
             <span className="w-full">{user?.email}</span>
           </div>
         </div>
@@ -33,6 +33,12 @@ const OrderId = () => {
           <Elements stripe={stripePromise}>
             <OrderForm />
           </Elements>
+        </div>
+        <div className="flex gap-1">
+          <Info className="text-red-500" />
+          <span className="text-gray-500">
+            Once you&apos;ve paid you can&apos;t revert it back :(
+          </span>
         </div>
       </div>
     </div>

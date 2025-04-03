@@ -122,8 +122,8 @@ export const subTotalSelector = (state: RootState) => {
 
 export const shippingCostSelector = (state: RootState) => {
   if (state.cart.meals.length <= 0 || !state.cart.city) return 0;
-  else if (state.cart.city === 'dhaka') return 50;
-  else if (state.cart.city !== 'dhaka') return 150;
+  else if (state.cart.city === 'dhaka') return 5;
+  else if (state.cart.city !== 'dhaka') return 10;
   else return 0;
 };
 
@@ -154,6 +154,7 @@ export const userNameAndEmailSelector = (state: RootState) => {
 export const {
   addMeals,
   removeMeals,
+  clearCart,
   incrementOrderQuantity,
   decrementOrderQuantity,
   updatePortionSize,

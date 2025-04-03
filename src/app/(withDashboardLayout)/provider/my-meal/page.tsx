@@ -1,6 +1,5 @@
 import MyMeal from '@/components/modules/dashboard/provider';
 import { getAllMyRecipes } from '@/services/RecipeService';
-import React from 'react';
 
 async function MyMealPage({
   searchParams,

@@ -36,19 +36,6 @@ export default function Address() {
   const [address, setAddress] = useState<ICartAddress | null>(null);
   const [useLoggedAddress, setUseLoggedAddress] = useState<boolean>(false);
 
-  useEffect(() => {
-    const myAddress = async () => {
-      const { data } = await getMe();
-
-      setAddress({
-        ...data?.address,
-        name: data?.name?.firstName,
-        email: data?.email,
-      });
-    };
-    myAddress();
-  }, []);
-
   const dispatch = useAppDispatch();
 
   const form = useForm({
@@ -89,6 +76,30 @@ export default function Address() {
       });
     }
   };
+
+  useEffect(() => {
+    const myAddress = async () => {
+      const { data } = await getMe();
+
+      const userAddress = {
+        ...data?.address,
+        name: data?.name?.firstName,
+        email: data?.email,
+      };
+
+      setAddress(userAddress);
+
+      if (!data?.address) return setUseLoggedAddress(false);
+      setUseLoggedAddress(true); // ✅ Ensure "Use Logged Address" is selected
+
+      // ✅ Reset form values with fetched data
+      form.reset({ address: userAddress });
+
+      // ✅ Auto-submit the form if using logged address
+      form.handleSubmit(onSubmit)();
+    };
+    myAddress();
+  }, [form]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     dispatch(
