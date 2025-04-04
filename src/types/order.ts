@@ -17,6 +17,7 @@ export interface IOrder {
   finalAmount: number;
   createdAt: string;
   updatedAt: string;
+  shippingAddress: string;
   paymentMethod: 'Cash' | 'Card' | 'Online';
   orderStatus: 'Pending' | 'Completed' | 'Cancelled';
   paymentIntentId?: string;

@@ -1,18 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { format } from 'date-fns';
-import { toast } from 'sonner';
-import { IMealPlan, IMeta, IOrder } from '@/types';
-import { FTModal } from '@/components/ui/core/FTModal';
+import { IMeta, IOrder } from '@/types';
 import Image from 'next/image';
-import {
-  deleteMyMealPlanForWeek,
-  removeMealFromWeek,
-  revalidateMealPlans,
-} from '@/services/PersonalMealPlanService';
-import { Edit, Trash } from 'lucide-react';
+
 import Link from 'next/link';
 import TablePagination from '@/components/ui/core/FTTable/TablePagination';
 

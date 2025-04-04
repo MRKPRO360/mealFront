@@ -44,10 +44,10 @@ export const FTModal = ({
           </DialogHeader>
           {description && <p className="text-gray-600">{description}</p>}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button size="sm" variant="outline" onClick={() => setOpen(false)}>
               {cancelText}
             </Button>
-            <Button variant="destructive" onClick={handleConfirm}>
+            <Button size="sm" variant="destructive" onClick={handleConfirm}>
               {confirmText}
             </Button>
           </DialogFooter>
