@@ -133,3 +133,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.not-last-child-border:not(:last-of-type) {
+  border-bottom: 2.5px dotted #e6e6e6; /* Tailwind's border-gray-200 */
+}

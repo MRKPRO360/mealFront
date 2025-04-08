@@ -1,3 +1,5 @@
+import { IReview } from './review';
+
 export interface IIngredient {
   name: string;
   quantity: string;
@@ -60,6 +62,17 @@ export interface IRecipe {
       servings: string;
     };
   };
+  userId: {
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+    customer: {
+      profileImg: string;
+    };
+  };
+  ratingsCount: string;
+  reviews: IReview[];
   inStock: boolean;
   quantity: string;
   rating: string;

@@ -6,3 +6,4 @@ export * from './dietaryPrference';
 export * from './mealPlan';
 export * from './meta';
 export * from './order';
+export * from './review';

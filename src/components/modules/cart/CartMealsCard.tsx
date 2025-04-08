@@ -128,10 +128,8 @@ export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
   };
 
   const handleSelectPortionSize = (size: keyof IRecipe['portionSizes']) => {
-    dispatch(updatePortionSize({ id: meal._id, size }));
-
     // Reset quantity to 1 when changing portion size
-    dispatch(decrementOrderQuantity(meal._id));
+    dispatch(updatePortionSize({ id: meal._id, size }));
   };
 
   const handleRemoveMeal = (id: string) => {

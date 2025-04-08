@@ -32,15 +32,54 @@ function RecipeHeader({ recipe }: { recipe: IRecipe }) {
         </div>
         {/* Description */}
         <div className="space-y-5 md:space-y-0 md:flex justify-between gap-5 mt-5">
-          <p className="  basis-[65%]">
-            Our chefs take the beloved sporting event staple, Buffalo wings,
-            from messy app to epic weeknight dinner this week. Chicken is coated
-            in a cheesy, Frank’s Red Hot–spiced panko mixture, roasted to juicy,
-            crunchy perfection, drizzled with creamy Buffalo-style sauce, and a
-            bit of honey. Oh, and did we mention there are buttery roasted
-            carrots and scallion mashed potatoes on the side?! Yeah, it’s safe
-            to say this dish is a slam dunk/home run/touchdown!
-          </p>
+          <div className="basis-[65%]">
+            <p>
+              Our chefs take the beloved sporting event staple, Buffalo wings,
+              from messy app to epic weeknight dinner this week. Chicken is
+              coated in a cheesy, Frank’s Red Hot–spiced panko mixture, roasted
+              to juicy, crunchy perfection, drizzled with creamy Buffalo-style
+              sauce, and a bit of honey. Oh, and did we mention there are
+              buttery roasted carrots and scallion mashed potatoes on the side?!
+              Yeah, it’s safe to say this dish is a slam dunk/home
+              run/touchdown!
+            </p>
+            {/* Tags */}
+            <div className="mt-4 flex gap-2 items-center">
+              <p className="font-semibold">Tags:</p>
+              {recipe.tags.map((tag) => (
+                <Badge variant="outline" key={tag}>
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+
+            {/* Allergens */}
+            <p className="mt-4  font-semibold">
+              Allergens:{' '}
+              <span className="font-normal">
+                {recipe.allergens.join(' • ')}
+              </span>
+            </p>
+
+            <p className="text-md my-2">
+              Produced in a facility that processes eggs, milk, fish, peanuts,
+              sesame, shellfish, soy, tree nuts, and wheat.
+            </p>
+            {/* Rating */}
+            <p className="text-md ">
+              <span className="font-semibold">Rating</span>: ⭐{recipe.rating}
+            </p>
+            {/* Add to cart */}
+            <Button
+              onClick={() => handleAddToCart(recipe)}
+              size="sm"
+              className="mt-3"
+            >
+              <ShoppingCart />
+              Add to Cart
+            </Button>
+          </div>
+
           {/* Time & Difficulty */}
           <Card className="flex-1">
             <CardContent className="text-center space-y-4 sm:px-0">
@@ -59,39 +98,6 @@ function RecipeHeader({ recipe }: { recipe: IRecipe }) {
             </CardContent>
           </Card>
         </div>
-        {/* Tags */}
-        <div className="mt-4 flex gap-2 items-center">
-          <p className="  font-semibold">Tags:</p>
-          {recipe.tags.map((tag) => (
-            <Badge variant="outline" key={tag}>
-              {tag}
-            </Badge>
-          ))}
-        </div>
-
-        {/* Allergens */}
-        <p className="mt-4  font-semibold">
-          Allergens:{' '}
-          <span className="font-normal">{recipe.allergens.join(' • ')}</span>
-        </p>
-
-        <p className="text-md my-2">
-          Produced in a facility that processes eggs, milk, fish, peanuts,
-          sesame, shellfish, soy, tree nuts, and wheat.
-        </p>
-        {/* Rating */}
-        <p className="text-md ">
-          <span className="font-semibold">Rating</span>: ⭐{recipe.rating}
-        </p>
-        {/* Add to cart */}
-        <Button
-          onClick={() => handleAddToCart(recipe)}
-          size="sm"
-          className="mt-3"
-        >
-          <ShoppingCart />
-          Add to Cart
-        </Button>
       </div>
     </div>
   );
