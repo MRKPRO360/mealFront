@@ -26,6 +26,7 @@ const getNavItemsByRole = (role: string) => {
               icon: SquareTerminal,
             },
             { title: 'My Orders', url: '/customer/my-orders' },
+            { title: 'All Providers', url: '/customer/all-providers' },
           ],
         },
         {

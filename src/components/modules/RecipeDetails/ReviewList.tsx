@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { CalendarDays, Edit, Star, Trash } from 'lucide-react';
+import { Edit, Star, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { IReview } from '@/types';
 import { useUser } from '@/context/UserContext';
@@ -14,7 +14,13 @@ import { deleteMyReview, updateMyReview } from '@/services/ReviewService';
 import { toast } from 'sonner';
 import { revalidateRecipes } from '@/services/RecipeService';
 
-export default function ReviewList({ reviews }: { reviews: IReview[] }) {
+export default function ReviewList({
+  reviews,
+  providerReview = false,
+}: {
+  reviews: IReview[];
+  providerReview?: boolean;
+}) {
   const [visibleCount, setVisibleCount] = useState(3);
 
   const { user } = useUser();
@@ -90,11 +96,11 @@ export default function ReviewList({ reviews }: { reviews: IReview[] }) {
 
   if (!reviews.length) return;
   return (
-    <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0 pb-10">
-      <div className="bg-white p-6">
+    <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0">
+      <div className={`bg-white ${!providerReview && 'p-6'}`}>
         <div className="space-y-4">
           {myReview && (
-            <div className="mb-8">
+            <div className={` ${!providerReview && 'mb-8'}`}>
               <h2 className="text-xl mb-4 font-semibold">My Review</h2>
               <Card className="not-last-child-border">
                 <CardContent className="sm:px-0 flex items-start gap-4 ">
@@ -160,7 +166,7 @@ export default function ReviewList({ reviews }: { reviews: IReview[] }) {
             </div>
           )}
 
-          {
+          {visibleReviews.length > 0 && (
             <div>
               <h2 className="text-xl mb-4 font-semibold">All Reviews</h2>
               <div className="space-y-4">
@@ -194,7 +200,7 @@ export default function ReviewList({ reviews }: { reviews: IReview[] }) {
                 ))}
               </div>
             </div>
-          }
+          )}
 
           {visibleReviews.length > visibleCount && (
             <div className="text-center">

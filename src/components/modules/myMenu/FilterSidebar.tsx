@@ -1,10 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
 
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-
-import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';

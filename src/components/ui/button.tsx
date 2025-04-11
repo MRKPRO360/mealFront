@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           'bg-green-700 rounded-[3px] text-primary-foreground shadow-xs hover:bg-green-700/90 cursor-pointer text-lg font-bold',
         destructive:
-          'bg-destructive rounded-[3px] text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40',
+          'bg-destructive rounded-[3px] text-white shadow-xs hover:bg-destructive/80 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40',
         outline:
           'border border-input rounded-[3px] bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
         secondary:
@@ -22,7 +22,7 @@ const buttonVariants = cva(
       },
       size: {
         default: 'h-9 p-5 has-[>svg]:px-3',
-        sm: 'h-8 gap-1.5 p-3 has-[>svg]:px-2.5',
+        sm: 'font-semibold text-base h-8 gap-1.5 p-3 has-[>svg]:px-2.5',
         lg: 'h-10 rounded-sm px-6 has-[>svg]:px-4',
         icon: 'size-9',
       },

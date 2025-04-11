@@ -1,3 +1,5 @@
+import { IReview } from './review';
+
 export interface ICartAddress extends IAddress {
   name: string;
   email: string;
@@ -12,6 +14,7 @@ export interface IAddress {
 export interface IUser {
   id: string;
   _id: string;
+  fullName: string;
   name: {
     firstName: string;
     lastName: string;
@@ -27,4 +30,9 @@ export interface IUser {
   dietaryPreferences?: string[];
   cuisineSpecialties?: string[];
   user?: IUser;
+  rating?: string;
+  ratingsCount: string;
+  reviews: IReview[];
+  createdAt: string;
+  updatedAt: string;
 }

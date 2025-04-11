@@ -10,11 +10,17 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-function Review({ reviews }: { reviews: IReview[] }) {
+function Review({
+  reviews,
+  targetType = 'recipe',
+}: {
+  reviews: IReview[];
+  targetType?: 'recipe' | 'provider';
+}) {
   const { user } = useUser();
 
   const [loading, setLoading] = useState(false);
-  const { recipeId } = useParams();
+  const { recipeId, providerId } = useParams();
 
   const myReview = reviews.find((review) => review.userId._id === user?.id);
 
@@ -24,9 +30,11 @@ function Review({ reviews }: { reviews: IReview[] }) {
     try {
       setLoading(true);
       const { data } = await getReviewElegibility({
-        targetId: recipeId as string,
-        targetType: 'recipe',
+        targetId: (recipeId as string) || (providerId as string),
+        targetType: targetType,
       });
+
+      console.log(data);
 
       if (!data.eligibleToReview) {
         setLoading(false);
@@ -38,13 +46,11 @@ function Review({ reviews }: { reviews: IReview[] }) {
       } else {
         try {
           const result = await createMyReview({
-            targetId: recipeId as string,
-            targetType: 'recipe',
+            targetId: (recipeId as string) || (providerId as string),
+            targetType: targetType,
             rating: Number(payload.rating),
             comment: payload.comment as string,
           });
-
-          console.log(result);
 
           if (result.success) {
             setLoading(false);
@@ -72,8 +78,8 @@ function Review({ reviews }: { reviews: IReview[] }) {
 
   if (myReview) return;
   return (
-    <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0 pb-10">
-      <div className="bg-white p-6">
+    <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0">
+      <div className={`bg-white ${targetType === 'recipe' && 'p-6'}`}>
         <ReviewBox loading={loading} onSubmit={onSubmit} />
       </div>
     </div>
