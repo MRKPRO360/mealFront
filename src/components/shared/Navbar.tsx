@@ -20,6 +20,25 @@ import FTContainer from '../ui/core/FTContainer';
 
 import NavSidebar from '../ui/core/NavSidebar';
 import { ShoppingCart } from 'lucide-react';
+
+const navItem = [
+  {
+    path: '/menu',
+    text: 'Our Menu',
+  },
+  {
+    path: '/plan',
+    text: 'Our Plans',
+  },
+  {
+    path: '/my-menu',
+    text: 'My Menu',
+  },
+  {
+    path: '/about',
+    text: 'About Us',
+  },
+];
 function Navbar() {
   const { user, setIsLoading } = useUser();
 
@@ -30,7 +49,7 @@ function Navbar() {
   return (
     <div className="shadow-lg">
       <FTContainer>
-        <div className="items-center flex md:justify-between py-1 md:py-0 px-4">
+        <div className="items-center flex md:justify-between px-4">
           <div className="md:hidden">
             <NavSidebar />
           </div>
@@ -54,41 +73,28 @@ function Navbar() {
             </Link>
             {/* list */}
 
-            <ul className="flex font-semibold text-lg">
-              <Link
-                href="/menu"
-                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
-              >
-                Our Menu
-              </Link>
-
-              <Link
-                href="/plan"
-                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
-              >
-                Our Plans
-              </Link>
-
-              <Link
-                href="/my-menu"
-                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
-              >
-                My Menu
-              </Link>
-              <Link
-                href="/about"
-                className=" hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3 transtion duration-300"
-              >
-                About Us
-              </Link>
+            <ul className="flex font-semibold text-base lg:text-lg">
+              {navItem.map((el, id) => (
+                <Link
+                  key={id}
+                  href={el.path}
+                  className=" hover:bg-[#d2fa97]/50 px-2  lg:px-5 py-4 transtion duration-300"
+                >
+                  {el.text}
+                </Link>
+              ))}
             </ul>
           </div>
 
           {/* profile */}
-          <ul className="flex items-center gap-x-5 font-semibold text-lg">
+          <ul
+            className={`flex items-center font-semibold text-base lg:text-lg ${
+              !user?.email && 'gap-x-5'
+            }`}
+          >
             <Link
               href="/cart"
-              className="border-r-[2px] border-r-gray-300 pr-3 self-stretch hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-3"
+              className="border-r-[2px] border-r-gray-300 pr-3 self-stretch hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-4"
             >
               <ShoppingCart
                 className="text-gray-800"
@@ -99,7 +105,7 @@ function Navbar() {
             {user?.email ? (
               <div className="flex items-center gap-2">
                 <Link
-                  className=" hover:bg-[#d2fa97]/50 px-5 py-3 transtion duration-300"
+                  className=" hover:bg-[#d2fa97]/50 px-5 py-4 transtion duration-300"
                   href={`/${user?.role}`}
                 >
                   Dashboard

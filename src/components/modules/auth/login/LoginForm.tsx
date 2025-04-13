@@ -73,97 +73,109 @@ function LoginForm() {
       style={{
         width: 'calc(100% - 20px)',
       }}
-      className="sm:max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
+      className="sm:max-w-[480px] mx-auto pt-10 mb-4"
     >
-      <h1 className="text-center text-xl md:text-2xl text-thin mb-8">Log in</h1>
-      <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} value={field.value || ''} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} value={field.value || ''} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Checkbox */}
-          <div className="flex items-center justify-between">
+      <div className="border bg-white/80 px-2 py-8">
+        <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
+          Log in
+        </h1>
+        <Form {...form}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="signedIn"
+              name="email"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      className="w-5 h-5 data-[state=checked]:before:scale-125 data-[state=checked]:bg-green-700 data-[state=checked]:before:bg-white"
-                    />
+                    <Input type="email" {...field} value={field.value || ''} />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Keep me signed in</FormLabel>
-                  </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />
-            <Link className="text-green-800 underline" href="/forgotPassword">
-              Forgot Password
-            </Link>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Checkbox */}
+            <div className="flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="signedIn"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="w-5 h-5 data-[state=checked]:before:scale-125 data-[state=checked]:bg-green-700 data-[state=checked]:before:bg-white"
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Keep me signed in</FormLabel>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <Link className="text-green-800 underline" href="/forgotPassword">
+                Forgot Password
+              </Link>
+            </div>
+
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+              className="mt-3 w-full"
+            >
+              {isSubmitting ? 'Logging....' : 'Login'}
+            </Button>
+          </form>
+        </Form>
+
+        <div className="flex items-center gap-4 mt-6">
+          <Separator className="flex-1" />
+          <span className="text-gray-500 text-sm">OR</span>
+          <Separator className="flex-1" />
+        </div>
+
+        {/* Social login */}
+        <div className="mt-3 space-y-3">
+          <div onClick={() => handleSocialLogin('google')}>
+            <ButtonWithIcon
+              icon={<IoLogoGoogle className="text-xl" />}
+              text="Google"
+              variant="black"
+            />
           </div>
-
-          <Button type="submit" className="mt-3 w-full">
-            {isSubmitting ? 'Logging....' : 'Login'}
-          </Button>
-        </form>
-      </Form>
-
-      <div className="flex items-center gap-4 mt-6">
-        <Separator className="flex-1" />
-        <span className="text-gray-500 text-sm">OR</span>
-        <Separator className="flex-1" />
-      </div>
-
-      {/* Social login */}
-      <div className="mt-3 space-y-3">
-        <div onClick={() => handleSocialLogin('google')}>
-          <ButtonWithIcon
-            icon={<IoLogoGoogle className="text-xl" />}
-            text="Google"
-            variant="black"
-          />
+          <div onClick={() => handleSocialLogin('github')}>
+            <ButtonWithIcon
+              icon={<IoLogoGithub className="text-xl" />}
+              text="Github"
+              variant="blue"
+            />
+          </div>
         </div>
-        <div onClick={() => handleSocialLogin('github')}>
-          <ButtonWithIcon
-            icon={<IoLogoGithub className="text-xl" />}
-            text="Github"
-            variant="blue"
-          />
+        <div className="text-center mt-4">
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="text-green-800 underline">
+            Signup
+          </Link>
         </div>
-      </div>
-      <div className="text-center mt-4">
-        Don&apos;t have an account?{' '}
-        <Link href="/signup" className="text-green-800 underline">
-          Signup
-        </Link>
       </div>
     </div>
   );

@@ -152,378 +152,390 @@ function SignupForm() {
       style={{
         width: 'calc(100% - 20px)',
       }}
-      className="sm:max-w-[480px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
+      className="sm:max-w-[480px] mx-auto pt-10 mb-8"
     >
-      <h1 className="text-center text-xl md:text-2xl text-thin mb-8">Signup</h1>
-      <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-          {/* Name */}
-          <div className="flex items-center justify-between gap-3">
-            <FormField
-              control={form.control}
-              name="name.firstName"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>First Name</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} value={field.value || ''} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name.lastName"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} value={field.value || ''} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} value={field.value || ''} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="phoneNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input type="text" {...field} value={field.value || ''} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} value={field.value || ''} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} value={field.value || ''} />
-                </FormControl>
-
-                {confirmPassword && password !== confirmPassword ? (
-                  <FormMessage>Password doesn&apos;t match!</FormMessage>
-                ) : (
-                  <FormMessage />
+      <div className="border bg-white/80 px-2 py-8">
+        <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
+          Signup
+        </h1>
+        <Form {...form}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            {/* Name */}
+            <div className="flex items-center justify-between gap-3">
+              <FormField
+                control={form.control}
+                name="name.firstName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} value={field.value || ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </FormItem>
-            )}
-          />
-
-          {/* ROLE */}
-
-          <div className="flex flex-col items-center justify-center bg-gradient-to-b from-green-100 to-white p-4">
-            {/* Title */}
-            <h2 className="text:lg md:text-xl font-semibold">
-              Please select your role
-            </h2>
-            <p className="text-gray-500 text-center max-w-md mt-2 text-sm">
-              Choose your role to proceed with the registration process.
-            </p>
-
-            {/* Role Selection */}
-            <div className="flex gap-3 mt-4">
-              {roles.map((role) => (
-                <Card
-                  key={role.id}
-                  onClick={() => setSelectedRole(role.id)}
-                  className={cn(
-                    'flex flex-col items-center justify-center p-2 border cursor-pointer rounded-xs shadow-xs transition-all',
-                    selectedRole === role.id
-                      ? 'border-green-700 bg-blue-50'
-                      : 'hover:bg-gray-100'
-                  )}
-                >
-                  <CardContent className="flex flex-col items-center space-y-1">
-                    {role.icon}
-                    <span className="text-sm">{role.label}</span>
-                  </CardContent>
-                </Card>
-              ))}
+              />
+              <FormField
+                control={form.control}
+                name="name.lastName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} value={field.value || ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-          </div>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} value={field.value || ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {selectedRole && selectedRole === 'provider' && (
-            <>
-              <FormField
-                control={form.control}
-                name="cuisineSpecialties"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cuisine Specialties</FormLabel>
-                    <FormControl>
-                      <MultipleSelector
-                        {...field}
-                        value={
-                          Array.isArray(field.value)
-                            ? field?.value?.map((val) => ({
-                                value: val,
-                                label: val,
-                              }))
-                            : []
-                        } // ✅ Convert strings to Option objects
-                        defaultOptions={OPTIONS}
-                        placeholder="Select cuisine specialties"
-                        emptyIndicator={
-                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                            no results found.
-                          </p>
-                        }
-                        onChange={
-                          (selectedOptions) =>
-                            field.onChange(
-                              selectedOptions.map((opt) => {
-                                return opt.value;
-                              })
-                            ) // ✅ Convert back to string[] for form state
-                        }
-                      />
-                    </FormControl>
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} value={field.value || ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+
+                  {confirmPassword && password !== confirmPassword ? (
+                    <FormMessage>Password doesn&apos;t match!</FormMessage>
+                  ) : (
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  )}
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="bio"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bio</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        rows={3}
-                        className="h-auto sm:h-auto"
-                        placeholder="Write a short description..."
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
+            {/* ROLE */}
 
-          <div className="flex items-center gap-4 mt-6">
-            <Separator className="flex-1" />
-            <span className="text-gray-500 text-sm">Personal Info</span>
-            <Separator className="flex-1" />
-          </div>
+            <div className="flex flex-col items-center justify-center bg-gradient-to-b from-green-100 to-white p-4">
+              {/* Title */}
+              <h2 className="text:lg md:text-xl font-semibold">
+                Please select your role
+              </h2>
+              <p className="text-gray-500 text-center max-w-md mt-2 text-sm">
+                Choose your role to proceed with the registration process.
+              </p>
 
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-base cursor-pointer ">
-                <div className="flex items-center gap-2">
-                  <FiInfo size={20} className="text-green-800" />
-                  <span className="text-base">
-                    Like to share your information with us?
-                  </span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="space-y-3">
-                {imagePreview.length > 0 ? (
-                  <ImagePreviewer
-                    setImageFiles={setImageFiles}
-                    imagePreview={imagePreview}
-                    setImagePreview={setImagePreview}
-                    className="mt-8"
-                  />
-                ) : (
-                  <div className="mt-8">
-                    <FTImageUploader
+              {/* Role Selection */}
+              <div className="flex gap-3 mt-4">
+                {roles.map((role) => (
+                  <Card
+                    key={role.id}
+                    onClick={() => setSelectedRole(role.id)}
+                    className={cn(
+                      'flex flex-col items-center justify-center p-2 border cursor-pointer rounded-xs shadow-xs transition-all',
+                      selectedRole === role.id
+                        ? 'border-green-700 bg-blue-50'
+                        : 'hover:bg-gray-100'
+                    )}
+                  >
+                    <CardContent className="flex flex-col items-center space-y-1">
+                      {role.icon}
+                      <span className="text-sm">{role.label}</span>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {selectedRole && selectedRole === 'provider' && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="cuisineSpecialties"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cuisine Specialties</FormLabel>
+                      <FormControl>
+                        <MultipleSelector
+                          {...field}
+                          value={
+                            Array.isArray(field.value)
+                              ? field?.value?.map((val) => ({
+                                  value: val,
+                                  label: val,
+                                }))
+                              : []
+                          } // ✅ Convert strings to Option objects
+                          defaultOptions={OPTIONS}
+                          placeholder="Select cuisine specialties"
+                          emptyIndicator={
+                            <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                              no results found.
+                            </p>
+                          }
+                          onChange={
+                            (selectedOptions) =>
+                              field.onChange(
+                                selectedOptions.map((opt) => {
+                                  return opt.value;
+                                })
+                              ) // ✅ Convert back to string[] for form state
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Bio</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          rows={3}
+                          className="h-auto sm:h-auto"
+                          placeholder="Write a short description..."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+
+            <div className="flex items-center gap-4 mt-6">
+              <Separator className="flex-1" />
+              <span className="text-gray-500 text-sm">Personal Info</span>
+              <Separator className="flex-1" />
+            </div>
+
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-base cursor-pointer ">
+                  <div className="flex items-center gap-2">
+                    <FiInfo size={20} className="text-green-800" />
+                    <span className="text-base">
+                      Like to share your information with us?
+                    </span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="space-y-3">
+                  {imagePreview.length > 0 ? (
+                    <ImagePreviewer
                       setImageFiles={setImageFiles}
+                      imagePreview={imagePreview}
                       setImagePreview={setImagePreview}
-                      label="Upload Profile Picture"
+                      className="mt-8"
+                    />
+                  ) : (
+                    <div className="mt-8">
+                      <FTImageUploader
+                        setImageFiles={setImageFiles}
+                        setImagePreview={setImagePreview}
+                        label="Upload Profile Picture"
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between gap-3">
+                    <FormField
+                      control={form.control}
+                      name="address.street"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Street</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Dhanikunda, Parshuram"
+                              type="text"
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="address.district"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>District</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="min-w-[220px] cursor-pointer">
+                                <SelectValue placeholder="Select a district" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {districts.map((el, id) => (
+                                <SelectItem
+                                  className="cursor-pointer"
+                                  key={id}
+                                  value={el}
+                                >
+                                  {`${el.slice(0, 1).toUpperCase()}${el.slice(
+                                    1
+                                  )}`}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                )}
 
-                <div className="flex items-center justify-between gap-3">
-                  <FormField
-                    control={form.control}
-                    name="address.street"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Street</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Dhanikunda, Parshuram"
-                            type="text"
-                            {...field}
-                            value={field.value || ''}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="address.district"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>District</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                  <div className="flex items-center justify-between gap-3">
+                    <FormField
+                      control={form.control}
+                      name="address.zipCode"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Zip Code</FormLabel>
                           <FormControl>
-                            <SelectTrigger className="min-w-[220px] cursor-pointer">
-                              <SelectValue placeholder="Select a district" />
-                            </SelectTrigger>
+                            <Input
+                              placeholder="exmp: 3940"
+                              type="text"
+                              {...field}
+                              value={field.value || ''}
+                            />
                           </FormControl>
-                          <SelectContent>
-                            {districts.map((el, id) => (
-                              <SelectItem
-                                className="cursor-pointer"
-                                key={id}
-                                value={el}
-                              >
-                                {`${el.slice(0, 1).toUpperCase()}${el.slice(
-                                  1
-                                )}`}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="address.city"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>City</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="min-w-[220px] cursor-pointer">
+                                <SelectValue placeholder="Select a city" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {cities.map((el, id) => (
+                                <SelectItem
+                                  className="cursor-pointer"
+                                  key={id}
+                                  value={el}
+                                >
+                                  {`${el.slice(0, 1).toUpperCase()}${el.slice(
+                                    1
+                                  )}`}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-                <div className="flex items-center justify-between gap-3">
-                  <FormField
-                    control={form.control}
-                    name="address.zipCode"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Zip Code</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="exmp: 3940"
-                            type="text"
-                            {...field}
-                            value={field.value || ''}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="address.city"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>City</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="min-w-[220px] cursor-pointer">
-                              <SelectValue placeholder="Select a city" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {cities.map((el, id) => (
-                              <SelectItem
-                                className="cursor-pointer"
-                                key={id}
-                                value={el}
-                              >
-                                {`${el.slice(0, 1).toUpperCase()}${el.slice(
-                                  1
-                                )}`}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+              className={`mt-3 w-full ${isSubmitting ? 'cursor-pointer' : ''}`}
+            >
+              {isSubmitting ? 'Signing up....' : 'Signup'}
+            </Button>
+          </form>
+        </Form>
 
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+        <div className="flex items-center gap-4 mt-6">
+          <Separator className="flex-1" />
+          <span className="text-gray-500 text-sm">OR</span>
+          <Separator className="flex-1" />
+        </div>
 
-          <Button
-            disabled={isSubmitting}
-            type="submit"
-            className={`mt-3 w-full ${isSubmitting ? 'cursor-pointer' : ''}`}
-          >
-            {isSubmitting ? 'Signing up....' : 'Signup'}
-          </Button>
-        </form>
-      </Form>
-
-      <div className="flex items-center gap-4 mt-6">
-        <Separator className="flex-1" />
-        <span className="text-gray-500 text-sm">OR</span>
-        <Separator className="flex-1" />
-      </div>
-
-      {/* Social login */}
-      <div className="mt-3 space-y-3">
-        <ButtonWithIcon
-          icon={<IoLogoGoogle className="text-xl" />}
-          text="Google"
-          variant="black"
-        />
-        <ButtonWithIcon
-          icon={<IoLogoGithub className="text-xl" />}
-          text="Github"
-          variant="blue"
-        />
-      </div>
-      <div className="text-center mt-4">
-        Already have an account?{' '}
-        <Link href="/login" className="text-green-800 underline">
-          Login
-        </Link>
+        {/* Social login */}
+        <div className="mt-3 space-y-3">
+          <ButtonWithIcon
+            icon={<IoLogoGoogle className="text-xl" />}
+            text="Google"
+            variant="black"
+          />
+          <ButtonWithIcon
+            icon={<IoLogoGithub className="text-xl" />}
+            text="Github"
+            variant="blue"
+          />
+        </div>
+        <div className="text-center mt-4">
+          Already have an account?{' '}
+          <Link href="/login" className="text-green-800 underline">
+            Login
+          </Link>
+        </div>
       </div>
     </div>
   );

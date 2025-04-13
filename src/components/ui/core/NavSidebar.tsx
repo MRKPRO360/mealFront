@@ -36,11 +36,10 @@ function NavSidebar() {
                   width: 'calc(100% - 24px)',
                   margin: ' 0 12px',
                 }}
-                variant="outline"
                 className="rounded-xs border-[2px] border-green-700 text-base cursor-pointer"
               >
                 <ShoppingCart
-                  className="text-gray-800"
+                  className="text-white"
                   style={{ width: 23, height: 23 }}
                   strokeWidth={2.4}
                 />

@@ -92,6 +92,26 @@ export const loginUser = async (userData: FieldValues) => {
   }
 };
 
+export const changeUserPassword = async (userData: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/auth/change-password`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: (await cookies()).get('accessToken')!.value,
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+
+    return await res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get('accessToken')?.value;
   let decodedData = null;
