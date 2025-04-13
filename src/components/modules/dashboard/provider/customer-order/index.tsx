@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 
 import { IOrder } from '@/types';
 import { format } from 'date-fns';
-import { ClipboardList, Coins, Edit, MapPin, Ruler } from 'lucide-react';
+import { ClipboardList, Coins, Edit, Frown, MapPin, Ruler } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,7 +12,10 @@ function CustomerOrders({ orders }: { orders: IOrder[] }) {
   return (
     <div className="container mx-auto px-3 min-h-screen mt-14 mb-4 space-y-6">
       {orders.length === 0 ? (
-        <p className="text-center text-gray-500">No meal orders available.</p>
+        <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+          <Frown />
+          <span>No meal orders available.</span>
+        </div>
       ) : (
         orders.map((order) => (
           <div key={order._id}>

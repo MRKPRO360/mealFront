@@ -29,6 +29,7 @@ export interface IUser {
   address?: IAddress;
   dietaryPreferences?: string[];
   cuisineSpecialties?: string[];
+  bio: string;
   user?: IUser;
   rating?: string;
   ratingsCount: string;

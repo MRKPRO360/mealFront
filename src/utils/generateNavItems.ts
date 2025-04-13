@@ -88,11 +88,7 @@ const getNavItemsByRole = (role: string) => {
               url: '/provider/create-meal',
               icon: SquareTerminal,
             },
-            {
-              title: 'Customize My Meal',
-              url: '/provider/customize-meal',
-              icon: SquareTerminal,
-            },
+
             { title: 'Customer Orders', url: '/provider/customer-orders' },
           ],
         },

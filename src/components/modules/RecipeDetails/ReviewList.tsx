@@ -96,7 +96,11 @@ export default function ReviewList({
 
   if (!reviews.length) return;
   return (
-    <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0">
+    <div
+      className={`max-w-6xl rounded-xs mx-auto ${
+        !providerReview ? 'mt-12 pb-10' : 'mt-1'
+      } lg:mt-0`}
+    >
       <div className={`bg-white ${!providerReview && 'p-6'}`}>
         <div className="space-y-4">
           {myReview && (

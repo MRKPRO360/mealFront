@@ -55,6 +55,7 @@ import MultipleSelector, {
   Option,
 } from '@/components/ui/core/MulitpleSelector';
 import { cuisineSpecialties } from '@/constants/cuisineSpecialties';
+import { Textarea } from '@/components/ui/textarea';
 
 const roles = [
   {
@@ -280,44 +281,65 @@ function SignupForm() {
           </div>
 
           {selectedRole && selectedRole === 'provider' && (
-            <FormField
-              control={form.control}
-              name="cuisineSpecialties"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cuisine Specialties</FormLabel>
-                  <FormControl>
-                    <MultipleSelector
-                      {...field}
-                      value={
-                        Array.isArray(field.value)
-                          ? field?.value?.map((val) => ({
-                              value: val,
-                              label: val,
-                            }))
-                          : []
-                      } // ✅ Convert strings to Option objects
-                      defaultOptions={OPTIONS}
-                      placeholder="Select cuisine specialties"
-                      emptyIndicator={
-                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                          no results found.
-                        </p>
-                      }
-                      onChange={
-                        (selectedOptions) =>
-                          field.onChange(
-                            selectedOptions.map((opt) => {
-                              return opt.value;
-                            })
-                          ) // ✅ Convert back to string[] for form state
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <>
+              <FormField
+                control={form.control}
+                name="cuisineSpecialties"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cuisine Specialties</FormLabel>
+                    <FormControl>
+                      <MultipleSelector
+                        {...field}
+                        value={
+                          Array.isArray(field.value)
+                            ? field?.value?.map((val) => ({
+                                value: val,
+                                label: val,
+                              }))
+                            : []
+                        } // ✅ Convert strings to Option objects
+                        defaultOptions={OPTIONS}
+                        placeholder="Select cuisine specialties"
+                        emptyIndicator={
+                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                            no results found.
+                          </p>
+                        }
+                        onChange={
+                          (selectedOptions) =>
+                            field.onChange(
+                              selectedOptions.map((opt) => {
+                                return opt.value;
+                              })
+                            ) // ✅ Convert back to string[] for form state
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="bio"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bio</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={3}
+                        className="h-auto sm:h-auto"
+                        placeholder="Write a short description..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
           )}
 
           <div className="flex items-center gap-4 mt-6">

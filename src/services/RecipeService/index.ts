@@ -12,8 +12,11 @@ export const getAllRecipes = async (
 
   if (query?.tags) {
     params.append('tags', query?.tags?.toString());
-  }
-  if (query?.searchTerm && query?.searchTerm?.length > 0) {
+  } else if (query?.minRating) {
+    params.append('rating', query?.minRating?.toString());
+  } else if (query?.inStock) {
+    params.append('inStock', query?.inStock?.toString());
+  } else if (query?.searchTerm && query?.searchTerm?.length > 0) {
     params.append('searchTerm', query?.searchTerm?.toString());
   }
   try {

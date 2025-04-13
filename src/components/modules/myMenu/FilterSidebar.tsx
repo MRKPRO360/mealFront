@@ -5,30 +5,9 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Star } from 'lucide-react';
 
 export default function FilterSidebar({ tags }: { tags: string[] }) {
-  //   const [isLoading, setIsLoading] = useState(false);
-
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       //   setIsLoading(true);
-  //       setIsLoading(false);
-  //       try {
-  //         // const [{ data: categoriesData }, { data: brandsData }] =
-  //         //   await Promise.all([getAllCategories(), getAllBrands()]);
-  //         // setCategories(categoriesData);
-  //         // setBrands(brandsData);
-  //       } catch (error: any) {
-  //         console.error(error);
-  //         toast.error('Failed to fetch filters');
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     };
-
-  //     fetchData();
-  //   }, []);
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -62,7 +41,33 @@ export default function FilterSidebar({ tags }: { tags: string[] }) {
         )}
       </div>
 
-      {/* Product Types */}
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-4">Availability</h2>
+        <RadioGroup className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem
+              onClick={() => handleSearchQuery('inStock', 'true')}
+              value="true"
+              id="inStock-true"
+            />
+            <Label htmlFor="inStock-true" className="text-gray-500 font-light">
+              In Stock
+            </Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem
+              onClick={() => handleSearchQuery('inStock', 'false')}
+              value="false"
+              id="inStock-false"
+            />
+            <Label htmlFor="inStock-false" className="text-gray-500 font-light">
+              Out of Stock
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {/* Dietarry Preferences */}
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-4">Dietary Preference</h2>
         {/* {!isLoading && ( */}
@@ -81,6 +86,32 @@ export default function FilterSidebar({ tags }: { tags: string[] }) {
           ))}
         </RadioGroup>
         {/* )} */}
+      </div>
+
+      {/* Rating */}
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-4">Rating</h2>
+        <RadioGroup className="space-y-3">
+          {[5, 4, 3, 2, 1].map((rating) => (
+            <div key={rating} className="flex items-center space-x-2">
+              <RadioGroupItem
+                onClick={() => handleSearchQuery('minRating', rating)}
+                value={`${rating}`}
+                id={`rating-${rating}`}
+              />
+              <Label htmlFor={`rating-${rating}`} className="flex items-center">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star
+                    size={18}
+                    key={i}
+                    fill={i < rating ? 'orange' : 'lightgray'}
+                    stroke={i < rating ? 'orange' : 'lightgray'}
+                  />
+                ))}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
       </div>
     </div>
   );

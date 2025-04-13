@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Frown } from 'lucide-react';
 
 interface FTTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -71,8 +72,14 @@ export function FTTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 border text-center"
+              >
+                <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+                  <Frown />
+                  <span>No results.</span>
+                </div>
               </TableCell>
             </TableRow>
           )}

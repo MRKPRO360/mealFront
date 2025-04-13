@@ -34,8 +34,6 @@ function Review({
         targetType: targetType,
       });
 
-      console.log(data);
-
       if (!data.eligibleToReview) {
         setLoading(false);
         return toast.error('You must purchase before reviewing!');

@@ -18,12 +18,10 @@ function MyMeal({ recipes, meta }: { recipes: IRecipe[]; meta: IMeta }) {
   const [selectedIds, setSelectedIds] = useState<string[] | []>([]);
 
   const handleView = (recipe: IRecipe) => {
-    console.log('Viewing product:', recipe);
     router.push(`/recipe/${recipe._id}`);
   };
 
   const handleDelete = async (recipeId: string) => {
-    console.log('Deleting recipe with ID:', recipeId);
     try {
       const res = await deleteMyRecipe(recipeId);
 
@@ -118,11 +116,6 @@ function MyMeal({ recipes, meta }: { recipes: IRecipe[]; meta: IMeta }) {
         </span>
       ),
     },
-    //    {
-    //      accessorKey: 'price',
-    //      header: 'Price',
-    //      cell: ({ row }) => <span>$ {row.original.price.toFixed(2)}</span>,
-    //    },
 
     {
       accessorKey: 'action',
@@ -165,7 +158,7 @@ function MyMeal({ recipes, meta }: { recipes: IRecipe[]; meta: IMeta }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between p-2">
         <h1 className="text-xl font-bold">My Recipes</h1>
         <div className="flex items-center gap-2">
           <Button

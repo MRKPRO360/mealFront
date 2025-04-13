@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { TruncatedText } from '@/components/ui/core/FTTruncateText';
 import { addMeals } from '@/redux/features/cartSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { IRecipe } from '@/types';
@@ -40,11 +41,13 @@ function MyPlanCard({ recipe }: { recipe: IRecipe }) {
         </CardHeader>
       </Link>
       <CardContent className="pb-8">
-        <CardTitle className="mb-2 font-semibold">
-          {recipe.recipeName}
-        </CardTitle>
+        <CardTitle className="font-semibold">{recipe.recipeName}</CardTitle>
         <CardDescription>
-          <p className="text-gray-600">{recipe.description}</p>
+          <TruncatedText
+            text={recipe.description}
+            maxLength={40}
+            className="text-gray-600 my-3"
+          />
 
           {/* Icons for Time & Difficulty */}
           <div className="text-sm text-gray-500 flex justify-between items-center mt-2">

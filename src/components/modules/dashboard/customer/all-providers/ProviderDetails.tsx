@@ -137,12 +137,7 @@ export default function ProviderDetails({ provider }: { provider: IUser }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600">
-                James Arthur is a professional chef specializing in Chinese and
-                Mexican cuisines. With years of experience in the culinary
-                industry, James brings authentic flavors and creative dishes to
-                your table.
-              </p>
+              <p className="text-gray-600">{provider?.bio}</p>
             </CardContent>
           </Card>
 

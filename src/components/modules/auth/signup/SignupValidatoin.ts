@@ -16,6 +16,14 @@ export const signupSchema = (selectedRole: string | null) =>
         .string()
         .min(6, 'Password must be at least 6 characters long'),
       confirmPassword: z.string(),
+      bio: z
+        .string()
+        .refine(
+          (value) => selectedRole !== 'provider' || (value && value.length > 0),
+          {
+            message: 'Bio is required for providers',
+          }
+        ),
       cuisineSpecialties: z
         .array(z.enum(cuisineSpecialties))
         .optional()

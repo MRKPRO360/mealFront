@@ -4,8 +4,6 @@ import { getMe } from '@/services/AuthService';
 async function UpdateProfile() {
   const { data } = await getMe();
 
-  console.log(data);
-
   return (
     <div>
       <UpdateProfileForm userData={data} />

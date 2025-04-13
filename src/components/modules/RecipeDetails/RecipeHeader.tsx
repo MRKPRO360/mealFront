@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { addMeals } from '@/redux/features/cartSlice';
 import { useAppDispatch } from '@/redux/hooks';
-import { IRecipe } from '@/types';
+import { IRecipe, IUser } from '@/types';
 import { ShoppingCart } from 'lucide-react';
+import ProviderInfo from './ProviderInfo';
 
 function RecipeHeader({ recipe }: { recipe: IRecipe }) {
   const dispatch = useAppDispatch();
@@ -69,35 +70,41 @@ function RecipeHeader({ recipe }: { recipe: IRecipe }) {
             <p className="text-md ">
               <span className="font-semibold">Rating</span>: ⭐{recipe.rating}
             </p>
-            {/* Add to cart */}
-            <Button
-              onClick={() => handleAddToCart(recipe)}
-              size="sm"
-              className="mt-3"
-            >
-              <ShoppingCart />
-              Add to Cart
-            </Button>
           </div>
 
-          {/* Time & Difficulty */}
-          <Card className="flex-1">
-            <CardContent className="text-center space-y-4 sm:px-0">
-              <div className="flex items-center justify-between">
-                <p className="font-bold">Total Time</p>
-                <p>{recipe.totalTime}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="font-bold">Prep Time</p>
-                <p>{recipe.prepTime}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="font-bold">Difficulty</p>
-                <p>{recipe.difficulty}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="">
+            {/* Time & Difficulty */}
+            <Card className="flex-1">
+              <CardContent className="text-center space-y-4 sm:px-0">
+                <div className="flex items-center justify-between">
+                  <p className="font-bold">Total Time</p>
+                  <p>{recipe.totalTime}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="font-bold">Prep Time</p>
+                  <p>{recipe.prepTime}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="font-bold">Difficulty</p>
+                  <p>{recipe.difficulty}</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Provider Info */}
+            <ProviderInfo provider={recipe?.providerId as unknown as IUser} />
+          </div>
         </div>
+
+        {/* Add to cart */}
+        <Button
+          className="mt-2"
+          onClick={() => handleAddToCart(recipe)}
+          size="sm"
+        >
+          <ShoppingCart />
+          Add to Cart
+        </Button>
       </div>
     </div>
   );
