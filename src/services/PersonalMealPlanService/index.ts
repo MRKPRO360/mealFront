@@ -58,7 +58,10 @@ export const removeMealFromWeek = async (weekId: string, mealId: string) => {
   }
 };
 
-export const updateWeeklyPlan = async (id: string, data: FieldValues) => {
+export const updateWeeklyPersonalPlan = async (
+  id: string,
+  data: FieldValues
+) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/personal-meal-plans/${id}/weekly-plan`,

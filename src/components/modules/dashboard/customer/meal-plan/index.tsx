@@ -9,32 +9,9 @@ import {
   getMyRecentPlans,
 } from '@/services/PersonalMealPlanService';
 import PlanCardSkeleton from '../../../../ui/core/PlanCardSkeleton';
+import { getMealPlanForWeek, getRecentPlans } from '@/services/MealPlanService';
 
 // Function to format weeks dynamically
-// const formatWeekTabs = (mealPlans: IMealPlan[]) => {
-//   return mealPlans
-//     .map((plan) => {
-//       const date = new Date(plan.week);
-//       const month = date.toLocaleString('en-US', { month: 'short' }); // 'Mar', 'Apr'
-//       const year = date.getFullYear();
-//       const startDate = date.getDate();
-
-//       // Stop generating if the start date is greater than 28
-//       if (startDate > 28) return null;
-
-//       // Get last day of the month
-//       const lastDayOfMonth = new Date(year, date.getMonth() + 1, 0).getDate();
-
-//       // Ensure end date does not exceed the month's last day
-//       const endDate = Math.min(startDate + 7, lastDayOfMonth);
-
-//       return {
-//         label: { month, duration: `${startDate}-${endDate}` },
-//         value: plan.week,
-//       };
-//     })
-//     .filter(Boolean); // Remove null values
-// };
 
 const formatWeekTabs = (mealPlans: IMealPlan[]) => {
   const allowedDates = [1, 8, 15, 22];
@@ -70,7 +47,7 @@ interface IWeekTabs {
   value: string;
 }
 
-const MyMealPlan = () => {
+const MyMealPlan = ({ isCustomer = true }: { isCustomer: boolean }) => {
   const [weekTabs, setWeekTabs] = useState<IWeekTabs[]>([]);
 
   const [selectedWeek, setSelectedWeek] = useState(''); // Default to current week
@@ -81,7 +58,10 @@ const MyMealPlan = () => {
     const fetchRecentPlans = async () => {
       setIsLoading(true);
       try {
-        const data = await getMyRecentPlans();
+        const data = isCustomer
+          ? await getMyRecentPlans()
+          : await getRecentPlans();
+
         if (data?.data) {
           const formattedTabs = formatWeekTabs(data.data);
           setWeekTabs(formattedTabs as IWeekTabs[]);
@@ -106,7 +86,9 @@ const MyMealPlan = () => {
     const fetchMealPlan = async () => {
       setIsLoading(true);
       try {
-        const data = await getMyMealPlanForWeek(selectedWeek);
+        const data = isCustomer
+          ? await getMyMealPlanForWeek(selectedWeek)
+          : await getMealPlanForWeek(selectedWeek);
         setMealPlan(data.data);
       } catch (error) {
         console.error('Error fetching meal plan :(', error);
@@ -116,7 +98,7 @@ const MyMealPlan = () => {
     };
 
     fetchMealPlan();
-  }, [selectedWeek]);
+  }, [selectedWeek, isCustomer]);
 
   const getShortMonthName = selectedWeek
     ? new Date(selectedWeek).toLocaleString('en-US', { month: 'short' })

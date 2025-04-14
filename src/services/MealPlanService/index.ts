@@ -45,7 +45,7 @@ export const removeMealFromWeek = async (weekId: string, mealId: string) => {
         headers: {
           Authorization: (await cookies()).get('accessToken')!.value,
         },
-        next: { tags: ['MYPLANS'] },
+        next: { tags: ['PLANS'] },
       }
     );
     return await res.json();

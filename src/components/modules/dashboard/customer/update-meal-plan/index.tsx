@@ -31,15 +31,18 @@ import MultipleSelector, {
 } from '@/components/ui/core/MulitpleSelector';
 
 import { IRecipe, IWeeklyPlan } from '@/types';
-import { updateWeeklyPlan } from '@/services/PersonalMealPlanService';
+import { updateWeeklyPersonalPlan } from '@/services/PersonalMealPlanService';
 import { useEffect, useState } from 'react';
+import { updateWeeklyPlan } from '@/services/MealPlanService';
 
 function UpdateMealPlanForm({
+  isCustomer = true,
   recipes,
   weeklyPlan,
 }: {
   recipes: IRecipe[];
   weeklyPlan: IWeeklyPlan;
+  isCustomer: boolean;
 }) {
   const OPTIONS: Option[] = recipes.map((recipe) => ({
     label: recipe.recipeName,
@@ -94,12 +97,13 @@ function UpdateMealPlanForm({
         toast.error('Please select at least one recipe!');
         return;
       }
-      const res = await updateWeeklyPlan(weeklyPlan._id, myMealPlanData);
-      console.log(res);
+      const res = isCustomer
+        ? await updateWeeklyPersonalPlan(weeklyPlan._id, myMealPlanData)
+        : await updateWeeklyPlan(weeklyPlan._id, myMealPlanData);
 
       if (res.success) {
         toast.success('Meal plan updated successfully!');
-        router.push('/customer/meal-plan');
+        router.push(`/${isCustomer ? 'customer' : 'admin'}/meal-plan`);
       } else {
         toast.error(res?.message);
       }
@@ -207,7 +211,7 @@ function UpdateMealPlanForm({
             )}
           />
 
-          <Button type="submit" className="mt-3 w-full">
+          <Button disabled={isSubmitting} type="submit" className="mt-3 w-full">
             {isSubmitting ? 'Updating....' : 'Update'}
           </Button>
         </form>
