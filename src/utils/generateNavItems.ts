@@ -107,12 +107,6 @@ const getNavItemsByRole = (role: string) => {
     case 'admin':
       return [
         {
-          title: 'Admin Dashboard',
-          url: '/admin/dashboard',
-          icon: SquareTerminal,
-          isActive: true,
-        },
-        {
           title: 'Manage Users',
           url: '/admin/manage-users',
           icon: SquareTerminal,
@@ -121,6 +115,28 @@ const getNavItemsByRole = (role: string) => {
           title: 'Manage Orders',
           url: '/admin/manage-orders',
           icon: SquareTerminal,
+        },
+        {
+          title: 'Weekly Plan',
+          url: '/admin/manage-orders',
+          icon: SquareTerminal,
+          items: [
+            {
+              title: 'Meal Plan',
+              url: '/admin/meal-plan',
+              icon: SquareTerminal,
+            },
+            {
+              title: 'Create My Plan',
+              url: '/admin/create-meal-plan',
+              icon: SquareTerminal,
+            },
+            {
+              title: 'Customize My Plan',
+              url: '/admin/customize-meal-plan',
+              icon: SquareTerminal,
+            },
+          ],
         },
         {
           title: 'Settings',

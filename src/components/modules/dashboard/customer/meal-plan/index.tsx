@@ -11,30 +11,60 @@ import {
 import PlanCardSkeleton from '../../../../ui/core/PlanCardSkeleton';
 
 // Function to format weeks dynamically
+// const formatWeekTabs = (mealPlans: IMealPlan[]) => {
+//   return mealPlans
+//     .map((plan) => {
+//       const date = new Date(plan.week);
+//       const month = date.toLocaleString('en-US', { month: 'short' }); // 'Mar', 'Apr'
+//       const year = date.getFullYear();
+//       const startDate = date.getDate();
+
+//       // Stop generating if the start date is greater than 28
+//       if (startDate > 28) return null;
+
+//       // Get last day of the month
+//       const lastDayOfMonth = new Date(year, date.getMonth() + 1, 0).getDate();
+
+//       // Ensure end date does not exceed the month's last day
+//       const endDate = Math.min(startDate + 7, lastDayOfMonth);
+
+//       return {
+//         label: { month, duration: `${startDate}-${endDate}` },
+//         value: plan.week,
+//       };
+//     })
+//     .filter(Boolean); // Remove null values
+// };
+
 const formatWeekTabs = (mealPlans: IMealPlan[]) => {
+  const allowedDates = [1, 8, 15, 22];
+
   return mealPlans
     .map((plan) => {
       const date = new Date(plan.week);
-      const month = date.toLocaleString('en-US', { month: 'short' }); // 'Mar', 'Apr'
-      const year = date.getFullYear();
       const startDate = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
 
-      // Stop generating if the start date is greater than 28
-      if (startDate > 28) return null;
+      if (!allowedDates.includes(startDate)) return null;
 
-      // Get last day of the month
-      const lastDayOfMonth = new Date(year, date.getMonth() + 1, 0).getDate();
+      // Get the last day of the month
+      const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
 
-      // Ensure end date does not exceed the month's last day
-      const endDate = Math.min(startDate + 7, lastDayOfMonth);
+      // Determine the end date
+      const endDate = startDate === 22 ? lastDayOfMonth : startDate + 6; // 7-day range
 
       return {
-        label: { month, duration: `${startDate}-${endDate}` },
+        label: {
+          month: date.toLocaleString('en-US', { month: 'short' }),
+          duration: `${startDate}-${endDate}`,
+        },
         value: plan.week,
       };
     })
-    .filter(Boolean); // Remove null values
+    .filter(Boolean); // Remove nulls
 };
+
 interface IWeekTabs {
   label: { month: string; duration: string };
   value: string;

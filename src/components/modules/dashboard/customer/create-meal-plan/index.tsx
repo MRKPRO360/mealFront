@@ -33,14 +33,21 @@ import MultipleSelector, {
 import { IRecipe } from '@/types';
 import { createMyPlans } from '@/services/PersonalMealPlanService';
 import { useEffect, useState } from 'react';
+import { createPlans } from '@/services/MealPlanService';
 
-function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
+function CreateMealPlanForm({
+  recipes,
+  isCustomer = true,
+}: {
+  recipes: IRecipe[];
+  isCustomer?: boolean;
+}) {
   const OPTIONS: Option[] = recipes?.map((recipe) => ({
     label: recipe?.recipeName,
     value: recipe?._id,
   }));
 
-  const allowedDays = [7, 14, 21, 28];
+  const allowedDays = [1, 8, 15, 22];
 
   const getClosestAllowedDate = () => {
     const today = new Date();
@@ -87,12 +94,13 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
         toast.error('Please select at least one recipe!');
         return;
       }
-      const res = await createMyPlans(myMealPlanData);
-      console.log(res);
+      const res = isCustomer
+        ? await createMyPlans(myMealPlanData)
+        : await createPlans(myMealPlanData);
 
       if (res.success) {
         toast.success('Meal plan created successfully!');
-        router.push('/customer/meal-plan');
+        router.push(`${isCustomer ? '/customer/meal-plan' : '/plan'}`);
       } else {
         toast.error(res?.message);
       }
@@ -110,7 +118,7 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
       className="sm:max-w-[480px] lg:max-w-[600px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
     >
       <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
-        Create Your Favorite Plan
+        Create {isCustomer && 'Your'} Favorite Plan
       </h1>
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -200,7 +208,7 @@ function CreateMealPlanForm({ recipes }: { recipes: IRecipe[] }) {
             )}
           />
 
-          <Button type="submit" className="mt-3 w-full">
+          <Button disabled={isSubmitting} type="submit" className="mt-3 w-full">
             {isSubmitting ? 'Creating....' : 'Create'}
           </Button>
         </form>
