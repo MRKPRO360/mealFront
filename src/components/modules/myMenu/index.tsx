@@ -1,6 +1,6 @@
 'use client';
 import { IRecipe } from '@/types';
-import { startTransition, useEffect, useState } from 'react';
+import { startTransition, useEffect, useMemo, useState } from 'react';
 import AllRecipes from './AllRecipes';
 import FilterSidebar from './FilterSidebar';
 import { Input } from '@/components/ui/input';
@@ -9,11 +9,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Filter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { dietaryPreferences } from '@/constants/preference';
 
 function MyMenu({ recipes }: { recipes: IRecipe[] }) {
   const [tags, setTags] = useState<string[]>([]);
-
   const [showFilter, setShowFilter] = useState<boolean>(false);
+
+  const dietaryOptions = useMemo(() => [...dietaryPreferences], []);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -32,15 +34,23 @@ function MyMenu({ recipes }: { recipes: IRecipe[] }) {
   };
 
   useEffect(() => {
+    // IN CASE IF WE NEED ONLY THE RECIPE TAGS THAT ARE USED IN THE RECIPE AT ONCE!
+    // const storedTags = localStorage.getItem('tags');
+    // if (!storedTags) {
+    //   localStorage.setItem(
+    //     'tags',
+    //     JSON.stringify([...new Set(recipes.flatMap((recipe) => recipe.tags))])
+    //   );
+    // }
+    // setTags(JSON.parse(localStorage.getItem('tags') || '[]'));
+
+    // IF WE WANT ALL THE RECIPE TAGS
     const storedTags = localStorage.getItem('tags');
     if (!storedTags) {
-      localStorage.setItem(
-        'tags',
-        JSON.stringify([...new Set(recipes.flatMap((recipe) => recipe.tags))])
-      );
+      localStorage.setItem('tags', JSON.stringify(dietaryOptions));
     }
     setTags(JSON.parse(localStorage.getItem('tags') || '[]'));
-  }, []);
+  }, [dietaryOptions]);
 
   const form = useForm();
 

@@ -2,14 +2,17 @@
 
 import { IMealPlan, IRecipe } from '@/types';
 
-import { useState, useEffect } from 'react';
-import MyPlanCard from './MyPlanCard';
+import { useState, useEffect, useMemo } from 'react';
+
 import {
   getMyMealPlanForWeek,
   getMyRecentPlans,
 } from '@/services/PersonalMealPlanService';
 import PlanCardSkeleton from '../../../../ui/core/PlanCardSkeleton';
 import { getMealPlanForWeek, getRecentPlans } from '@/services/MealPlanService';
+import MyPlanCard from '@/components/modules/myMenu/MyPlanCard';
+import { getMyPreferences } from '@/services/AuthService';
+import { dietaryPreferences } from '@/constants/preference';
 
 // Function to format weeks dynamically
 
@@ -47,12 +50,42 @@ interface IWeekTabs {
   value: string;
 }
 
-const MyMealPlan = ({ isCustomer = true }: { isCustomer: boolean }) => {
+const MyMealPlan = ({ isCustomer = true }: { isCustomer?: boolean }) => {
   const [weekTabs, setWeekTabs] = useState<IWeekTabs[]>([]);
 
   const [selectedWeek, setSelectedWeek] = useState(''); // Default to current week
   const [mealPlan, setMealPlan] = useState<IMealPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [preferences, setPreferences] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(['']);
+
+  const dietaryOptions = useMemo(() => [...dietaryPreferences], []);
+
+  useEffect(() => {
+    const storedTags = localStorage.getItem('tags');
+
+    if (storedTags) {
+      setTags(JSON.parse(storedTags));
+    } else {
+      setTags(dietaryOptions);
+    }
+
+    const myPreferences = async () => {
+      try {
+        const res = await getMyPreferences();
+        if (res.success) {
+          setPreferences(res?.data?.dietaryPreferences);
+        } else {
+          console.log(res.message || 'Something went wrong');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    myPreferences();
+  }, [dietaryOptions]);
 
   useEffect(() => {
     const fetchRecentPlans = async () => {
@@ -150,7 +183,12 @@ const MyMealPlan = ({ isCustomer = true }: { isCustomer: boolean }) => {
       ) : mealPlan ? (
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
           {mealPlan?.selectedMeals?.map((recipe: IRecipe) => (
-            <MyPlanCard key={recipe._id} recipe={recipe} />
+            <MyPlanCard
+              preferences={preferences}
+              tags={tags}
+              key={recipe._id}
+              recipe={recipe}
+            />
           ))}
         </div>
       ) : mealPlan && (mealPlan as IMealPlan[])?.length <= 0 ? (

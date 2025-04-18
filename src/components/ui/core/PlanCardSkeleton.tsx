@@ -5,7 +5,7 @@ export default function PlanCardSkeleton() {
   return (
     <Card className="shadow-sm hover:shadow-md transition duration-300 will-change-transform ease-out">
       <CardHeader>
-        <div className="relative min-w-full h-[250px] lg:h-[300px]">
+        <div className="relative min-w-full h-[200px] lg:h-[250px]">
           <Skeleton className="w-full h-full rounded-t-xs" />
         </div>
       </CardHeader>

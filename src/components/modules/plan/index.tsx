@@ -3,9 +3,12 @@
 import { getMealPlanForWeek, getRecentPlans } from '@/services/MealPlanService';
 import { IMealPlan, IRecipe } from '@/types';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PlanCard from './PlanCard';
 import PlanCardSkeleton from '@/components/ui/core/PlanCardSkeleton';
+import { getMyPreferences } from '@/services/AuthService';
+import { dietaryPreferences } from '@/constants/preference';
+import MyPlanCard from '../myMenu/MyPlanCard';
 
 // Function to format weeks dynamically
 // const formatWeekTabs = (mealPlans: IMealPlan[]) => {
@@ -73,6 +76,36 @@ const Plan = () => {
   const [selectedWeek, setSelectedWeek] = useState(''); // Default to current week
   const [mealPlan, setMealPlan] = useState<IMealPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [preferences, setPreferences] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(['']);
+
+  const dietaryOptions = useMemo(() => [...dietaryPreferences], []);
+
+  useEffect(() => {
+    const storedTags = localStorage.getItem('tags');
+
+    if (storedTags) {
+      setTags(JSON.parse(storedTags));
+    } else {
+      setTags(dietaryOptions);
+    }
+
+    const myPreferences = async () => {
+      try {
+        const res = await getMyPreferences();
+        if (res.success) {
+          setPreferences(res?.data?.dietaryPreferences);
+        } else {
+          console.log(res.message || 'Something went wrong');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    myPreferences();
+  }, [dietaryOptions]);
 
   useEffect(() => {
     // Fetch meal plans from backend
@@ -169,7 +202,12 @@ const Plan = () => {
       ) : mealPlan ? (
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
           {mealPlan?.selectedMeals?.map((recipe: IRecipe) => (
-            <PlanCard key={recipe._id} recipe={recipe} />
+            <MyPlanCard
+              preferences={preferences}
+              tags={tags}
+              key={recipe._id}
+              recipe={recipe}
+            />
           ))}
         </div>
       ) : mealPlan && (mealPlan as IMealPlan[])?.length <= 0 ? (

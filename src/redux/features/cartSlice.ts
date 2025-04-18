@@ -2,9 +2,16 @@ import { IRecipe } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
+export interface IMealCustomization {
+  ingredients: string[];
+  spiceLevel: string;
+  dietaryPreference: string[];
+}
+
 export interface ICartMeals extends IRecipe {
   orderQuantity: number;
   selectedSize: keyof ICartMeals['portionSizes'];
+  customization?: IMealCustomization;
 }
 
 interface IInitialState {
@@ -27,12 +34,36 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    // addMeals: (state, { payload }) => {
+    //   const mealToAdd = state.meals.find((meal) => meal._id === payload._id);
+
+    //   const defaultSize = payload.selectedSize || 'small';
+
+    //   if (!payload.portionSizes[defaultSize]) return;
+
+    //   if (mealToAdd) {
+    //     mealToAdd.orderQuantity += 1;
+    //     return;
+    //   }
+
+    //   state.meals.push({
+    //     ...payload,
+    //     selectedSize: defaultSize,
+    //     orderQuantity: 1,
+    //   });
+    // },
+
     addMeals: (state, { payload }) => {
-      const mealToAdd = state.meals.find((meal) => meal._id === payload._id);
+      const { _id, customization, selectedSize = 'small' } = payload;
 
-      const defaultSize = payload.selectedSize || 'small';
+      if (!payload.portionSizes[selectedSize]) return;
 
-      if (!payload.portionSizes[defaultSize]) return;
+      const isSameCustomization = (meal: ICartMeals) =>
+        meal._id === _id &&
+        meal.selectedSize === selectedSize &&
+        JSON.stringify(meal.customization) === JSON.stringify(customization);
+
+      const mealToAdd = state.meals.find(isSameCustomization);
 
       if (mealToAdd) {
         mealToAdd.orderQuantity += 1;
@@ -41,7 +72,8 @@ const cartSlice = createSlice({
 
       state.meals.push({
         ...payload,
-        selectedSize: defaultSize,
+        selectedSize,
+        customization,
         orderQuantity: 1,
       });
     },
