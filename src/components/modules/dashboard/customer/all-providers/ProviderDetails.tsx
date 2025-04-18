@@ -41,10 +41,7 @@ export default function ProviderDetails({ provider }: { provider: IUser }) {
           <Card className="shadow-xs pb-4">
             <CardHeader className="items-center">
               <Avatar className=" w-32 h-32 mb-4  border-2 border-gray-100 shadow-md">
-                <AvatarImage
-                  className="object-cover"
-                  src={provider.profileImg}
-                />
+                <AvatarImage src={provider.profileImg} />
                 <AvatarFallback>
                   {provider.name.firstName.charAt(0)}
                   {provider.name.lastName.charAt(0)}

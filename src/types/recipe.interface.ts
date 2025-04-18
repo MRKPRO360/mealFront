@@ -4,6 +4,7 @@ export interface IIngredient {
   name: string;
   quantity: string;
   contains?: string[];
+  isOptional?: boolean;
 }
 
 export interface INutritionValues {
@@ -77,5 +78,6 @@ export interface IRecipe {
   quantity: string;
   rating: string;
   servings: string;
+
   isDeleted: boolean;
 }

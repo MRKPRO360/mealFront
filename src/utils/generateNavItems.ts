@@ -5,7 +5,7 @@ const getNavItemsByRole = (role: string) => {
     case 'customer':
       return [
         {
-          title: 'Menu',
+          title: 'Weekly Plan',
           url: 'customer/meal-plan',
           icon: SquareTerminal,
           isActive: true,
@@ -25,12 +25,34 @@ const getNavItemsByRole = (role: string) => {
               url: '/customer/customize-meal-plan',
               icon: SquareTerminal,
             },
-            { title: 'My Orders', url: '/customer/my-orders' },
-            { title: 'All Providers', url: '/customer/all-providers' },
+          ],
+        },
+
+        {
+          title: 'Orders',
+          url: '/customer/my-orders',
+          icon: SquareTerminal,
+          items: [
+            {
+              title: 'My Orders',
+              url: '/customer/my-orders',
+            },
+          ],
+        },
+
+        {
+          title: 'Providers',
+          icon: SquareTerminal,
+          url: '/all-providers',
+          items: [
+            {
+              title: 'All Providers',
+              url: '/all-providers',
+            },
           ],
         },
         {
-          title: 'My Profile',
+          title: 'Settings',
           url: '/profile',
           icon: Settings2,
           items: [
@@ -88,12 +110,22 @@ const getNavItemsByRole = (role: string) => {
               url: '/provider/create-meal',
               icon: SquareTerminal,
             },
+          ],
+        },
 
-            { title: 'Customer Orders', url: '/provider/customer-orders' },
+        {
+          title: 'Orders',
+          url: '/provider/customer-orders',
+          icon: SquareTerminal,
+          items: [
+            {
+              title: 'Customer Orders',
+              url: '/provider/customer-orders',
+            },
           ],
         },
         {
-          title: 'My Profile',
+          title: 'Settings',
           url: '/profile',
           icon: Settings2,
           items: [
@@ -118,7 +150,7 @@ const getNavItemsByRole = (role: string) => {
         },
         {
           title: 'Weekly Plan',
-          url: '/admin/manage-orders',
+          url: '/admin/meal-plan',
           icon: SquareTerminal,
           items: [
             {
@@ -139,9 +171,25 @@ const getNavItemsByRole = (role: string) => {
           ],
         },
         {
+          title: 'Providers',
+          icon: SquareTerminal,
+          url: '/all-providers',
+          items: [
+            {
+              title: 'All Providers',
+              url: '/all-providers',
+            },
+          ],
+        },
+        {
           title: 'Settings',
-          url: '/admin/settings',
+          url: '/profile',
           icon: Settings2,
+          items: [
+            { title: 'View Profile', url: '/profile' },
+            { title: 'Update Profile', url: '/update-profile' },
+            { title: 'Change Password', url: '/change-password' },
+          ],
         },
       ];
 

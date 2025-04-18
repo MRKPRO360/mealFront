@@ -121,6 +121,7 @@ interface FTContentModalProps {
   btnVariant?: 'ghost' | 'outline' | 'secondary' | 'link' | 'destructive';
   btnColor?: string;
   hideFooter?: boolean;
+  isNormalBtn?: boolean;
 }
 
 export const FTContentModal = ({
@@ -136,24 +137,34 @@ export const FTContentModal = ({
   btnVariant = 'secondary',
   btnColor = 'black',
   hideFooter = false,
+  isNormalBtn = false,
 }: FTContentModalProps) => {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
   return (
     <>
-      <Button
-        className={`rounded-xs text-${btnColor} hover:text-${btnColor} ${
-          btnColor !== 'black' &&
-          btnVariant !== 'ghost' &&
-          `hover:bg-${btnColor} hover:text-white`
-        }`}
-        variant={btnVariant}
-        size={btnSize}
-        onClick={() => setOpen(true)}
-      >
-        {icon} {btnText}
-      </Button>
+      {isNormalBtn ? (
+        <button
+          onClick={() => setOpen(true)}
+          className="flex gap-1 items-center cursor-pointer"
+        >
+          {icon} {btnText}
+        </button>
+      ) : (
+        <Button
+          className={`rounded-xs text-${btnColor} hover:text-${btnColor} ${
+            btnColor !== 'black' &&
+            btnVariant !== 'ghost' &&
+            `hover:bg-${btnColor} hover:text-white`
+          }`}
+          variant={btnVariant}
+          size={btnSize}
+          onClick={() => setOpen(true)}
+        >
+          {icon} {btnText}
+        </Button>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>

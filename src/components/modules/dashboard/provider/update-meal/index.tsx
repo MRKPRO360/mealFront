@@ -160,6 +160,13 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
       tags: data.tags.map((el) => el.name),
       allergens: data.allergens.map((el) => el.name),
       utensils: data.utensils.map((el) => el.name),
+      ingredients: data.ingredients.map((el) => ({
+        name: el.name,
+        quantity:
+          el.quantity == '0' || el.quantity?.length === 0
+            ? (el.quantity = 'Not included in delivery')
+            : el.quantity,
+      })),
     };
     recipeFormData.append('data', JSON.stringify(formattedData));
 
@@ -638,7 +645,7 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
           </Card>
 
           <Button disabled={isSubmitting} className="w-full" type="submit">
-            {isSubmitting ? 'Submiting' : 'Submit Recipe'}
+            {isSubmitting ? 'Submiting...' : 'Submit Recipe'}
           </Button>
         </form>
       </Form>

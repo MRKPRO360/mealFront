@@ -46,7 +46,7 @@ export default function CreateMeal() {
       allergens: [{ name: '' }],
       totalTime: '',
       prepTime: '',
-      difficulty: 'easy',
+      difficulty: 'Easy',
       ingredients: [{ name: '', quantity: '' }],
       nutritionValues: {
         calories: '',
@@ -90,7 +90,7 @@ export default function CreateMeal() {
   }, [menuNames, form.setValue, form]);
 
   const {
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = form;
 
   const {
@@ -139,6 +139,8 @@ export default function CreateMeal() {
   });
 
   const onSubmit = async (data: RecipeFormValues) => {
+    console.log(errors);
+
     if (imageFiles.length === 0) {
       return toast.error('A recipe must have a image!');
     }
@@ -150,6 +152,19 @@ export default function CreateMeal() {
       tags: data.tags.map((el) => el.name),
       allergens: data.allergens.map((el) => el.name),
       utensils: data.utensils.map((el) => el.name),
+      // ingredients: data.ingredients.map((el) =>
+      //   el.quantity == '0' || el.quantity?.length === 0
+      //     ? (el.quantity = 'Not inlcuded in delivery')
+      //     : el.quantity
+      // ),
+
+      ingredients: data.ingredients.map((el) => ({
+        name: el.name,
+        quantity:
+          el.quantity == '0' || el.quantity?.length === 0
+            ? (el.quantity = 'Not included in delivery')
+            : el.quantity,
+      })),
       providerId: user?.id,
     };
     recipeFormData.append('data', JSON.stringify(formattedData));
@@ -207,7 +222,11 @@ export default function CreateMeal() {
                 <FormItem>
                   <FormLabel>Menu Name</FormLabel>
                   <FormControl>
-                    <select {...field} className="border rounded p-2 w-full">
+                    <select
+                      defaultValue={menuNames[0]?._id}
+                      {...field}
+                      className="border rounded p-2 w-full"
+                    >
                       {menuNames.map((menuName: IMenuName) => (
                         <option key={menuName._id} value={menuName._id}>
                           {menuName.name}
@@ -275,9 +294,9 @@ export default function CreateMeal() {
                   <FormLabel>Difficulty</FormLabel>
                   <FormControl>
                     <select {...field} className="border rounded p-2 w-full">
-                      <option value="easy">Easy</option>
-                      <option value="medium">Medium</option>
-                      <option value="hard">Hard</option>
+                      <option value="Easy">Easy</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Hard">Hard</option>
                     </select>
                   </FormControl>
                   <FormMessage />
@@ -629,7 +648,7 @@ export default function CreateMeal() {
           </Card>
 
           <Button disabled={isSubmitting} className="w-full" type="submit">
-            {isSubmitting ? 'Submiting' : 'Submit Recipe'}
+            {isSubmitting ? 'Submiting...' : 'Submit Recipe'}
           </Button>
         </form>
       </Form>

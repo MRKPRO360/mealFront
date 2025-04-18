@@ -33,7 +33,7 @@ function ProviderInfo({ provider }: { provider: IUser }) {
               </div>
             </div>
 
-            <Link href={`/customer/all-providers/${provider?._id}`}>
+            <Link href={`/all-providers/${provider?._id}`}>
               <Button variant="outline" size="sm">
                 View Profile
               </Button>

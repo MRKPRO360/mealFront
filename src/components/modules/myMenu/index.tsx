@@ -1,6 +1,6 @@
 'use client';
 import { IRecipe } from '@/types';
-import { useEffect, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 import AllRecipes from './AllRecipes';
 import FilterSidebar from './FilterSidebar';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 function MyMenu({ recipes }: { recipes: IRecipe[] }) {
   const [tags, setTags] = useState<string[]>([]);
   const [showFilter, setShowFilter] = useState<boolean>(false);
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -22,8 +23,10 @@ function MyMenu({ recipes }: { recipes: IRecipe[] }) {
 
     params.set(query, value.toString());
 
-    router.push(`${pathname}?${params.toString()}`, {
-      scroll: false,
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     });
   };
 
@@ -97,6 +100,15 @@ function MyMenu({ recipes }: { recipes: IRecipe[] }) {
         </div>
         <div>
           <AllRecipes recipes={recipes} />
+          {/* {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-4 gap-2 justify-between">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <MenuCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <AllRecipes recipes={recipes} />
+          )} */}
         </div>
       </div>
     </div>

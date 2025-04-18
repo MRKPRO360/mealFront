@@ -18,7 +18,7 @@ function AllRecipes({ recipes }: { recipes: IRecipe[] }) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-4 gap-2 justify-between">
+    <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-4 gap-2 place-items-stretch">
       {recipes?.map((recipe: IRecipe) => (
         <MyPlanCard key={recipe._id} recipe={recipe} />
       ))}

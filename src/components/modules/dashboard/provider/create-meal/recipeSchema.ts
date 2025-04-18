@@ -19,12 +19,12 @@ export const recipeSchema = z.object({
   ),
   totalTime: z.string().min(1, 'Recipe name must have a total time'),
   prepTime: z.string().min(1, 'Recipe name must have a prep time'),
-  difficulty: z.enum(['easy', 'medium', 'hard']),
+  difficulty: z.enum(['Easy', 'Medium', 'Hard']),
   ingredients: z
     .array(
       z.object({
         name: z.string().min(3, { message: 'Ingredient name is required' }),
-        quantity: z.string().min(1, { message: 'Quantity is required' }),
+        quantity: z.string().optional(),
       })
     )
     .min(1, { message: 'At least one ingredient is required' }),
@@ -57,15 +57,15 @@ export const recipeSchema = z.object({
     .min(1, { message: 'At least one instruction is required' }),
   portionSizes: z.object({
     small: z.object({
-      price: z.string().min(2, 'Recipe small portion must have a price'),
+      price: z.string().min(1, 'Recipe small portion must have a price'),
       servings: z.string().min(1, 'Recipe small portion must have a serving'),
     }),
     medium: z.object({
-      price: z.string().min(2, 'Recipe medium portion must have a price'),
+      price: z.string().min(1, 'Recipe medium portion must have a price'),
       servings: z.string().min(1, 'Recipe medium portion must have a serving'),
     }),
     large: z.object({
-      price: z.string().min(2, 'Recipe large portion must have a price'),
+      price: z.string().min(1, 'Recipe large portion must have a price'),
       servings: z.string().min(1, 'Recipe large portion must have a serving'),
     }),
   }),
