@@ -27,50 +27,49 @@ import { useAppDispatch } from '@/redux/hooks';
 import { IRecipe } from '@/types';
 import { Clock, Settings, ShoppingCart, Smile, Zap } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { dietaryPreferences } from '@/constants/preference';
+import { useEffect } from 'react';
 
-interface ICustomFormValues {
+interface ICustomization {
   ingredients: string[];
   spiceLevel: number;
   dietaryPreference: string[];
 }
 
-function MyPlanCard({ recipe }: { recipe: IRecipe }) {
-  const [tags, setTags] = useState<string[]>(['']);
-
+function MyPlanCard({
+  recipe,
+  tags,
+  preferences,
+}: {
+  recipe: IRecipe;
+  tags?: string[];
+  preferences?: string[];
+}) {
   const dispatch = useAppDispatch();
 
-  const dietaryOptions = useMemo(() => [...dietaryPreferences], []);
   const optionalIngredients = ['Olives', 'Mushrooms', 'Cheese', 'Onions'];
 
   const handleAddMeals = (meal: IRecipe) => {
     dispatch(addMeals(meal));
   };
 
-  useEffect(() => {
-    const storedTags = localStorage.getItem('tags');
-    console.log(storedTags);
-
-    if (storedTags) {
-      setTags(JSON.parse(storedTags));
-    } else {
-      setTags(dietaryOptions);
-    }
-  }, [dietaryOptions]);
-
-  const form = useForm<ICustomFormValues>({
+  const form = useForm<ICustomization>({
     defaultValues: {
       ingredients: [],
       spiceLevel: 2,
-      dietaryPreference: tags || ['Vegan'],
+      dietaryPreference: preferences || tags,
     },
   });
 
-  const onSubmit = (data: ICustomFormValues) => {
+  useEffect(() => {
+    if (preferences?.length) {
+      form.setValue('dietaryPreference', preferences);
+    }
+  }, [preferences, form]);
+
+  const onSubmit = (data: ICustomization) => {
     console.log('Form Submitted:', data);
     // You can save to Redux, DB, etc.
   };
@@ -138,7 +137,7 @@ function MyPlanCard({ recipe }: { recipe: IRecipe }) {
                           <FormLabel>Choose one or more</FormLabel>
                           <FormControl>
                             <div className="flex flex-wrap gap-3">
-                              {tags.map((option) => {
+                              {tags?.map((option) => {
                                 const isSelected =
                                   field.value?.includes(option);
 

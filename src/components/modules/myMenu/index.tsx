@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 
 function MyMenu({ recipes }: { recipes: IRecipe[] }) {
   const [tags, setTags] = useState<string[]>([]);
+
   const [showFilter, setShowFilter] = useState<boolean>(false);
 
   const router = useRouter();

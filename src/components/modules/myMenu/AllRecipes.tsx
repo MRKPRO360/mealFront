@@ -1,8 +1,42 @@
+'use client';
 import { IRecipe } from '@/types';
 import MyPlanCard from './MyPlanCard';
 import { Frown } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { getMyPreferences } from '@/services/AuthService';
+import { dietaryPreferences } from '@/constants/preference';
 
 function AllRecipes({ recipes }: { recipes: IRecipe[] }) {
+  const [preferences, setPreferences] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(['']);
+
+  const dietaryOptions = useMemo(() => [...dietaryPreferences], []);
+
+  useEffect(() => {
+    const storedTags = localStorage.getItem('tags');
+
+    if (storedTags) {
+      setTags(JSON.parse(storedTags));
+    } else {
+      setTags(dietaryOptions);
+    }
+
+    const myPreferences = async () => {
+      try {
+        const res = await getMyPreferences();
+        if (res.success) {
+          setPreferences(res?.data?.dietaryPreferences);
+        } else {
+          console.log(res.message || 'Something went wrong');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    myPreferences();
+  }, [dietaryOptions]);
+
   if (!recipes || recipes.length === 0) {
     return (
       <div className="text-center text-muted-foreground grid place-content-center w-[90vw] md:w-[75vw] lg:w-[60vw] h-[50vh] ">
@@ -20,7 +54,12 @@ function AllRecipes({ recipes }: { recipes: IRecipe[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-4 gap-2 place-items-stretch">
       {recipes?.map((recipe: IRecipe) => (
-        <MyPlanCard key={recipe._id} recipe={recipe} />
+        <MyPlanCard
+          preferences={preferences}
+          tags={tags}
+          key={recipe._id}
+          recipe={recipe}
+        />
       ))}
     </div>
   );
