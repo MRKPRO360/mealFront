@@ -37,7 +37,7 @@ export async function MenuItemCarousel({
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   height: '400px',
-                  borderRadius: '10px',
+                  borderRadius: '4px',
                   overflow: 'hidden',
                 }}
                 className=""
