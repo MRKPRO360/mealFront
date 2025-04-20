@@ -1,5 +1,11 @@
+'use client';
+
 import { IRecipe } from '@/types';
 import RecipeCard from './RecipeCard';
+import { useEffect, useMemo, useState } from 'react';
+import { dietaryPreferences } from '@/constants/preference';
+import { getMyPreferences } from '@/services/AuthService';
+import MyPlanCard from '../../myMenu/MyPlanCard';
 
 function RecipeMenuItem({
   recipes,
@@ -8,6 +14,36 @@ function RecipeMenuItem({
   recipes: IRecipe[];
   categoryName: string;
 }) {
+  const [preferences, setPreferences] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(['']);
+
+  const dietaryOptions = useMemo(() => [...dietaryPreferences], []);
+
+  useEffect(() => {
+    const storedTags = localStorage.getItem('tags');
+
+    if (storedTags) {
+      setTags(JSON.parse(storedTags));
+    } else {
+      setTags(dietaryOptions);
+    }
+
+    const myPreferences = async () => {
+      try {
+        const res = await getMyPreferences();
+        if (res.success) {
+          setPreferences(res?.data?.dietaryPreferences);
+        } else {
+          console.log(res.message || 'Something went wrong');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    myPreferences();
+  }, [dietaryOptions]);
+
   return (
     <div className="my-10 md:my-18">
       <div className="text-center ">
@@ -24,7 +60,14 @@ function RecipeMenuItem({
       </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 justify-between">
         {recipes.map((recipe) => (
-          <RecipeCard key={recipe._id} recipe={recipe} />
+          // <RecipeCard key={recipe._id} recipe={recipe} />
+          // ))}
+          <MyPlanCard
+            preferences={preferences}
+            tags={tags}
+            key={recipe._id}
+            recipe={recipe}
+          />
         ))}
       </div>
     </div>

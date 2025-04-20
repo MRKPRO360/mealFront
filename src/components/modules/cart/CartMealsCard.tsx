@@ -110,6 +110,19 @@ import { IRecipe } from '@/types';
 import { Minus, Plus, Trash } from 'lucide-react';
 import Image from 'next/image';
 
+const isCustomized = (customization?: {
+  ingredients?: string[];
+  spiceLevel?: string;
+  dietaryPreference?: string[];
+}): boolean => {
+  return !!(
+    customization &&
+    (customization.ingredients?.length ||
+      customization.spiceLevel ||
+      customization.dietaryPreference?.length)
+  );
+};
+
 export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
   const dispatch = useAppDispatch();
 
@@ -141,8 +154,8 @@ export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
   };
 
   return (
-    <div className="bg-white rounded-lg flex p-5 gap-5">
-      <div className="h-full w-32 rounded-md overflow-hidden">
+    <div className="bg-white rounded-lg items-start flex-col flex sm:flex-row sm:items-center p-5 gap-5">
+      <div className="h-full w-40 sm:w-32 rounded-sm overflow-hidden">
         <Image
           loader={cloudinaryLoader}
           src={meal?.recipeImage}
@@ -152,37 +165,51 @@ export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
           className="aspect-square object-cover"
         />
       </div>
-      <div className="flex flex-col justify-between flex-grow">
+      <div className="flex flex-col justify-between w-full">
         <h1 className="text-xl font-semibold">{meal?.name}</h1>
 
         {/* Portion Size Selection */}
-        <div className="flex gap-2 mt-2">
-          {Object.keys(meal.portionSizes).map((size) => (
-            <Button
-              key={size}
-              variant={meal.selectedSize === size ? 'default' : 'outline'}
-              size="sm"
-              onClick={() =>
-                handleSelectPortionSize(size as keyof IRecipe['portionSizes'])
-              }
-            >
-              {size.charAt(0).toUpperCase() + size.slice(1)}
-            </Button>
-          ))}
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2 mt-2">
+            {Object.keys(meal.portionSizes).map((size) => (
+              <Button
+                key={size}
+                variant={meal.selectedSize === size ? 'default' : 'outline'}
+                size="sm"
+                onClick={() =>
+                  handleSelectPortionSize(size as keyof IRecipe['portionSizes'])
+                }
+              >
+                {size.charAt(0).toUpperCase() + size.slice(1)}
+              </Button>
+            ))}
+          </div>
+          {isCustomized(meal.customization) && (
+            <span className="text-xs text-green-600 bg-green-100 rounded-full px-2 py-0.5">
+              Customized
+            </span>
+          )}
         </div>
 
         <hr className="my-1" />
 
         {/* Display Dynamic Price Based on Selected Portion */}
-        <div className="flex items-center justify-between">
-          <h2>Price: ${meal.portionSizes[meal.selectedSize]?.price}</h2>
-          <h2>Servings: {meal.portionSizes[meal.selectedSize]?.servings}</h2>
+        <div className="flex items-center justify-between flex-wrap sm:flex-nowrap gap-2">
+          <h2 className="flex-[25%]">
+            Price: ${meal.portionSizes[meal.selectedSize]?.price}
+          </h2>
+          <h2 className="flex-[25%]">
+            Servings: {meal.portionSizes[meal.selectedSize]?.servings}
+          </h2>
 
-          <div className="flex items-center gap-2">
-            <p className="text-gray-500 font-semibold">Quantity</p>
+          <div className="flex-1 flex items-center  gap-2 w-full">
+            <p className="text-gray-500 font-semibold mr-auto  sm:mr-0 sm:ml-auto">
+              Quantity
+            </p>
             <Button
               onClick={handleDecrementQuantity}
               variant="outline"
+              size="sm"
               className="size-8 rounded-sm"
             >
               <Minus />
@@ -191,6 +218,7 @@ export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
             <Button
               onClick={handleIncrementQuantity}
               variant="outline"
+              size="sm"
               className="size-8 rounded-sm"
             >
               <Plus />
@@ -198,6 +226,7 @@ export default function CartMealsCard({ meal }: { meal: ICartMeals }) {
             <Button
               onClick={() => handleRemoveMeal(meal._id)}
               variant="outline"
+              size="sm"
               className="size-8 rounded-sm"
             >
               <Trash className="text-red-500/50" />

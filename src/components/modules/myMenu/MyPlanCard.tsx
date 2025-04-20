@@ -107,7 +107,9 @@ function MyPlanCard({
         </CardHeader>
       </Link>
       <CardContent className="pb-4">
-        <CardTitle className="font-semibold">{recipe.recipeName}</CardTitle>
+        <CardTitle className="font-semibold md:min-h-8">
+          {recipe.recipeName}
+        </CardTitle>
         <CardDescription>
           <TruncatedText
             text={recipe.description}

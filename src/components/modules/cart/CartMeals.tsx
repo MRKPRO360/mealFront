@@ -4,17 +4,14 @@ import Image from 'next/image';
 import emptyCart from '@/assets/images/cart/empty-cart.png';
 import { useAppSelector } from '@/redux/hooks';
 import { ICartMeals, selectCartMeals } from '@/redux/features/cartSlice';
-import { IRecipe } from '@/types';
+
 import CartMealsCard from './CartMealsCard';
-// import {
-//   CartProduct,
-//   orderedProductsSelector,
-// } from '@/redux/features/cartSlice';
+
 export default function CartMeals() {
   const meals = useAppSelector(selectCartMeals);
 
   return (
-    <div className="bg-white rounded-sm col-span-12 lg:col-span-8 h-full row-span-3 p-10 space-y-5">
+    <div className="bg-white rounded-sm col-span-12 lg:col-span-8 h-full row-span-3  space-y-5">
       {meals.length === 0 && (
         <div className="text-center text-gray-500">
           <p className="text-lg font-semibold">Your cart is empty</p>

@@ -4,7 +4,6 @@ import { getMealPlanForWeek, getRecentPlans } from '@/services/MealPlanService';
 import { IMealPlan, IRecipe } from '@/types';
 
 import { useState, useEffect, useMemo } from 'react';
-import PlanCard from './PlanCard';
 import PlanCardSkeleton from '@/components/ui/core/PlanCardSkeleton';
 import { getMyPreferences } from '@/services/AuthService';
 import { dietaryPreferences } from '@/constants/preference';
