@@ -3,6 +3,7 @@ import styles from '../MenuBanner/menuBanner.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/assets/images/logo/feastify.png';
+import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
 
 function MenuBanner() {
   return (
@@ -13,10 +14,15 @@ function MenuBanner() {
       </Link>
       <div className={` text-center px-10 pt-6 pb-4`}>
         <div className="max-w-[550px] mx-auto">
-          <h1 className="uppercase font-thin text-4xl leading-12 ">
+          {/* <h1 className="uppercase font-thin text-4xl leading-12 ">
             Tasty Weekly Menus and Customizable Plans for Effortless Home
             Cooking
-          </h1>
+          </h1> */}
+
+          <FTSectionHeader className="uppercase leading-12">
+            Tasty Weekly Menus and Customizable Plans for Effortless Home
+            Cooking
+          </FTSectionHeader>
 
           <div className="mt-10 mb-6 text-lg">
             <p>

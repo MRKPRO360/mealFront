@@ -8,9 +8,11 @@ import { useAppDispatch } from '@/redux/hooks';
 import { IRecipe, IUser } from '@/types';
 import { ShoppingCart } from 'lucide-react';
 import ProviderInfo from './ProviderInfo';
+import { useUser } from '@/context/UserContext';
 
 function RecipeHeader({ recipe }: { recipe: IRecipe }) {
   const dispatch = useAppDispatch();
+  const { user } = useUser();
 
   const handleAddToCart = (recipe: IRecipe) => {
     dispatch(addMeals(recipe));
@@ -97,14 +99,16 @@ function RecipeHeader({ recipe }: { recipe: IRecipe }) {
         </div>
 
         {/* Add to cart */}
-        <Button
-          className="mt-2"
-          onClick={() => handleAddToCart(recipe)}
-          size="sm"
-        >
-          <ShoppingCart />
-          Add to Cart
-        </Button>
+        {user?.role !== 'provider' && (
+          <Button
+            className="mt-2"
+            onClick={() => handleAddToCart(recipe)}
+            size="sm"
+          >
+            <ShoppingCart />
+            Add to Cart
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ function Review({
   targetType?: 'recipe' | 'provider';
 }) {
   const { user } = useUser();
+  console.log(user);
 
   const [loading, setLoading] = useState(false);
   const { recipeId, providerId } = useParams();
@@ -74,9 +75,9 @@ function Review({
     }
   };
 
-  if (myReview) return;
+  if (myReview || user?.role === 'provider') return;
   return (
-    <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0">
+    <div className="max-w-6xl rounded-xs mx-auto py-12 lg:mt-0">
       <div className={`bg-white ${targetType === 'recipe' && 'p-6'}`}>
         <ReviewBox loading={loading} onSubmit={onSubmit} />
       </div>

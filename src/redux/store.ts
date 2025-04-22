@@ -1,11 +1,34 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartSlice from './features/cartSlice';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist';
+import storage from './storage';
+
+const persistOptions = {
+  key: 'cart',
+  storage,
+};
+
+const persistCart = persistReducer(persistOptions, cartSlice);
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      cart: cartSlice,
+      cart: persistCart,
     },
+    middleware: (getDefaultMiddlewares: any) =>
+      getDefaultMiddlewares({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PERSIST, PAUSE, PURGE, REGISTER],
+        },
+      }),
   });
 };
 

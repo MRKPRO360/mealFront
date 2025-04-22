@@ -25,6 +25,8 @@ import { getAllMenuNames } from '@/services/MenuNameService';
 import { createMyRecipe } from '@/services/RecipeService';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
+import { TimeDurationPicker } from '@/components/ui/core/FTTimeInput';
+import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
 
 type RecipeFormValues = z.infer<typeof recipeSchema>;
 
@@ -152,11 +154,6 @@ export default function CreateMeal() {
       tags: data.tags.map((el) => el.name),
       allergens: data.allergens.map((el) => el.name),
       utensils: data.utensils.map((el) => el.name),
-      // ingredients: data.ingredients.map((el) =>
-      //   el.quantity == '0' || el.quantity?.length === 0
-      //     ? (el.quantity = 'Not inlcuded in delivery')
-      //     : el.quantity
-      // ),
 
       ingredients: data.ingredients.map((el) => ({
         name: el.name,
@@ -194,9 +191,14 @@ export default function CreateMeal() {
       }}
       className="sm:max-w-[480px] lg:max-w-[800px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
     >
-      <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
+      {/* <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
         Add your recipe
-      </h1>
+      </h1> */}
+      <div className="text-center">
+        <FTSectionHeader className="font-medium mb-4">
+          Add Your Recipe
+        </FTSectionHeader>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Card className="p-4">
@@ -272,19 +274,7 @@ export default function CreateMeal() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="totalTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Total Time</FormLabel>
-                  <FormControl>
-                    <Input placeholder="30 minutes" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <TimeDurationPicker control={form.control} name="totalTime" />
 
             <FormField
               control={form.control}
@@ -323,18 +313,11 @@ export default function CreateMeal() {
             />
 
             {/* Prep Time */}
-            <FormField
+
+            <TimeDurationPicker
+              label="Preparation Time"
               control={form.control}
               name="prepTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prep Time</FormLabel>
-                  <FormControl>
-                    <Input placeholder="10 minutes" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
             />
 
             {/* Allergens */}

@@ -21,9 +21,9 @@ function RecipeIngredients({
   return (
     <div className="max-w-6xl rounded-xs mx-auto mt-12 lg:mt-0 ">
       <div className="md:flex gap-5 justify-between">
-        <div className="basis-[65%] rounded-xs ">
+        <div className="basis-[65%] rounded-xs bg-white">
           {/* Ingredients */}
-          <Card className="bg-white rounded-xs p-6 pb-0">
+          <Card className=" rounded-xs p-6 pb-0">
             <CardContent className="sm:px-0 border-b pb-4">
               <h2 className="text-xl font-semibold mb-4">Ingredients</h2>
               <ul className="space-y-2">
@@ -73,7 +73,7 @@ function RecipeIngredients({
         </div>
 
         {/* Nutrition Values */}
-        <Card className="flex-1 p-6">
+        <Card className="flex-1 p-6 bg-white">
           <CardContent className="">
             <h2 className="text-xl font-semibold mb-4">Nutrition Values</h2>
             <ul className="space-y-2">

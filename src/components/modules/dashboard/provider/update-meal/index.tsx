@@ -27,6 +27,7 @@ import { getAllMenuNames } from '@/services/MenuNameService';
 import { updateMyRecipe } from '@/services/RecipeService';
 import { useRouter } from 'next/navigation';
 import { updateRecipeSchema } from './updateRecipeSchema';
+import { TimeDurationPicker } from '@/components/ui/core/FTTimeInput';
 
 type RecipeFormValues = z.infer<typeof updateRecipeSchema>;
 
@@ -269,20 +270,11 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
               )}
             />
 
-            <FormField
+            <TimeDurationPicker
+              label="Total Time"
               control={form.control}
               name="totalTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Total Time</FormLabel>
-                  <FormControl>
-                    <Input placeholder="30 minutes" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
             />
-
             <FormField
               control={form.control}
               name="difficulty"
@@ -320,20 +312,11 @@ function UpdateMeal({ recipe }: { recipe: IRecipe }) {
             />
 
             {/* Prep Time */}
-            <FormField
+            <TimeDurationPicker
+              label="Preparation Time"
               control={form.control}
               name="prepTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prep Time</FormLabel>
-                  <FormControl>
-                    <Input placeholder="10 minutes" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
             />
-
             {/* Allergens */}
             <h2 className=" font-semibold text-lg">Allergens</h2>
 
