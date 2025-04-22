@@ -22,7 +22,7 @@ export async function MenuItemCarousel({
   menuNames: IMenuName[];
 }) {
   return (
-    <Carousel className=" md:w-full">
+    <Carousel className="md:w-full ">
       <CarouselContent className="-ml-1">
         {menuNames?.map((item: IMenuName) => (
           <CarouselItem

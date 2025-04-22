@@ -1,6 +1,7 @@
 import { Drumstick, CalendarDays, Star, Package } from 'lucide-react';
 import FeatureCard from './FeatureCard';
 import { Button } from '@/components/ui/button';
+import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
 
 const features = [
   {
@@ -66,15 +67,15 @@ export default function FeaturesSection() {
   return (
     <section className="py-16 px-4 border-b container mx-auto">
       <div className="text-center">
-        <h2 className="text-3xl font-thin mb-14 text-center">
+        <FTSectionHeader className="mb-4">
           Why Feastify Meal Kits?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        </FTSectionHeader>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-8">
           {features.map((feature, index) => (
             <FeatureCard key={index} feature={feature} />
           ))}
         </div>
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <Button>Get Offer</Button>
         </div>
       </div>

@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import FTBoxImage from '@/assets/images/box/box.png';
 import { FaCheck } from 'react-icons/fa6';
+import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
 
 const boxText = [
   {
@@ -36,7 +37,7 @@ const boxText = [
 function FTBox() {
   return (
     <div className="container mx-auto flex flex-col lg:flex-row overflow-hidden gap-8 my-16 items-center">
-      <div className="relative w-full lg:w-[600px] h-[580px] ">
+      <div className="relative w-full lg:w-[600px] h-[350px] lg:h-[580px] overflow-hidden">
         {' '}
         {/* Set desired height */}
         <Image
@@ -49,14 +50,21 @@ function FTBox() {
         />
       </div>
       <div className="sm:flex-1/2">
-        <h2 className="text-3xl font-thin mb-8 text-center">
+        <FTSectionHeader>
           What&apos;s Included in our Feastify meal kits?{' '}
-        </h2>
+        </FTSectionHeader>
+        <p className="my-4 text-lg text-gray-800 tracking-tight">
+          Every delivery from our meal service brings you carefully crafted meal
+          kits designed to make cooking enjoyable, effortless, and delicious.
+          Here&apos;s what you&apos;ll find inside:{' '}
+        </p>
+
+        {/* <h2 className="text-3xl font-thin mb-8 text-center"></h2>
         <p className="mb-4">
           Every delivery from our meal service brings you carefully crafted meal
           kits designed to make cooking enjoyable, effortless, and delicious.
           Here&apos;s what you&apos;ll find inside:
-        </p>
+        </p> */}
 
         <div className="space-y-4 md:space-y-5">
           {boxText.map((item, index) => (

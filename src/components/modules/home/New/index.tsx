@@ -4,6 +4,7 @@ import right from '@/assets/images/new/right.png';
 
 import { Button } from '@/components/ui/button';
 import NewFeaturedCard from './NewFeaturedCard';
+import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
 
 const featuredCardItem = [
   {
@@ -26,10 +27,13 @@ const featuredCardItem = [
 function New() {
   return (
     <div className="py-16 px-4 border-b container mx-auto">
-      <h2 className="text-3xl font-thin mb-8 text-center">
-        Choose Your Meal at Feastify <br /> Fast, Easy Meals for Every Schedule
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 items-center justify-center gap-4">
+      <div className="text-center">
+        <FTSectionHeader className="mb-4">
+          Choose Your Meal at Feastify <br /> Fast, Easy Meals for Every
+          Schedule
+        </FTSectionHeader>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 items-center justify-center gap-4 py-8">
         {featuredCardItem.map((el, id) => (
           <NewFeaturedCard item={el} key={id} />
         ))}

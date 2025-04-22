@@ -3,7 +3,6 @@
 import { IReview } from '@/types';
 import { cookies } from 'next/headers';
 
-// FOR ADMIN
 export const getAllRecipeReviews = async () => {
   try {
     const res = await fetch(
