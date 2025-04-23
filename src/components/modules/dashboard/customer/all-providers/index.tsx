@@ -283,7 +283,7 @@ export default function AllProviders({
               </div>
             </CardContent>
             <CardFooter className="px-1 sm:px-3 pb-2">
-              <Link href={`/customer/all-providers/${provider._id}`}>
+              <Link href={`/all-providers/${provider._id}`}>
                 <Button size="sm">View Profile</Button>
               </Link>
             </CardFooter>

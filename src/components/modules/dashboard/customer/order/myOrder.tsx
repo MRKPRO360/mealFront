@@ -7,12 +7,16 @@ import Image from 'next/image';
 
 import Link from 'next/link';
 import TablePagination from '@/components/ui/core/FTTable/TablePagination';
+import { Frown } from 'lucide-react';
 
 const MyOrders = ({ orders, meta }: { orders: IOrder[]; meta: IMeta }) => {
   return (
     <div className="container mx-auto px-3 min-h-screen mt-14 mb-4 space-y-6">
       {orders.length === 0 ? (
-        <p className="text-center text-gray-500">No meal orders available.</p>
+        <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+          <Frown />
+          <span>No meal order available.</span>
+        </div>
       ) : (
         orders.map((order, index) => (
           <Card key={index} className="p-4 shadow-xs">

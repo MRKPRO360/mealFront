@@ -1,14 +1,3 @@
-// import { getMyAllMealPlans } from '@/services/PersonalMealPlanService';
-
-// async function CustomizeMyMealPlan() {
-//   const result = await getMyAllMealPlans();
-//   //   const { data, meta } = await getAllCategories();
-//   console.log(result);
-
-//   return <div></div>;
-// }
-
-// export default CustomizeMyMealPlan;
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -23,7 +12,7 @@ import {
   removeMealFromWeek,
   revalidateMealPlans,
 } from '@/services/PersonalMealPlanService';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Frown, Trash } from 'lucide-react';
 import Link from 'next/link';
 
 const CustomizeMyMealPlan = ({ myMealPlan }: { myMealPlan: IMealPlan[] }) => {
@@ -62,7 +51,10 @@ const CustomizeMyMealPlan = ({ myMealPlan }: { myMealPlan: IMealPlan[] }) => {
   return (
     <div className="container mx-auto px-3 min-h-screen mt-14 mb-4 space-y-6">
       {myMealPlan.length === 0 ? (
-        <p className="text-center text-gray-500">No meal plans available.</p>
+        <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+          <Frown />
+          <span>No meal plan available to customize.</span>
+        </div>
       ) : (
         myMealPlan.map((plan, index) => (
           <Card key={index} className="p-4 shadow-xs">

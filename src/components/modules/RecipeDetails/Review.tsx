@@ -18,7 +18,6 @@ function Review({
   targetType?: 'recipe' | 'provider';
 }) {
   const { user } = useUser();
-  console.log(user);
 
   const [loading, setLoading] = useState(false);
   const { recipeId, providerId } = useParams();
@@ -30,15 +29,24 @@ function Review({
 
     try {
       setLoading(true);
-      const { data } = await getReviewElegibility({
+      const result = await getReviewElegibility({
         targetId: (recipeId as string) || (providerId as string),
         targetType: targetType,
       });
 
-      if (!data.eligibleToReview) {
+      console.log(result);
+
+      if (result.success === false) {
+        setLoading(false);
+        return toast.error(
+          result.message || 'You must purchase before reviewing!'
+        );
+      }
+
+      if (result?.data?.eligibleToReview === false) {
         setLoading(false);
         return toast.error('You must purchase before reviewing!');
-      } else if (data.alreadyReviewed) {
+      } else if (result?.data?.alreadyReviewed) {
         setLoading(false);
 
         toast.error("You've already gave a review!");
@@ -77,7 +85,11 @@ function Review({
 
   if (myReview || user?.role === 'provider') return;
   return (
-    <div className="max-w-6xl rounded-xs mx-auto py-12 lg:mt-0">
+    <div
+      className={`max-w-6xl rounded-xs mx-auto ${
+        targetType === 'recipe' && 'py-12'
+      } lg:mt-0`}
+    >
       <div className={`bg-white ${targetType === 'recipe' && 'p-6'}`}>
         <ReviewBox loading={loading} onSubmit={onSubmit} />
       </div>

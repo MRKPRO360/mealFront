@@ -1,5 +1,5 @@
 'use client';
-import { signIn } from 'next-auth/react';
+// import { signIn } from 'next-auth/react';
 import { IoLogoGoogle } from 'react-icons/io5';
 import { IoLogoGithub } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,7 @@ import { toast } from 'sonner';
 import { loginSchema } from './LoginValidation';
 import { loginUser } from '@/services/AuthService';
 import { useUser } from '@/context/UserContext';
+import { useSocialLogin } from '@/hooks/useSocialLogin';
 
 function LoginForm() {
   const { setIsLoading } = useUser();
@@ -56,17 +57,19 @@ function LoginForm() {
     }
   };
 
-  const handleSocialLogin = (provider: string) => {
-    if (provider === 'github') {
-      signIn('github', {
-        callbackUrl: 'http://localhost:3000/profile',
-      });
-    } else if (provider === 'google') {
-      signIn('google', {
-        callbackUrl: 'http://localhost:3000/profile',
-      });
-    }
-  };
+  // const handleSocialLogin = (provider: string) => {
+  //   if (provider === 'github') {
+  //     signIn('github', {
+  //       callbackUrl: 'http://localhost:3000/profile',
+  //     });
+  //   } else if (provider === 'google') {
+  //     signIn('google', {
+  //       callbackUrl: 'http://localhost:3000/profile',
+  //     });
+  //   }
+  // };
+
+  const { handleSocialLogin, isLoading } = useSocialLogin();
 
   return (
     <div
@@ -157,6 +160,7 @@ function LoginForm() {
         <div className="mt-3 space-y-3">
           <div onClick={() => handleSocialLogin('google')}>
             <ButtonWithIcon
+              disabled={isLoading.google}
               icon={<IoLogoGoogle className="text-xl" />}
               text="Google"
               variant="black"
@@ -164,6 +168,7 @@ function LoginForm() {
           </div>
           <div onClick={() => handleSocialLogin('github')}>
             <ButtonWithIcon
+              disabled={isLoading.github}
               icon={<IoLogoGithub className="text-xl" />}
               text="Github"
               variant="blue"

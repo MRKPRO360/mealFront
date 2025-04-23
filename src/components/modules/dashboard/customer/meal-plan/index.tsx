@@ -13,6 +13,7 @@ import { getMealPlanForWeek, getRecentPlans } from '@/services/MealPlanService';
 import MyPlanCard from '@/components/modules/myMenu/MyPlanCard';
 import { getMyPreferences } from '@/services/AuthService';
 import { dietaryPreferences } from '@/constants/preference';
+import { Frown } from 'lucide-react';
 
 // Function to format weeks dynamically
 
@@ -192,11 +193,15 @@ const MyMealPlan = ({ isCustomer = true }: { isCustomer?: boolean }) => {
           ))}
         </div>
       ) : mealPlan && (mealPlan as IMealPlan[])?.length <= 0 ? (
-        <p className="text-center mt-4 text-gray-500">
-          No meal plan available for this week.
-        </p>
+        <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+          <Frown />
+          <span>No meal plan available for this week.</span>
+        </div>
       ) : (
-        ''
+        <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+          <Frown />
+          <span>No meal plan available.</span>
+        </div>
       )}
     </div>
   );
