@@ -2,6 +2,7 @@ import hero1 from '@/assets/images/hero/hero-1.jpg';
 import hero2 from '@/assets/images/hero/hero-2.jpg';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 function HomeBanner() {
   return (
     <div className="flex flex-col lg:flex-row bg-orange-100/50 ">
@@ -22,8 +23,10 @@ function HomeBanner() {
           </p>
           <span className="mt-2 font-bold">Pause or Cancel Anytime</span>
         </div>
-        <div className="text-center mb-3">
-          <Button>Get Started</Button>
+        <div className="text-center mt-3">
+          <Link href="/my-menu">
+            <Button>Get Started</Button>
+          </Link>
         </div>
 
         <span className="text-sm">

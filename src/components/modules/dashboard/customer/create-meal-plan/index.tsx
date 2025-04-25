@@ -42,10 +42,8 @@ function CreateMealPlanForm({
   recipes: IRecipe[];
   isCustomer?: boolean;
 }) {
-  const OPTIONS: Option[] = recipes?.map((recipe) => ({
-    label: recipe?.recipeName,
-    value: recipe?._id,
-  }));
+  const [isLoading, setIsLoading] = useState(true);
+  const [options, setOptions] = useState<Option[]>([]);
 
   const allowedDays = [1, 8, 15, 22];
 
@@ -73,7 +71,16 @@ function CreateMealPlanForm({
     getClosestAllowedDate()
   );
 
-  console.log(selectedDate);
+  useEffect(() => {
+    if (recipes?.length) {
+      const mappedOptions = recipes.map((recipe) => ({
+        label: recipe.recipeName,
+        value: recipe._id,
+      }));
+      setOptions(mappedOptions);
+      setIsLoading(false);
+    }
+  }, [recipes]);
 
   useEffect(() => {
     setSelectedDate(getClosestAllowedDate());
@@ -193,7 +200,7 @@ function CreateMealPlanForm({
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="selectedMeals"
             render={({ field }) => (
@@ -206,7 +213,10 @@ function CreateMealPlanForm({
                       value: val._id,
                       label: val.recipeName,
                     }))} // ✅ Convert strings to Option objects
-                    defaultOptions={OPTIONS}
+                    defaultOptions={recipes.map((recipe) => ({
+                      label: recipe.recipeName,
+                      value: recipe._id,
+                    }))}
                     placeholder="Select your meals"
                     emptyIndicator={
                       <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
@@ -224,6 +234,45 @@ function CreateMealPlanForm({
                       field.onChange(selectedRecipes);
                     }}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
+
+          <FormField
+            control={form.control}
+            name="selectedMeals"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Meals</FormLabel>
+                <FormControl>
+                  {isLoading ? (
+                    <div>Loading recipes...</div>
+                  ) : (
+                    <MultipleSelector
+                      {...field}
+                      value={(field?.value as IRecipe[])?.map((val) => ({
+                        value: val._id,
+                        label: val.recipeName,
+                      }))}
+                      defaultOptions={options}
+                      placeholder="Select your meals"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          No recipes available
+                        </p>
+                      }
+                      onChange={(selectedOptions) => {
+                        const selectedRecipes = selectedOptions
+                          .map((opt) =>
+                            recipes.find((r) => r._id === opt.value)
+                          )
+                          .filter(Boolean) as IRecipe[];
+                        field.onChange(selectedRecipes);
+                      }}
+                    />
+                  )}
                 </FormControl>
                 <FormMessage />
               </FormItem>
