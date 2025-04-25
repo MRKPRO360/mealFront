@@ -1,82 +1,66 @@
-# <span style="color:green">Feastify App</span> <!-- Heading 1 with HTML styling -->
+# Meal Box
 
-## <!-- Horizontal Rule -->
+---
 
-## <span style="color:blue">Installation</span> <!-- Heading 2 -->
+## Installation
 
-### <span style="color:green">Requirements</span> <!-- Heading 3 -->
+### Requirements
 
-- <span style="color:purple">`Node.js`</span> (v18 or later) <!-- List item with code highlight -->
-- <span style="color:purple">`npm`</span> (v9 or later) <!-- List item with code highlight -->
+- `Node.js` (v18 or later)
+- `npm` (v9 or later)
 
-### <span style="color:green">Setup</span> <!-- Heading 3 -->
+### Setup
 
-````bash
+```bash
 git clone https://github.com/your-repo/meal-box.git
 cd meal-box
 npm install
-``` <!-- Code block with bash syntax -->
-
-<!-- Horizontal Rule -->
----
-
-## <span style="color:blue">Development</span> <!-- Heading 2 -->
-
-### <span style="color:green">Start Dev Server</span> <!-- Heading 3 -->
-```bash
+Development
+Start Dev Server
+bash
 npm run dev
-``` <!-- Code block -->
-**Application will be available at:** <!-- Bold text -->
-`http://localhost:3000` <!-- Inline code -->
+Application will be available at: http://localhost:3000
 
-### <span style="color:green">Environment Setup</span> <!-- Heading 3 -->
-Create `.env.local` file with: <!-- Inline code in paragraph -->
-```env
+Environment Setup
+Create .env.local file with:
+
+env
 MONGODB_URI=your_mongodb_connection_string
 NEXTAUTH_SECRET=your_secret_key
 GOOGLE_CLIENT_ID=your_google_client_id
-``` <!-- Code block with env syntax -->
-
-<!-- Horizontal Rule -->
----
-
-## <span style="color:blue">Production Deployment</span> <!-- Heading 2 -->
-
-### <span style="color:green">Build</span> <!-- Heading 3 -->
-```bash
+Production Deployment
+Build the Application for Production
+bash
 npm run build
-``` <!-- Code block -->
-
-### <span style="color:green">Start Production Server</span> <!-- Heading 3 -->
-```bash
+Start Production Server
+bash
 npm run start
-``` <!-- Code block -->
+Features
+Customer Features
+🍽️ Meal customization (spice level, ingredients)
 
-<!-- Horizontal Rule -->
----
+📅 Weekly/Monthly meal planning
 
-## <span style="color:blue">Features</span> <!-- Heading 2 -->
+🛒 Cart management
 
-### <span style="color:green">Customer Features</span> <!-- Heading 3 -->
-- <span style="color:orange">🍽️ Meal customization</span> (`spice level`, `ingredients`)
-- <span style="color:orange">📅 Weekly/Monthly meal planning</span>
-- <span style="color:orange">🛒 Cart management</span>
-- <span style="color:orange">📊 Nutrition tracking</span>
-- <span style="color:orange">🧾 Order history and tracking</span> <!-- Inferred feature for customer order tracking -->
-- <span style="color:orange">💬 Customer support</span> <!-- Inferred feature for customer support -->
+📊 Nutrition tracking
 
-### <span style="color:green">Provider Features</span> <!-- Heading 3 -->
-- <span style="color:orange">📦 Meal inventory management</span>
-- <span style="color:orange">📊 Order analytics</span>
-- <span style="color:orange">📱 Customer communication</span>
-- <span style="color:orange">🔧 Update meal offerings</span> <!-- Inferred feature for providers managing meal options -->
-- <span style="color:orange">🔄 Manage meal statuses</span> <!-- Inferred feature for managing orders and status updates -->
+🧾 Order history and tracking
 
-<!-- Horizontal Rule -->
----
+💬 Customer support
 
-## <span style="color:blue">Project Structure</span> <!-- Heading 2 -->
-```tree
+Provider Features
+📦 Meal inventory management
+
+📈 Order analytics
+
+📱 Customer communication
+
+✏️ Update meal offerings
+
+✅ Manage meal statuses
+
+Project Structure
 src/
 ├── components/
 │   ├── meal/
@@ -90,18 +74,11 @@ src/
 │   ├── slices/
 │   └── store.ts
 └── styles/
-``` <!-- Code block with directory tree -->
+License
+MIT License
 
-<!-- Horizontal Rule -->
----
+Contact
+Email: support@feastify.example.com
 
-## <span style="color:blue">License</span> <!-- Heading 2 -->
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- Badge -->
 
-<!-- Horizontal Rule -->
----
-
-## <span style="color:blue">Contact</span> <!-- Heading 2 -->
-- **Email**: `support@feastify.example.com` <!-- Bold + inline code -->
-- **Twitter**: [@feastify-app](https://twitter.com/feastify-app) <!-- Link -->
-````
+```
