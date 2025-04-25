@@ -42,7 +42,7 @@ function UpdateMealPlanForm({
 }: {
   recipes: IRecipe[];
   weeklyPlan: IWeeklyPlan;
-  isCustomer: boolean;
+  isCustomer?: boolean;
 }) {
   const OPTIONS: Option[] = recipes.map((recipe) => ({
     label: recipe.recipeName,

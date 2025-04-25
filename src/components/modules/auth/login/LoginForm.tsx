@@ -57,18 +57,6 @@ function LoginForm() {
     }
   };
 
-  // const handleSocialLogin = (provider: string) => {
-  //   if (provider === 'github') {
-  //     signIn('github', {
-  //       callbackUrl: 'http://localhost:3000/profile',
-  //     });
-  //   } else if (provider === 'google') {
-  //     signIn('google', {
-  //       callbackUrl: 'http://localhost:3000/profile',
-  //     });
-  //   }
-  // };
-
   const { handleSocialLogin, isLoading } = useSocialLogin();
 
   return (

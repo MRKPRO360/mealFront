@@ -43,10 +43,12 @@ function MyPlanCard({
   recipe,
   tags,
   preferences,
+  userRole = 'customer',
 }: {
   recipe: IRecipe;
   tags?: string[];
   preferences?: string[];
+  userRole?: string;
 }) {
   const [customization, setCustomization] = useState<IMealCustomization | null>(
     null
@@ -108,7 +110,7 @@ function MyPlanCard({
       </Link>
       <CardContent className="pb-4">
         <CardTitle className="font-semibold md:min-h-8">
-          {recipe.recipeName}
+          <TruncatedText text={recipe.recipeName} maxLength={60} />
         </CardTitle>
         <CardDescription>
           <TruncatedText
@@ -126,202 +128,209 @@ function MyPlanCard({
               <Zap className="w-4 h-4 text-green-700" /> {recipe.difficulty}
             </div>
 
-            <FTContentModal
-              title="Customize Your Meal"
-              description="Customize your meal by your preference :)"
-              btnText="Customize"
-              // hideFooter
-              isNormalBtn={true}
-              icon={<Settings className="w-4 h-4 text-green-600 " />}
-              btnSize="sm"
-              btnVariant="ghost"
-              btnColor="green-700"
-            >
-              {(close) => {
-                const onSubmit = (data: ICustomization) => {
-                  toast.success('Your customization is applied!');
-                  console.log('Form Submitted:', data);
-                  // You can save to Redux, DB, etc.
-                  const selectedSpice = spiceMap[data.spiceLevel];
+            {userRole === 'customer' && (
+              <FTContentModal
+                title="Customize Your Meal"
+                description="Customize your meal by your preference :)"
+                btnText="Customize"
+                // hideFooter
+                isNormalBtn={true}
+                icon={<Settings className="w-4 h-4 text-green-600 " />}
+                btnSize="sm"
+                btnVariant="ghost"
+                btnColor="green-700"
+              >
+                {(close) => {
+                  const onSubmit = (data: ICustomization) => {
+                    toast.success('Your customization is applied!');
+                    console.log('Form Submitted:', data);
+                    // You can save to Redux, DB, etc.
+                    const selectedSpice = spiceMap[data.spiceLevel];
 
-                  setCustomization({ ...data, spiceLevel: selectedSpice });
-                  close();
-                };
+                    setCustomization({ ...data, spiceLevel: selectedSpice });
+                    close();
+                  };
 
-                return (
-                  <Form {...form}>
-                    <form
-                      onSubmit={form.handleSubmit(onSubmit)}
-                      className="space-y-6  "
-                    >
-                      {/* Dietary Preference */}
-                      <div className="space-y-2">
+                  return (
+                    <Form {...form}>
+                      <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6  "
+                      >
+                        {/* Dietary Preference */}
+                        <div className="space-y-2">
+                          <FormField
+                            control={form.control}
+                            name="dietaryPreference"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Choose one or more</FormLabel>
+                                <FormControl>
+                                  <div className="flex flex-wrap gap-3">
+                                    {tags?.map((option) => {
+                                      const isSelected =
+                                        field.value?.includes(option);
+
+                                      return (
+                                        <Button
+                                          key={option}
+                                          type="button"
+                                          size="sm"
+                                          variant={
+                                            isSelected ? 'default' : 'outline'
+                                          }
+                                          className={cn(
+                                            'rounded-full text-sm transition',
+                                            isSelected &&
+                                              'bg-green-600 text-white hover:bg-green-500'
+                                          )}
+                                          onClick={() => {
+                                            const valueArr = Array.isArray(
+                                              field.value
+                                            )
+                                              ? field.value
+                                              : [];
+
+                                            const alreadySelected =
+                                              valueArr?.includes(option);
+                                            const updated = alreadySelected
+                                              ? valueArr.filter(
+                                                  (v) => v !== option
+                                                )
+                                              : [
+                                                  ...(field.value || []),
+                                                  option,
+                                                ];
+                                            field.onChange(updated);
+                                          }}
+                                        >
+                                          {option}
+                                        </Button>
+                                      );
+                                    })}
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          {preferences && preferences.length > 0 && (
+                            <span className="flex items-center gap-0.5 text-xs text-muted-foreground">
+                              <Info className="w-3 h-3" />
+                              Your preferences are applied by default
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Spice Level */}
                         <FormField
                           control={form.control}
-                          name="dietaryPreference"
+                          name="spiceLevel"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Choose one or more</FormLabel>
+                              <FormLabel>Spice Level</FormLabel>
                               <FormControl>
-                                <div className="flex flex-wrap gap-3">
-                                  {tags?.map((option) => {
-                                    const isSelected =
-                                      field.value?.includes(option);
-
-                                    return (
-                                      <Button
-                                        key={option}
-                                        type="button"
-                                        size="sm"
-                                        variant={
-                                          isSelected ? 'default' : 'outline'
-                                        }
-                                        className={cn(
-                                          'rounded-full text-sm transition',
-                                          isSelected &&
-                                            'bg-green-600 text-white hover:bg-green-500'
-                                        )}
-                                        onClick={() => {
-                                          const valueArr = Array.isArray(
-                                            field.value
-                                          )
-                                            ? field.value
-                                            : [];
-
-                                          const alreadySelected =
-                                            valueArr?.includes(option);
-                                          const updated = alreadySelected
-                                            ? valueArr.filter(
-                                                (v) => v !== option
-                                              )
-                                            : [...(field.value || []), option];
-                                          field.onChange(updated);
-                                        }}
-                                      >
-                                        {option}
-                                      </Button>
-                                    );
-                                  })}
+                                <div>
+                                  <Slider
+                                    value={[field.value]}
+                                    onValueChange={(val) =>
+                                      field.onChange(val[0])
+                                    }
+                                    min={0}
+                                    max={4}
+                                    step={1}
+                                  />
+                                  <p className="text-sm text-muted-foreground mt-1">
+                                    Current: {field.value} / 4
+                                  </p>
                                 </div>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-                        {preferences && preferences.length > 0 && (
-                          <span className="flex items-center gap-0.5 text-xs text-muted-foreground">
-                            <Info className="w-3 h-3" />
-                            Your preferences are applied by default
-                          </span>
-                        )}
-                      </div>
 
-                      {/* Spice Level */}
-                      <FormField
-                        control={form.control}
-                        name="spiceLevel"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Spice Level</FormLabel>
-                            <FormControl>
-                              <div>
-                                <Slider
-                                  value={[field.value]}
-                                  onValueChange={(val) =>
-                                    field.onChange(val[0])
-                                  }
-                                  min={0}
-                                  max={4}
-                                  step={1}
-                                />
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  Current: {field.value} / 4
-                                </p>
+                        {/* Optional Ingredients */}
+                        <FormField
+                          control={form.control}
+                          name="ingredients"
+                          render={() => (
+                            <FormItem>
+                              <FormLabel>Optional Ingredients</FormLabel>
+                              <div className="flex flex-wrap gap-3">
+                                {optionalIngredients.map((item) => (
+                                  <FormField
+                                    key={item}
+                                    control={form.control}
+                                    name="ingredients"
+                                    render={({ field }) => {
+                                      return (
+                                        <FormItem
+                                          key={item}
+                                          className="flex items-center gap-2 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <Checkbox
+                                              checked={field.value?.includes(
+                                                item
+                                              )}
+                                              onCheckedChange={(checked) => {
+                                                return checked
+                                                  ? field.onChange([
+                                                      ...field.value,
+                                                      item,
+                                                    ])
+                                                  : field.onChange(
+                                                      field.value?.filter(
+                                                        (v) => v !== item
+                                                      )
+                                                    );
+                                              }}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="text-sm font-normal">
+                                            {item}
+                                          </FormLabel>
+                                        </FormItem>
+                                      );
+                                    }}
+                                  />
+                                ))}
                               </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                      {/* Optional Ingredients */}
-                      <FormField
-                        control={form.control}
-                        name="ingredients"
-                        render={() => (
-                          <FormItem>
-                            <FormLabel>Optional Ingredients</FormLabel>
-                            <div className="flex flex-wrap gap-3">
-                              {optionalIngredients.map((item) => (
-                                <FormField
-                                  key={item}
-                                  control={form.control}
-                                  name="ingredients"
-                                  render={({ field }) => {
-                                    return (
-                                      <FormItem
-                                        key={item}
-                                        className="flex items-center gap-2 space-y-0"
-                                      >
-                                        <FormControl>
-                                          <Checkbox
-                                            checked={field.value?.includes(
-                                              item
-                                            )}
-                                            onCheckedChange={(checked) => {
-                                              return checked
-                                                ? field.onChange([
-                                                    ...field.value,
-                                                    item,
-                                                  ])
-                                                : field.onChange(
-                                                    field.value?.filter(
-                                                      (v) => v !== item
-                                                    )
-                                                  );
-                                            }}
-                                          />
-                                        </FormControl>
-                                        <FormLabel className="text-sm font-normal">
-                                          {item}
-                                        </FormLabel>
-                                      </FormItem>
-                                    );
-                                  }}
-                                />
-                              ))}
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                        <div className="flex items-center gap-2 text-sm text-green-600 bg-green-100 rounded-md px-3 py-2 mt-2">
+                          <Smile className="w-4 h-4" />
+                          No extra charge needed for this customization 😊
+                        </div>
 
-                      <div className="flex items-center gap-2 text-sm text-green-600 bg-green-100 rounded-md px-3 py-2 mt-2">
-                        <Smile className="w-4 h-4" />
-                        No extra charge needed for this customization 😊
-                      </div>
-
-                      <Button type="submit" className="mt-4 w-full">
-                        Save Customization
-                      </Button>
-                    </form>
-                  </Form>
-                );
-              }}
-            </FTContentModal>
+                        <Button type="submit" className="mt-4 w-full">
+                          Save Customization
+                        </Button>
+                      </form>
+                    </Form>
+                  );
+                }}
+              </FTContentModal>
+            )}
           </div>
         </CardDescription>
-        <CardFooter className="px-0">
-          <Button
-            size="sm"
-            // variant="secondary"
-            onClick={() => handleAddMeals(recipe)}
-            className="w-full flex items-center  gap-2 cursor-pointer"
-          >
-            <ShoppingCart className="w-4 h-4 text-white" />
-            Cart
-          </Button>
-        </CardFooter>
+        {userRole === 'customer' && (
+          <CardFooter className="px-0">
+            <Button
+              size="sm"
+              // variant="secondary"
+              onClick={() => handleAddMeals(recipe)}
+              className="w-full flex items-center  gap-2 cursor-pointer"
+            >
+              <ShoppingCart className="w-4 h-4 text-white" />
+              Cart
+            </Button>
+          </CardFooter>
+        )}
       </CardContent>{' '}
     </Card>
   );

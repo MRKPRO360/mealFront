@@ -11,12 +11,21 @@ export function ButtonWithIcon({
   icon,
   disabled = false,
 }: IButtonWithIconProps) {
+  const baseClasses =
+    'w-full flex items-center justify-center p-2 rounded-xs transition-all';
+  const variantClasses = {
+    black: disabled
+      ? 'bg-black/80 text-white cursor-not-allowed'
+      : 'bg-black text-white cursor-pointer',
+    blue: disabled
+      ? 'bg-blue-400 text-white cursor-not-allowed'
+      : 'bg-blue-600 text-white cursor-pointer',
+  };
+
   return (
     <button
       disabled={disabled}
-      className={`w-full flex items-center justify-center cursor-pointer p-2 rounded-xs ${
-        variant === 'black' ? 'bg-black text-white' : 'bg-blue-500 text-white'
-      }`}
+      className={`${baseClasses} ${variantClasses[variant]}`}
     >
       {icon}
       <span className="ml-auto mr-auto">Login with {text}</span>

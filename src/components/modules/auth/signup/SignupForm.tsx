@@ -56,6 +56,7 @@ import MultipleSelector, {
 } from '@/components/ui/core/MulitpleSelector';
 import { cuisineSpecialties } from '@/constants/cuisineSpecialties';
 import { Textarea } from '@/components/ui/textarea';
+import { useSocialLogin } from '@/hooks/useSocialLogin';
 
 const roles = [
   {
@@ -97,6 +98,7 @@ function SignupForm() {
   const password = form.watch('password');
   const confirmPassword = form.watch('confirmPassword');
 
+  const { handleSocialLogin, isLoading } = useSocialLogin();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (!selectedRole || selectedRole === '')
       return toast.error('Select a role!');
@@ -519,16 +521,22 @@ function SignupForm() {
 
         {/* Social login */}
         <div className="mt-3 space-y-3">
-          <ButtonWithIcon
-            icon={<IoLogoGoogle className="text-xl" />}
-            text="Google"
-            variant="black"
-          />
-          <ButtonWithIcon
-            icon={<IoLogoGithub className="text-xl" />}
-            text="Github"
-            variant="blue"
-          />
+          <div onClick={() => handleSocialLogin('google')}>
+            <ButtonWithIcon
+              disabled={isLoading.google}
+              icon={<IoLogoGoogle className="text-xl" />}
+              text="Google"
+              variant="black"
+            />
+          </div>
+          <div onClick={() => handleSocialLogin('github')}>
+            <ButtonWithIcon
+              disabled={isLoading.github}
+              icon={<IoLogoGithub className="text-xl" />}
+              text="Github"
+              variant="blue"
+            />
+          </div>
         </div>
         <div className="text-center mt-4">
           Already have an account?{' '}

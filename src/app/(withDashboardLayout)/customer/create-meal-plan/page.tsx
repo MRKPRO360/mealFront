@@ -1,15 +1,19 @@
+'use client';
 import CreateMealPlanForm from '@/components/modules/dashboard/customer/create-meal-plan';
 
 import { getAllRecipesNameAndId } from '@/services/RecipeService';
+import { useEffect, useState } from 'react';
 
-async function CreateMyMealPlan() {
-  const { data } = await getAllRecipesNameAndId();
+function CreateMyMealPlan() {
+  const [recipes, setRecipes] = useState([]);
 
-  return (
-    <div>
-      <CreateMealPlanForm recipes={data} />
-    </div>
-  );
+  useEffect(() => {
+    getAllRecipesNameAndId().then(({ data }) => {
+      setRecipes(data);
+    });
+  }, []);
+
+  return <CreateMealPlanForm recipes={recipes} />;
 }
 
 export default CreateMyMealPlan;

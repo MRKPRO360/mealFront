@@ -8,6 +8,7 @@ import PlanCardSkeleton from '@/components/ui/core/PlanCardSkeleton';
 import { getMyPreferences } from '@/services/AuthService';
 import { dietaryPreferences } from '@/constants/preference';
 import MyPlanCard from '../myMenu/MyPlanCard';
+import { useUser } from '@/context/UserContext';
 
 // Function to format weeks dynamically
 // const formatWeekTabs = (mealPlans: IMealPlan[]) => {
@@ -70,6 +71,8 @@ interface IWeekTabs {
 }
 
 const Plan = () => {
+  const { user } = useUser();
+
   const [weekTabs, setWeekTabs] = useState<IWeekTabs[]>([]);
 
   const [selectedWeek, setSelectedWeek] = useState(''); // Default to current week
@@ -202,6 +205,7 @@ const Plan = () => {
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
           {mealPlan?.selectedMeals?.map((recipe: IRecipe) => (
             <MyPlanCard
+              userRole={user?.role}
               preferences={preferences}
               tags={tags}
               key={recipe._id}

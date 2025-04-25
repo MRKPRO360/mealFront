@@ -1,16 +1,20 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { IMeta, IUser } from '@/types';
 import Link from 'next/link';
-import { Filter, Heart, MapPin, Search, Star, Utensils, X } from 'lucide-react';
+import {
+  Filter,
+  Frown,
+  Heart,
+  MapPin,
+  Search,
+  Star,
+  Utensils,
+  X,
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -193,7 +197,7 @@ export default function AllProviders({
                     variant="destructive"
                     onClick={clearFilters}
                     className="
-                    bg-destructive rounded-[3px] text-white shadow-xs hover:bg-destructive/80 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40
+                    bg-black rounded-[3px] text-white shadow-xs hover:bg-black/80 focus-visible:ring-black/20 dark:focus-visible:ring-black/40  
                     border-input focus-visible:border-ring  aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex p-3 h-8 sm:h-11 md:w-full items-center justify-between gap-2  border px-3 py-2 text-sm whitespace-nowrap  transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
                   >
                     <X />
@@ -208,87 +212,101 @@ export default function AllProviders({
 
       {/* Providers Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {providers.map((provider) => (
-          <Card
-            key={provider._id}
-            className="shadow-xs hover:shadow-sm transition-shadow duration-300 group"
-          >
-            <CardHeader className="p-0">
-              <div className="relative">
-                <div className="aspect-video overflow-hidden rounded-t-lg">
-                  <Image
-                    width={300}
-                    height={200}
-                    src={provider.profileImg || ''}
-                    alt={`${provider.name.firstName} ${provider.name.lastName}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+        {providers.length <= 0 ? (
+          <div className="text-center text-muted-foreground grid place-content-center w-[90vw] md:w-[75vw] lg:w-[60vw] h-[50vh] ">
+            <div className="flex items-center gap-2 text-gray-400 text-lg font-medium">
+              <Frown className="w-8 h-8 " />
+              No provider found for the selected filters.
+            </div>
+            <p className="text-sm mt-1">
+              Try adjusting your search or filter options.
+            </p>
+          </div>
+        ) : (
+          providers.map((provider) => (
+            <Card
+              key={provider._id}
+              className="shadow-xs hover:shadow-sm transition-shadow duration-300 group"
+            >
+              <CardHeader className="p-0">
+                <div className="relative">
+                  <div className="aspect-video overflow-hidden rounded-t-xs">
+                    <Image
+                      width={300}
+                      height={200}
+                      src={provider.profileImg || ''}
+                      alt={`${provider.name.firstName} ${provider.name.lastName}`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 h-8 w-8"
+                  >
+                    <Heart className="h-4 w-4 text-rose-500" />
+                  </Button>
                 </div>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="absolute top-2 right-2 bg-white/90 hover:bg-white rounded-full p-2 h-8 w-8"
-                >
-                  <Heart className="h-4 w-4 text-rose-500" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12 border-2 border-white -mt-8 shadow-md">
-                    <AvatarImage src={provider.profileImg} />
-                    <AvatarFallback>
-                      {provider.name.firstName.charAt(0)}
-                      {provider.name.lastName.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3 className="font-semibold">
-                      {provider.name.firstName} {provider.name.lastName}
-                    </h3>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">
-                        {provider.rating} ({provider.ratingsCount})
-                      </span>
+              </CardHeader>
+              <CardContent className="py-2 flex flex-col justify-between h-full">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12 border-2 border-white -mt-8 shadow-md">
+                      <AvatarImage src={provider.profileImg} />
+                      <AvatarFallback>
+                        {provider.name.firstName.charAt(0)}
+                        {provider.name.lastName.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3 className="font-semibold">
+                        {provider.name.firstName} {provider.name.lastName}
+                      </h3>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span className="text-sm font-medium">
+                          {provider.rating} ({provider.ratingsCount})
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-4">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>{provider?.address?.city}</span>
+                <div className="mt-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                    <MapPin className="h-4 w-4" />
+                    <span>{provider?.address?.city}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 my-2">
+                    {provider?.cuisineSpecialties
+                      ?.slice(0, 3)
+                      .map((cuisine) => (
+                        <Badge
+                          key={cuisine}
+                          variant="secondary"
+                          className="flex items-center gap-1"
+                        >
+                          <Utensils className="h-3 w-3" />
+                          {cuisine}
+                        </Badge>
+                      ))}
+                    {provider?.cuisineSpecialties &&
+                      provider?.cuisineSpecialties?.length > 3 && (
+                        <Badge variant="outline">
+                          +{provider.cuisineSpecialties.length - 3}
+                        </Badge>
+                      )}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {provider?.cuisineSpecialties?.slice(0, 3).map((cuisine) => (
-                    <Badge
-                      key={cuisine}
-                      variant="secondary"
-                      className="flex items-center gap-1"
-                    >
-                      <Utensils className="h-3 w-3" />
-                      {cuisine}
-                    </Badge>
-                  ))}
-                  {provider?.cuisineSpecialties &&
-                    provider?.cuisineSpecialties?.length > 3 && (
-                      <Badge variant="outline">
-                        +{provider.cuisineSpecialties.length - 3}
-                      </Badge>
-                    )}
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="px-1 sm:px-3 pb-2">
-              <Link href={`/all-providers/${provider._id}`}>
-                <Button size="sm">View Profile</Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        ))}
+                {/* <CardFooter> */}
+                <Link href={`/all-providers/${provider._id}`}>
+                  <Button size="sm">View Profile</Button>
+                </Link>
+                {/* </CardFooter> */}
+              </CardContent>
+            </Card>
+          ))
+        )}
       </div>
 
       {/* Pagination */}

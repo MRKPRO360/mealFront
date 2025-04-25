@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 import {
@@ -32,7 +33,6 @@ import MultipleSelector, {
 
 import { IRecipe } from '@/types';
 import { createMyPlans } from '@/services/PersonalMealPlanService';
-import { useEffect, useState } from 'react';
 import { createPlans } from '@/services/MealPlanService';
 
 function CreateMealPlanForm({
@@ -55,16 +55,25 @@ function CreateMealPlanForm({
     const currentYear = today.getFullYear();
     const todayDate = today.getDate();
 
-    // Find the closest allowed date
-    const closestDate =
-      allowedDays.find((day) => day >= todayDate) || allowedDays[0];
+    // Find the closest allowed date in current month
+    const closestDateInCurrentMonth = allowedDays.find(
+      (day) => day >= todayDate
+    );
 
-    return new Date(currentYear, currentMonth, closestDate);
+    if (closestDateInCurrentMonth) {
+      return new Date(currentYear, currentMonth, closestDateInCurrentMonth);
+    }
+
+    // If no dates left in current month, get first date of next month
+    const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
+    const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
+    return new Date(nextYear, nextMonth, allowedDays[0]);
   };
-
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     getClosestAllowedDate()
   );
+
+  console.log(selectedDate);
 
   useEffect(() => {
     setSelectedDate(getClosestAllowedDate());
@@ -150,16 +159,29 @@ function CreateMealPlanForm({
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
+                      month={selectedDate}
                       selected={selectedDate}
                       onSelect={setSelectedDate}
                       disabled={(date) => {
-                        const currentMonth = new Date().getMonth();
-                        const currentYear = new Date().getFullYear();
-                        return (
-                          date.getMonth() !== currentMonth ||
-                          date.getFullYear() !== currentYear ||
-                          !allowedDays.includes(date.getDate())
-                        );
+                        // const today = new Date();
+                        // today.setHours(0, 0, 0, 0);
+                        // if (date < today) return true;
+                        // const currentMonth = new Date().getMonth();
+                        // const currentYear = new Date().getFullYear();
+                        // return (
+                        //   date.getMonth() !== currentMonth ||
+                        //   date.getFullYear() !== currentYear ||
+                        //   !allowedDays.includes(date.getDate())
+                        // );
+
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // Disable dates before today
+                        if (date < today) return true;
+
+                        // Only allow dates that are in the allowedDays array (1, 8, 15, 22)
+                        return !allowedDays.includes(date.getDate());
                       }}
                       initialFocus
                     />

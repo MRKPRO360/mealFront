@@ -13,11 +13,11 @@ export default function CartMeals() {
   return (
     <div className="bg-white rounded-sm col-span-12 lg:col-span-8 h-full row-span-3  space-y-5">
       {meals.length === 0 && (
-        <div className="text-center text-gray-500">
+        <div className="text-center text-gray-500 mt-4">
           <p className="text-lg font-semibold">Your cart is empty</p>
           <p className="mt-2">
-            Looks like your cart is on vacation—bring it back to work by adding
-            some items!
+            Your cart is emptier than a desert at high noon - time to quench its
+            thirst with some delicious items!
           </p>
           <div className="flex justify-center items-center ">
             <Image src={emptyCart} alt="empty cart" />

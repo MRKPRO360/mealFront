@@ -14,6 +14,7 @@ import MyPlanCard from '@/components/modules/myMenu/MyPlanCard';
 import { getMyPreferences } from '@/services/AuthService';
 import { dietaryPreferences } from '@/constants/preference';
 import { Frown } from 'lucide-react';
+import { useUser } from '@/context/UserContext';
 
 // Function to format weeks dynamically
 
@@ -52,6 +53,8 @@ interface IWeekTabs {
 }
 
 const MyMealPlan = ({ isCustomer = true }: { isCustomer?: boolean }) => {
+  const { user } = useUser();
+
   const [weekTabs, setWeekTabs] = useState<IWeekTabs[]>([]);
 
   const [selectedWeek, setSelectedWeek] = useState(''); // Default to current week
@@ -112,7 +115,7 @@ const MyMealPlan = ({ isCustomer = true }: { isCustomer?: boolean }) => {
     };
 
     fetchRecentPlans();
-  }, []);
+  }, [isCustomer]);
 
   useEffect(() => {
     if (!selectedWeek) return;
@@ -182,21 +185,24 @@ const MyMealPlan = ({ isCustomer = true }: { isCustomer?: boolean }) => {
           ))}
         </div>
       ) : mealPlan ? (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
-          {mealPlan?.selectedMeals?.map((recipe: IRecipe) => (
-            <MyPlanCard
-              preferences={preferences}
-              tags={tags}
-              key={recipe._id}
-              recipe={recipe}
-            />
-          ))}
-        </div>
-      ) : mealPlan && (mealPlan as IMealPlan[])?.length <= 0 ? (
-        <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
-          <Frown />
-          <span>No meal plan available for this week.</span>
-        </div>
+        mealPlan.selectedMeals?.length > 0 ? (
+          <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 justify-between">
+            {mealPlan.selectedMeals.map((recipe: IRecipe) => (
+              <MyPlanCard
+                userRole={user?.role || 'customer'}
+                preferences={preferences}
+                tags={tags}
+                key={recipe._id}
+                recipe={recipe}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
+            <Frown />
+            <span>No meal plan available for this week.</span>
+          </div>
+        )
       ) : (
         <div className="flex text-lg font-semibold items-center justify-center text-gray-500 gap-2 w-full h-full">
           <Frown />

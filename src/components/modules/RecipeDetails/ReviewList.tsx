@@ -34,10 +34,12 @@ export default function ReviewList({
 
   const visibleReviews = userReview.slice(0, visibleCount);
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     try {
-      // await your API call here...
-      if (!myReview?._id) return toast("The review id doesn't exist");
+      if (!myReview?._id) {
+        toast("The review id doesn't exist");
+        return;
+      }
       const result = await deleteMyReview(myReview?._id);
 
       if (result.success) {
@@ -66,8 +68,10 @@ export default function ReviewList({
   const onSubmit = async (payload: Partial<IReview>, close: () => void) => {
     setLoading(true);
     try {
-      // await your API call here...
-      if (!myReview?._id) return toast("The review id doesn't exist");
+      if (!myReview?._id) {
+        toast("The review id doesn't exist");
+        return;
+      }
       const result = await updateMyReview(myReview?._id, {
         rating: payload.rating,
         comment: payload.comment,
@@ -106,31 +110,68 @@ export default function ReviewList({
           {myReview && (
             <div className={` ${!providerReview && 'mb-8'}`}>
               <h2 className="text-xl mb-4 font-semibold">My Review</h2>
-              <Card className="not-last-child-border">
+              <Card key={myReview._id}>
                 <CardContent className="sm:px-0 flex items-start gap-4 ">
                   <Avatar>
                     <AvatarImage src={myReview.userId.customer.profileImg} />
                   </Avatar>
-                  <div className="space-y-1">
-                    <p className="font-medium">
-                      {myReview.userId.name.firstName}{' '}
-                      {myReview.userId.name.lastName}
-                    </p>
-                    <div className="flex items-center gap-1 text-yellow-500">
-                      <Star size={16} fill="currentColor" />
-                      <span className="text-sm">
-                        {myReview.rating.toFixed(1)}
-                      </span>
+                  {/* <div className="space-y-1">
+                        <p className="font-medium">
+                          {review.userId.name.firstName}{' '}
+                          {review.userId.name.lastName}
+                        </p>
+                        <div className="flex items-center gap-1 text-yellow-500">
+                          <Star size={16} fill="currentColor" />
+                          <span className="text-sm">
+                            {review.rating.toFixed(1)}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {review.comment}
+                        </p>
+                        <p className="text-xs pb-1 text-gray-500">
+                          Reviewed on{' '}
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </p>
+                      </div> */}
+
+                  <div className="space-y-3  p-4 bg-gray-50 rounded-xs shadow-sm border border-gray-50 w-full">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium text-gray-900">
+                          {myReview.userId.name.firstName}{' '}
+                          <span className="font-semibold">
+                            {myReview.userId.name.lastName}
+                          </span>
+                        </h4>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-full">
+                            <Star
+                              size={16}
+                              className="text-amber-500 fill-amber-400"
+                            />
+                            <span className="text-sm font-medium text-amber-800">
+                              {myReview.rating.toFixed(1)}
+                            </span>
+                          </div>
+                          <span className="text-xs text-gray-500">
+                            {new Date(myReview.createdAt).toLocaleDateString(
+                              'en-US',
+                              {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              }
+                            )}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground">
+
+                    <p className="text-gray-700 leading-relaxed">
                       {myReview.comment}
                     </p>
-                    <p className="text-xs text-gray-500">
-                      Reviewed on{' '}
-                      {new Date(myReview.createdAt).toLocaleDateString()}
-                    </p>
-                    {/* Add logic to edit */}
-                    <div className="flex">
+                    <div className="flex border-t border-gray-100">
                       <FTContentModal
                         title="Edit your review"
                         description="Update your feedback"
@@ -167,6 +208,68 @@ export default function ReviewList({
                   </div>
                 </CardContent>
               </Card>
+
+              {/* <Card>
+                <CardContent className="sm:px-0 flex items-start gap-4 ">
+                  <Avatar>
+                    <AvatarImage src={myReview.userId.customer.profileImg} />
+                  </Avatar>
+                  <div className="space-y-1">
+                    <p className="font-medium">
+                      {myReview.userId.name.firstName}{' '}
+                      {myReview.userId.name.lastName}
+                    </p>
+                    <div className="flex items-center gap-1 text-yellow-500">
+                      <Star size={16} fill="currentColor" />
+                      <span className="text-sm">
+                        {myReview.rating.toFixed(1)}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {myReview.comment}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Reviewed on{' '}
+                      {new Date(myReview.createdAt).toLocaleDateString()}
+                    </p>
+                  
+                    <div className="flex">
+                      <FTContentModal
+                        title="Edit your review"
+                        description="Update your feedback"
+                        hideFooter
+                        icon={<Edit />}
+                        btnSize="sm"
+                        btnVariant="ghost"
+                        btnColor="green-700"
+                      >
+                        {(close) => (
+                          <ReviewBox
+                            prevComment={myReview.comment}
+                            prevRating={myReview.rating}
+                            loading={loading}
+                            onSubmit={(payload) => onSubmit(payload, close)}
+                          />
+                        )}
+                      </FTContentModal>
+
+                      <FTModal
+                        title="Delete Review?"
+                        description="This action cannot be undone. This will permanently delete your review :("
+                        onConfirm={() => handleDelete()}
+                      >
+                        <Button
+                          className="rounded-xs"
+                          size="sm"
+                          variant="ghost"
+                        >
+                          <Trash className="text-red-700" />
+                        </Button>
+                      </FTModal>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card> */}
             </div>
           )}
 
@@ -175,12 +278,12 @@ export default function ReviewList({
               <h2 className="text-xl mb-4 font-semibold">All Reviews</h2>
               <div className="space-y-4">
                 {visibleReviews?.map((review) => (
-                  <Card key={review._id} className="not-last-child-border">
+                  <Card key={review._id}>
                     <CardContent className="sm:px-0 flex items-start gap-4 ">
                       <Avatar>
                         <AvatarImage src={review.userId.customer.profileImg} />
                       </Avatar>
-                      <div className="space-y-1">
+                      {/* <div className="space-y-1">
                         <p className="font-medium">
                           {review.userId.name.firstName}{' '}
                           {review.userId.name.lastName}
@@ -198,6 +301,53 @@ export default function ReviewList({
                           Reviewed on{' '}
                           {new Date(review.createdAt).toLocaleDateString()}
                         </p>
+                      </div> */}
+
+                      <div className="space-y-3  p-4 bg-gray-50 rounded-xs shadow-sm border border-gray-50 w-full">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h4 className="font-medium text-gray-900">
+                              {review.userId.name.firstName}{' '}
+                              <span className="font-semibold">
+                                {review.userId.name.lastName}
+                              </span>
+                            </h4>
+                            <div className="flex items-center gap-1.5 mt-1">
+                              <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-full">
+                                <Star
+                                  size={16}
+                                  className="text-amber-500 fill-amber-400"
+                                />
+                                <span className="text-sm font-medium text-amber-800">
+                                  {review.rating.toFixed(1)}
+                                </span>
+                              </div>
+                              <span className="text-xs text-gray-500">
+                                {new Date(review.createdAt).toLocaleDateString(
+                                  'en-US',
+                                  {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                  }
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="text-gray-700 leading-relaxed">
+                          {review.comment}
+                        </p>
+
+                        <div className="flex items-center gap-4 pt-2 border-t border-gray-100">
+                          <button className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors">
+                            Helpful?
+                          </button>
+                          <button className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors">
+                            Report
+                          </button>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>

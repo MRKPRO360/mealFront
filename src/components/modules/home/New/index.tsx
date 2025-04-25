@@ -5,6 +5,7 @@ import right from '@/assets/images/new/right.png';
 import { Button } from '@/components/ui/button';
 import NewFeaturedCard from './NewFeaturedCard';
 import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
+import Link from 'next/link';
 
 const featuredCardItem = [
   {
@@ -39,7 +40,9 @@ function New() {
         ))}
       </div>
       <div className="text-center mt-3">
-        <Button>Get Started</Button>
+        <Link href="/my-menu">
+          <Button>Get Started</Button>
+        </Link>
       </div>
     </div>
   );

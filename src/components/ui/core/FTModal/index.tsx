@@ -36,7 +36,12 @@ export const FTModal = ({
 
   return (
     <>
-      <div onClick={() => setOpen(true)}>{children}</div>
+      <span
+        onClick={() => setOpen(true)}
+        className="flex items-center justify-center"
+      >
+        {children}
+      </span>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>

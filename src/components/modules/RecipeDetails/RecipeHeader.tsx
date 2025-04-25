@@ -9,6 +9,7 @@ import { IRecipe, IUser } from '@/types';
 import { ShoppingCart } from 'lucide-react';
 import ProviderInfo from './ProviderInfo';
 import { useUser } from '@/context/UserContext';
+import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 function RecipeHeader({ recipe }: { recipe: IRecipe }) {
   const dispatch = useAppDispatch();
@@ -69,12 +70,26 @@ function RecipeHeader({ recipe }: { recipe: IRecipe }) {
               sesame, shellfish, soy, tree nuts, and wheat.
             </p>
             {/* Rating */}
-            <p className="text-md ">
-              <span className="font-semibold">Rating</span>: ⭐{recipe.rating}
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Rating:</span>
+              <div className="flex items-center">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span key={star} className="text-xl">
+                    {Number(recipe.rating) >= star ? (
+                      <FaStar className="text-yellow-400" />
+                    ) : Number(recipe.rating) >= star - 0.5 ? (
+                      <FaStarHalfAlt className="text-yellow-400" />
+                    ) : (
+                      <FaRegStar className="text-yellow-400" />
+                    )}
+                  </span>
+                ))}
+              </div>
+              <span>{Number(recipe.rating).toFixed(1)}</span>
+            </div>
           </div>
 
-          <div className="">
+          <div>
             {/* Time & Difficulty */}
             <Card className="flex-1">
               <CardContent className="text-center space-y-4 sm:px-0">

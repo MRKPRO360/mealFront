@@ -1,7 +1,6 @@
 'use client';
 
 import { IRecipe } from '@/types';
-import RecipeCard from './RecipeCard';
 import { useEffect, useMemo, useState } from 'react';
 import { dietaryPreferences } from '@/constants/preference';
 import { getMyPreferences } from '@/services/AuthService';

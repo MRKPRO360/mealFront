@@ -1,11 +1,7 @@
 import MyMealPlan from '@/components/modules/dashboard/customer/meal-plan';
 
 function MealPlanPage() {
-  return (
-    <div>
-      <MyMealPlan />
-    </div>
-  );
+  return <MyMealPlan />;
 }
 
 export default MealPlanPage;

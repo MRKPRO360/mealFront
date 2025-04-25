@@ -1,10 +1,5 @@
 'use client';
-import { signIn } from 'next-auth/react';
-import { IoLogoGoogle } from 'react-icons/io5';
-import { IoLogoGithub } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { ButtonWithIcon } from '@/components/ui/core/ButtonWithIcon';
 import {
   Form,
   FormControl,
@@ -14,13 +9,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { changeUserPassword, loginUser } from '@/services/AuthService';
+import { changeUserPassword } from '@/services/AuthService';
 import { useUser } from '@/context/UserContext';
 import { changePasswordSchema } from './ChangePasswordValidation';
 

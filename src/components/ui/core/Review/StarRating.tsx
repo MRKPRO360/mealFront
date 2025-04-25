@@ -1,41 +1,43 @@
-import { Star } from 'lucide-react';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 
 const StarRating = ({
   value,
   onChange,
-  precision = 0.1,
 }: {
   value: number;
   onChange: (val: number) => void;
-  precision?: number;
 }) => {
   const [hoverValue, setHoverValue] = useState<number | null>(null);
 
-  const stars = Array.from({ length: 5 }, (_, i) => {
-    const current = i + 1;
-    return (
-      <span
-        key={i}
-        className="cursor-pointer"
-        onMouseEnter={() => setHoverValue(current)}
-        onMouseLeave={() => setHoverValue(null)}
-        onClick={() => onChange(current)}
-      >
-        <Star
-          className={`w-6 h-6 ${
-            (hoverValue ?? value) >= current
-              ? 'fill-yellow-400 stroke-yellow-500'
-              : 'stroke-gray-300'
-          }`}
-        />
-      </span>
-    );
-  });
+  return (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => {
+        const showHalfStar = !hoverValue && value > star - 1 && value < star;
 
-  return <div className="flex items-center gap-1">{stars}</div>;
+        const isFilled = (hoverValue || value) >= star;
+
+        return (
+          <button
+            key={star}
+            type="button"
+            className="text-2xl focus:outline-none relative"
+            onClick={() => onChange(star)}
+            onMouseEnter={() => setHoverValue(star)}
+            onMouseLeave={() => setHoverValue(null)}
+          >
+            {showHalfStar ? (
+              <FaStarHalfAlt className="text-yellow-400" />
+            ) : isFilled ? (
+              <FaStar className="text-yellow-400" />
+            ) : (
+              <FaRegStar className="text-gray-300" />
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
 };
 
 export default StarRating;

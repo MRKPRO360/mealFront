@@ -52,6 +52,17 @@ const getNavItemsByRole = (role: string) => {
           ],
         },
         {
+          title: 'My Cart',
+          url: '/cart',
+          icon: SquareTerminal,
+          items: [
+            {
+              title: 'Cart',
+              url: '/cart',
+            },
+          ],
+        },
+        {
           title: 'Settings',
           url: '/profile',
           icon: Settings2,

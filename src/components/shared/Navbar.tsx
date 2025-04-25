@@ -95,23 +95,25 @@ function Navbar() {
               !user?.email && 'gap-x-5'
             }`}
           >
-            <Link
-              href="/cart"
-              className="border-r-[2px] border-r-gray-300 pr-3 self-stretch hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-4"
-            >
-              <div className="relative">
-                <ShoppingCart
-                  className="text-gray-800"
-                  size={25}
-                  strokeWidth={2.4}
-                />
-                {cartProducts.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-green-700 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartProducts.length}
-                  </span>
-                )}
-              </div>
-            </Link>
+            {user?.role === 'customer' && (
+              <Link
+                href="/cart"
+                className="border-r-[2px] border-r-gray-300 pr-3 self-stretch hover:bg-[#d2fa97]/50 px-2 md:px-3 lg:px-5 py-4"
+              >
+                <div className="relative">
+                  <ShoppingCart
+                    className="text-gray-800"
+                    size={25}
+                    strokeWidth={2.4}
+                  />
+                  {cartProducts.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-green-700 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                      {cartProducts.length}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            )}
             {user?.email ? (
               <div className="flex items-center gap-2">
                 <Link
