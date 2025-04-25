@@ -1,4 +1,4 @@
-# <span style="color:green">Meal Box</span> <!-- Heading 1 with HTML styling -->
+# <span style="color:green">Feastify App</span> <!-- Heading 1 with HTML styling -->
 
 ## <!-- Horizontal Rule -->
 
@@ -102,6 +102,6 @@ src/
 ---
 
 ## <span style="color:blue">Contact</span> <!-- Heading 2 -->
-- **Email**: `support@mealbox.example.com` <!-- Bold + inline code -->
-- **Twitter**: [@MealBoxApp](https://twitter.com/MealBoxApp) <!-- Link -->
+- **Email**: `support@feastify.example.com` <!-- Bold + inline code -->
+- **Twitter**: [@feastify-app](https://twitter.com/feastify-app) <!-- Link -->
 ````
