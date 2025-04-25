@@ -1,197 +1,107 @@
-# 🍽️ Meal Backend API
+# <span style="color:green">Meal Box</span> <!-- Heading 1 with HTML styling -->
 
-A modern API built with [Node.js](https://nodejs.org/), [Express](https://expressjs.com/), [Mongoose](https://mongoosejs.com), [TypeScript](https://www.typescript.org) and ❤️.
+## <!-- Horizontal Rule -->
 
-## Table of Contents
+## <span style="color:blue">Installation</span> <!-- Heading 2 -->
 
-- [About the Project](#about-the-project)
-- [Features](#features)
-- [Demo](#demo)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Database Models](#database-models)
-- [Key Functionality](#key-functionality)
-- [Contributing](#contributing)
-- [Notes](#notes)
-- [License](#license)
+### <span style="color:green">Requirements</span> <!-- Heading 3 -->
 
-## About The Project
+- <span style="color:purple">`Node.js`</span> (v18 or later) <!-- List item with code highlight -->
+- <span style="color:purple">`npm`</span> (v9 or later) <!-- List item with code highlight -->
 
-This API allows users to manage meal plans, recipes, and user orders in a comprehensive meal delivery system. Users can create meal plans, manage recipes, place orders, and track deliveries.
+### <span style="color:green">Setup</span> <!-- Heading 3 -->
 
-## Features
-
-✅ Create and manage user accounts (Customer, Provider, Admin)  
-✅ Comprehensive recipe management with nutrition details  
-✅ Weekly and monthly meal planning  
-✅ Order processing with status tracking  
-✅ Review system for recipes and providers  
-✅ Stripe payment integration  
-✅ Sophisticated error handling
-
-## Demo
-
-![App Screenshot](https://i.ibb.co.com/bgfNBY72/6bfc4432-5bea-402d-a0cc-1c6858dec581.png)
-
-👉 [Live Demo](https://meal-backend-nine.vercel.app/)
-
-## Tech Stack
-
-- **Backend:** Node.js, Express
-- **Database:** MongoDB (Mongoose)
-- **Authentication:** JWT
-- **Payments:** Stripe
-- **Dev Tools:** TypeScript, Morgan
-- **Deployment:** Vercel
-
-## Installation
-
-### Prerequisites
-
-- Node.js 18+
-- MongoDB
-- Stripe account
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/your-repo/meal-api.git
-cd meal-api
-Install Dependencies
-bash
+````bash
+git clone https://github.com/your-repo/meal-box.git
+cd meal-box
 npm install
-Environment Variables
-Create a .env file in the project root:
+``` <!-- Code block with bash syntax -->
 
-ini
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/meal-app
-JWT_SECRET=your_jwt_secret_here
-NEXT_PUBLIC_STRIPE_PK=your_stripe_pk
-Start the Server
-Development:
+<!-- Horizontal Rule -->
+---
 
-bash
+## <span style="color:blue">Development</span> <!-- Heading 2 -->
+
+### <span style="color:green">Start Dev Server</span> <!-- Heading 3 -->
+```bash
 npm run dev
-Production:
+``` <!-- Code block -->
+**Application will be available at:** <!-- Bold text -->
+`http://localhost:3000` <!-- Inline code -->
 
-bash
+### <span style="color:green">Environment Setup</span> <!-- Heading 3 -->
+Create `.env.local` file with: <!-- Inline code in paragraph -->
+```env
+MONGODB_URI=your_mongodb_connection_string
+NEXTAUTH_SECRET=your_secret_key
+GOOGLE_CLIENT_ID=your_google_client_id
+``` <!-- Code block with env syntax -->
+
+<!-- Horizontal Rule -->
+---
+
+## <span style="color:blue">Production Deployment</span> <!-- Heading 2 -->
+
+### <span style="color:green">Build</span> <!-- Heading 3 -->
+```bash
 npm run build
-npm start
-API Endpoints
-Base URL
-https://your-api-domain.com/api/v1
+``` <!-- Code block -->
 
-Authentication
-Endpoint	Method	Description	Required Role
-/auth/login	POST	User login	Any
-/auth/refresh-token	POST	Refresh token	Any
-/auth/change-password	POST	Change password	Any
-Users
-Endpoint	Method	Description
-/users/create-customer	POST	Create customer (Admin)
-/users/create-provider	POST	Create provider (Admin)
-/users/me	GET	Get current user
-Recipes
-Endpoint	Method	Description
-/recipes	POST	Create recipe (Provider)
-/recipes	GET	List recipes
-/recipes/:id	GET	Get recipe details
-Example Requests
-Create Recipe
-http
-POST /api/v1/recipes
-Authorization: Bearer <provider_token>
-Content-Type: multipart/form-data
+### <span style="color:green">Start Production Server</span> <!-- Heading 3 -->
+```bash
+npm run start
+``` <!-- Code block -->
 
-Form Data:
-- file: <image_file>
-- data: {
-  "recipeName": "Grilled Salmon",
-  "description": "Healthy salmon dish...",
-  "ingredients": [...],
-  "nutritionValues": {...}
-}
-Get Recipe
-http
-GET /api/v1/recipes/507f1f77bcf86cd799439011
-Authorization: Bearer <user_token>
-Database Models
-User Schema
-typescript
-interface IUser {
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-  email: string;
-  password: string;
-  role: 'customer' | 'provider' | 'admin';
-  profileImg?: string;
-}
-Recipe Schema
-typescript
-interface IRecipe {
-  recipeName: string;
-  description: string;
-  ingredients: {
-    name: string;
-    quantity: string;
-  }[];
-  nutritionValues: {
-    calories: string;
-    protein: string;
-    // ...other fields
-  };
-  createdBy: mongoose.Types.ObjectId;
-}
-Key Functionality
-Meal Planning
-Users can create weekly/monthly meal plans
+<!-- Horizontal Rule -->
+---
 
-Automatically checks recipe availability
+## <span style="color:blue">Features</span> <!-- Heading 2 -->
 
-Tracks nutritional information
+### <span style="color:green">Customer Features</span> <!-- Heading 3 -->
+- <span style="color:orange">🍽️ Meal customization</span> (`spice level`, `ingredients`)
+- <span style="color:orange">📅 Weekly/Monthly meal planning</span>
+- <span style="color:orange">🛒 Cart management</span>
+- <span style="color:orange">📊 Nutrition tracking</span>
+- <span style="color:orange">🧾 Order history and tracking</span> <!-- Inferred feature for customer order tracking -->
+- <span style="color:orange">💬 Customer support</span> <!-- Inferred feature for customer support -->
 
-Order Processing
-Real-time order status updates
+### <span style="color:green">Provider Features</span> <!-- Heading 3 -->
+- <span style="color:orange">📦 Meal inventory management</span>
+- <span style="color:orange">📊 Order analytics</span>
+- <span style="color:orange">📱 Customer communication</span>
+- <span style="color:orange">🔧 Update meal offerings</span> <!-- Inferred feature for providers managing meal options -->
+- <span style="color:orange">🔄 Manage meal statuses</span> <!-- Inferred feature for managing orders and status updates -->
 
-Provider order management dashboard
+<!-- Horizontal Rule -->
+---
 
-Automated stock reduction
+## <span style="color:blue">Project Structure</span> <!-- Heading 2 -->
+```tree
+src/
+├── components/
+│   ├── meal/
+│   ├── cart/
+│   └── auth/
+├── pages/
+│   ├── api/
+│   ├── account/
+│   └── orders/
+├── redux/
+│   ├── slices/
+│   └── store.ts
+└── styles/
+``` <!-- Code block with directory tree -->
 
-Contributing
-Fork the repository
+<!-- Horizontal Rule -->
+---
 
-Create your feature branch (git checkout -b feature/AmazingFeature)
+## <span style="color:blue">License</span> <!-- Heading 2 -->
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- Badge -->
 
-Commit your changes (git commit -m 'Add some AmazingFeature')
+<!-- Horizontal Rule -->
+---
 
-Push to the branch (git push origin feature/AmazingFeature)
-
-Open a Pull Request
-
-Notes
-All requests and responses use JSON format
-
-Replace http://localhost:5000 with your deployed URL in production
-
-Authentication is required for most endpoints
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-
-This README includes:
-
-1. **Consistent Formatting**: Using proper Markdown syntax throughout
-2. **Complete Structure**: All sections from your example template
-3. **Detailed API Documentation**: With example requests
-4. **Technical Specifications**: Database models and key functionality
-5. **Visual Elements**: Demo screenshot and badges
-6. **Clear Instructions**: For installation and contribution
-
-The document is ready to use and maintains the same sophisticated style as your example while being tailored for your meal API project.
-```
+## <span style="color:blue">Contact</span> <!-- Heading 2 -->
+- **Email**: `support@mealbox.example.com` <!-- Bold + inline code -->
+- **Twitter**: [@MealBoxApp](https://twitter.com/MealBoxApp) <!-- Link -->
+````
