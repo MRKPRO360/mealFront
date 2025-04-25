@@ -31,11 +31,11 @@ This API allows users to manage meal plans, recipes, and user orders in a compre
 ✅ Stripe payment integration  
 ✅ Sophisticated error handling
 
-<!-- ## Demo
+## Demo
 
-![App Screenshot](https://i.ibb.co.com/7n3zFm3/20ec75c7-1d75-4112-9b23-c576f4bba62f.webp)
+![App Screenshot](https://i.ibb.co.com/bgfNBY72/6bfc4432-5bea-402d-a0cc-1c6858dec581.png)
 
-👉 [Live Demo](https://meal-backend-nine.vercel.app/) -->
+👉 [Live Demo](https://meal-backend-nine.vercel.app/)
 
 ## Tech Stack
 
