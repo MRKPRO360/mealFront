@@ -62,14 +62,17 @@ function Footer() {
               <h3 className="text-lg font-semibold text-white">Quick Links</h3>
               <ul className="mt-3 space-y-2 text-sm">
                 <li>
-                  <a href="#" className="hover:text-green-700 transition">
-                    About Us
-                  </a>
+                  <Link href="/" className="hover:text-green-700 transition">
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-green-700 transition">
-                    Contact
-                  </a>
+                  <Link
+                    href="/about"
+                    className="hover:text-green-700 transition"
+                  >
+                    About Us
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="hover:text-green-700 transition">

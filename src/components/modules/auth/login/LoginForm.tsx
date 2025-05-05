@@ -59,6 +59,10 @@ function LoginForm() {
 
   const { handleSocialLogin, isLoading } = useSocialLogin();
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div
       style={{
@@ -67,10 +71,57 @@ function LoginForm() {
       className="sm:max-w-[480px] mx-auto pt-10 mb-4"
     >
       <div className="border bg-white/80 px-2 py-8">
-        <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
+        <h1 className="text-center text-xl sm:text-2xl font-semibold mb-8">
           Log in
         </h1>
         <Form {...form}>
+          <div className="space-y-2">
+            <FormLabel> Choose one of account</FormLabel>
+            <div className="flex gap-3 mb-4">
+              <Button
+                type="button"
+                size="sm"
+                className="bg-green-600 hover:bg-green-700 text-white font-semibold shadow-md transition-all duration-200 rounded-xs"
+                onClick={async () => {
+                  form.setValue('email', 'jamesarthur@gmail.com');
+                  form.setValue('password', 'provider12345');
+                  await new Promise((res) => setTimeout(res, 100)); // allow form to update
+                  form.handleSubmit(onSubmit)(); // trigger login
+                }}
+              >
+                Provider
+              </Button>
+
+              <Button
+                type="button"
+                size="sm"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md transition-all duration-200 rounded-xs"
+                onClick={async () => {
+                  form.setValue('email', 'nill@jane.com');
+                  form.setValue('password', 'customer12345');
+                  await new Promise((res) => setTimeout(res, 100));
+                  form.handleSubmit(onSubmit)();
+                }}
+              >
+                Customer
+              </Button>
+
+              <Button
+                type="button"
+                size="sm"
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold shadow-md transition-all duration-200 rounded-xs"
+                onClick={async () => {
+                  form.setValue('email', 'johndoe@example.com');
+                  form.setValue('password', 'admin12345');
+                  await new Promise((res) => setTimeout(res, 100));
+                  form.handleSubmit(onSubmit)();
+                }}
+              >
+                Admin
+              </Button>
+            </div>
+          </div>
+
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
@@ -137,13 +188,11 @@ function LoginForm() {
             </Button>
           </form>
         </Form>
-
         <div className="flex items-center gap-4 mt-6">
           <Separator className="flex-1" />
           <span className="text-gray-500 text-sm">OR</span>
           <Separator className="flex-1" />
         </div>
-
         {/* Social login */}
         <div className="mt-3 space-y-3">
           <div onClick={() => handleSocialLogin('google')}>
@@ -165,9 +214,19 @@ function LoginForm() {
         </div>
         <div className="text-center mt-4">
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-green-800 underline">
+          <Link
+            href="/signup"
+            className="text-green-800 underline font-semibold"
+          >
             Signup
           </Link>
+          <br /> or{' '}
+          <span
+            onClick={() => handleBack()}
+            className="cursor-pointer text-green-800 underline font-semibold"
+          >
+            Go back
+          </span>
         </div>
       </div>
     </div>

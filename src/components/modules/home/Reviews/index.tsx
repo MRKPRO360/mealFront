@@ -8,8 +8,8 @@ const RecipeReviews = async () => {
   const { data } = await getAllRecipeReviews();
   const reviewData = data.filter((el: IReview) => el.rating >= 4);
   return (
-    <section className="container mx-auto my-14 lg:my-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-20 to-gray-50">
-      <div className="text-center mb-10">
+    <section className="container mx-auto my-14 lg:my-24 px-4 ">
+      <div className="text-center mb-2 md:mb-10">
         <FTSectionHeader>Customer Experiences</FTSectionHeader>
         <p className="mt-4 text-lg text-gray-800 tracking-tight">
           Discover what our community says about their culinary journey with us

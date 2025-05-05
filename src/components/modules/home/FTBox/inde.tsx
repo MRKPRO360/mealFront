@@ -36,7 +36,7 @@ const boxText = [
 
 function FTBox() {
   return (
-    <div className="container mx-auto flex flex-col lg:flex-row overflow-hidden gap-8 my-16 items-center">
+    <div className="container mx-auto flex flex-col lg:flex-row overflow-hidden gap-8 my-16 items-center px-4">
       <div className="relative w-full lg:w-[600px] h-[350px] lg:h-[580px] overflow-hidden">
         {' '}
         {/* Set desired height */}

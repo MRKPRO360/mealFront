@@ -7,7 +7,7 @@ async function HomeMenuItem() {
   const menuNames = await getAllMenuNames();
 
   return (
-    <div>
+    <div className="px-4">
       <MenuItem menuNames={menuNames?.data} />
       <div className="text-center mt-12">
         <Link href="/menu">

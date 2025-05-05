@@ -19,7 +19,14 @@ function NavSidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="lg" variant="link" className="relative cursor-pointer">
+        <Button
+          size="lg"
+          variant="link"
+          className="relative cursor-pointer mr-4"
+          style={{
+            padding: 0,
+          }}
+        >
           <Menu style={{ width: 23, height: 23 }} />
         </Button>
       </SheetTrigger>

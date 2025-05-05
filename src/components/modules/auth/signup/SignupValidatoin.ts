@@ -16,14 +16,7 @@ export const signupSchema = (selectedRole: string | null) =>
         .string()
         .min(6, 'Password must be at least 6 characters long'),
       confirmPassword: z.string(),
-      bio: z
-        .string()
-        .refine(
-          (value) => selectedRole !== 'provider' || (value && value.length > 0),
-          {
-            message: 'Bio is required for providers',
-          }
-        ),
+      bio: z.string().optional(),
       cuisineSpecialties: z
         .array(z.enum(cuisineSpecialties))
         .optional()
@@ -38,10 +31,7 @@ export const signupSchema = (selectedRole: string | null) =>
           street: z.string().optional(),
           district: z.string().optional(),
           city: z.string().optional(),
-          zipCode: z
-            .string()
-            .regex(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code format')
-            .optional(),
+          zipCode: z.string().optional(),
         })
         .optional(),
     })

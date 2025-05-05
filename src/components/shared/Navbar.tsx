@@ -50,9 +50,9 @@ function Navbar() {
     setIsLoading(true);
   };
   return (
-    <div className="shadow-lg">
+    <div className="shadow-lg sticky top-0 left-0 bg-white z-50">
       <FTContainer>
-        <div className="items-center flex md:justify-between px-4">
+        <div className="items-center flex md:justify-between py-1 md:py-0 px-4">
           <div className="md:hidden">
             <NavSidebar />
           </div>

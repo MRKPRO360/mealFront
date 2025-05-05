@@ -5,13 +5,14 @@ export const recipeSchema = z.object({
   recipeName: z.string().min(3, 'Recipe name must be at least 3 characters'),
   recipeMenuName: z.string().min(3, 'Recipe menu name must be provided'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
-  tags: z
-    .array(
-      z.object({
-        name: z.string().min(1, 'Tag is required'),
-      })
-    )
-    .min(1, { message: 'At least one tag is required' }),
+  // tags: z
+  //   .array(
+  //     z.object({
+  //       name: z.string().min(1, 'Tag is required'),
+  //     })
+  //   )
+  //   .min(1, { message: 'At least one tag is required' }),
+  tags: z.array(z.string()).min(1, { message: 'At least one tag is required' }),
   allergens: z.array(
     z.object({
       name: z.string().optional(),

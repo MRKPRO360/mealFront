@@ -52,7 +52,7 @@ const FTCarousel = ({
         <>
           <button
             onClick={goToPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block -translate-x-12 bg-white p-3 rounded-full shadow-md hover:bg-green-50 transition-colors z-10"
+            className="absolute cursor-pointer left-0 top-1/2 -translate-y-1/2 hidden md:block -translate-x-8 bg-white p-3 rounded-full shadow-md hover:bg-green-50 transition-colors z-10"
             aria-label="Previous"
           >
             <svg
@@ -71,7 +71,7 @@ const FTCarousel = ({
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-0 top-1/2 hidden md:block -translate-y-1/2 translate-x-12 bg-white p-3 rounded-full shadow-md hover:bg-green-50 transition-colors z-10"
+            className="absolute right-0 top-1/2 hidden md:block cursor-pointer -translate-y-1/2 translate-x-8 bg-white p-3 rounded-full shadow-md hover:bg-green-50 transition-colors z-10"
             aria-label="Next"
           >
             <svg

@@ -98,6 +98,10 @@ function SignupForm() {
   const password = form.watch('password');
   const confirmPassword = form.watch('confirmPassword');
 
+  const handleBack = () => {
+    router.back();
+  };
+
   const { handleSocialLogin, isLoading } = useSocialLogin();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (!selectedRole || selectedRole === '')
@@ -543,6 +547,13 @@ function SignupForm() {
           <Link href="/login" className="text-green-800 underline">
             Login
           </Link>
+          <br /> or{' '}
+          <span
+            onClick={() => handleBack()}
+            className="cursor-pointer text-green-800 underline font-semibold"
+          >
+            Go back
+          </span>
         </div>
       </div>
     </div>

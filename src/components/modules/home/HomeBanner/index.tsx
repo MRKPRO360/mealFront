@@ -11,8 +11,8 @@ function HomeBanner() {
         alt="hero image"
         className="h-[400px] lg:w-[400px] lg:h-[500px] order-2 lg:order-1 object-cover"
       />
-      <div className="text-center px-10 pt-14 pb-4 order-1 lg:order-2">
-        <h1 className="uppercase font-semibold text-4xl leading-12 max-w-[475px] mx-auto">
+      <div className="text-center px-4 md:px-10 pt-14 pb-4 order-1 lg:order-2">
+        <h1 className="uppercase font-semibold text-3xl md:text-4xl leading-8 md:leading-12 md:max-w-[475px] mx-auto">
           Savor effortless, <br /> homemade meals with World&apos;s #1 meal kit!
         </h1>
 

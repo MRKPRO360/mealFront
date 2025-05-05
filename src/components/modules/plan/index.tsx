@@ -174,12 +174,12 @@ const Plan = () => {
         </h2>
       )}
 
-      <div className="flex justify-center mt-4 mb-6 space-x-2">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center mt-4 mb-6 gap-2">
         {weekTabs.map((week) => (
           <button
             key={week.value}
             onClick={() => setSelectedWeek(week.value)}
-            className={`px-6 py-3 rounded-md transition-all duration-300 shadow-md 
+            className={`px-2 py-1 md:px-6 md:py-3 rounded-md transition-all duration-300 shadow-md 
               cursor-pointer
         ${
           selectedWeek === week.value
@@ -202,7 +202,7 @@ const Plan = () => {
           ))}
         </div>
       ) : mealPlan ? (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-between">
+        <div className="grid justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:justify-between ">
           {mealPlan?.selectedMeals?.map((recipe: IRecipe) => (
             <MyPlanCard
               userRole={user?.role}

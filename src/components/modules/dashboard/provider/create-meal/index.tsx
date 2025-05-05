@@ -27,6 +27,10 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { TimeDurationPicker } from '@/components/ui/core/FTTimeInput';
 import FTSectionHeader from '@/components/ui/core/FTSectionHeader';
+import MultipleSelector, {
+  Option,
+} from '@/components/ui/core/MulitpleSelector';
+import { dietaryPreferences } from '@/constants/preference';
 
 type RecipeFormValues = z.infer<typeof recipeSchema>;
 
@@ -44,7 +48,7 @@ export default function CreateMeal() {
       recipeName: '',
       recipeMenuName: menuNames.length > 0 ? menuNames[0]._id : '',
       description: '',
-      tags: [{ name: '' }],
+      tags: [],
       allergens: [{ name: '' }],
       totalTime: '',
       prepTime: '',
@@ -131,15 +135,6 @@ export default function CreateMeal() {
     name: 'allergens',
   });
 
-  const {
-    fields: tagsFields,
-    append: addTags,
-    remove: removeTags,
-  } = useFieldArray({
-    control: form.control,
-    name: 'tags',
-  });
-
   const onSubmit = async (data: RecipeFormValues) => {
     console.log(errors);
 
@@ -151,7 +146,7 @@ export default function CreateMeal() {
     recipeFormData.append('file', imageFiles[0]);
     const formattedData = {
       ...data,
-      tags: data.tags.map((el) => el.name),
+      tags: data.tags,
       allergens: data.allergens.map((el) => el.name),
       utensils: data.utensils.map((el) => el.name),
 
@@ -189,7 +184,7 @@ export default function CreateMeal() {
       style={{
         width: 'calc(100% - 20px)',
       }}
-      className="sm:max-w-[480px] lg:max-w-[800px] mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
+      className=" mx-auto bg-white/80 py-8 px-2 border mt-14 mb-4"
     >
       {/* <h1 className="text-center text-xl md:text-2xl text-thin mb-8">
         Add your recipe
@@ -203,43 +198,44 @@ export default function CreateMeal() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Card className="p-4">
             <h2 className="text-xl font-bold">Recipe Details</h2>
-            <FormField
-              control={form.control}
-              name="recipeName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Recipe Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Recipe Name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex items-center gap-4">
+              <FormField
+                control={form.control}
+                name="recipeName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Recipe Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Recipe Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="recipeMenuName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Menu Name</FormLabel>
-                  <FormControl>
-                    <select
-                      defaultValue={menuNames[0]?._id}
-                      {...field}
-                      className="border rounded p-2 w-full"
-                    >
-                      {menuNames.map((menuName: IMenuName) => (
-                        <option key={menuName._id} value={menuName._id}>
-                          {menuName.name}
-                        </option>
-                      ))}
-                    </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="recipeMenuName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Menu Name</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        className="border p-[10px] w-full rounded-xs"
+                      >
+                        {menuNames.map((menuName: IMenuName) => (
+                          <option key={menuName._id} value={menuName._id}>
+                            {menuName.name}
+                          </option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             {imagePreview.length > 0 ? (
               <ImagePreviewer
@@ -359,40 +355,43 @@ export default function CreateMeal() {
 
             <h2 className=" font-semibold text-lg">Tags</h2>
 
-            {tagsFields.map((field, index) => (
-              <div key={field.id}>
-                <FormField
-                  control={form.control}
-                  name={`tags.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tags</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter tag name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  className="mt-4"
-                  variant="destructive"
-                  size="sm"
-                  type="button"
-                  onClick={() => removeTags(index)}
-                >
-                  Remove
-                </Button>
-              </div>
-            ))}
-
-            <Button
-              variant="outline"
-              type="button"
-              onClick={() => addTags({ name: '' })}
-            >
-              Add Tag
-            </Button>
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      value={(field?.value as string[])?.map((val) => ({
+                        value: val,
+                        label: val,
+                      }))}
+                      defaultOptions={dietaryPreferences.map((tag) => ({
+                        label: tag,
+                        value: tag,
+                      }))}
+                      placeholder="Select meal tag"
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          No tags available
+                        </p>
+                      }
+                      onChange={(selectedOptions) => {
+                        const selectedRecipes = selectedOptions
+                          .map((opt) =>
+                            dietaryPreferences.find((r) => r === opt.value)
+                          )
+                          .filter(Boolean) as string[];
+                        field.onChange(selectedRecipes);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* Portion Sizes */}
             <h3 className="text-lg font-semibold mt-4">Portion Sizes</h3>

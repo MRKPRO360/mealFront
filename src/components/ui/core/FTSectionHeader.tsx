@@ -10,7 +10,7 @@ function FTSectionHeader({
   return (
     <h2
       className={cn(
-        'text-3xl font-medium text-gray-900 sm:text-4xl',
+        'text-2xl font-medium text-gray-900 sm:text-4xl',
         className
       )}
     >

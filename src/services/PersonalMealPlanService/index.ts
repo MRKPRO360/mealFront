@@ -93,6 +93,7 @@ export const getMyAllMealPlans = async () => {
         next: { tags: ['MYPLANS'] },
       }
     );
+
     return await res.json();
   } catch (error: any) {
     throw new Error(error);
